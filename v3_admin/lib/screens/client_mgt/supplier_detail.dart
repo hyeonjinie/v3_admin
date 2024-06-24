@@ -12,8 +12,8 @@ class SupplierDetail extends StatefulWidget {
 
 class _SupplierDetailState extends State<SupplierDetail> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  int _selectIndex = 5;
-  int selectedMenu = 1;
+  int _selectIndex = 5; // GNB - 거래처 관리
+  int selectedMenu = 1; // LNB - 공급사 관리 
 
   void _updateIndex(int index) {
     setState(() {
