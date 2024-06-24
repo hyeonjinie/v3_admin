@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:v3_admin/screens/client_mgt/regist_sup.dart';
 import 'package:v3_admin/screens/client_mgt/supplier_detail.dart';
 import 'package:v3_admin/screens/client_mgt/supplier_page.dart';
 import 'package:v3_admin/screens/login.dart';
@@ -204,6 +205,12 @@ class WithRouter extends StatelessWidget {
         path: '/supplier',
         builder: (BuildContext context, GoRouterState state) {
           return SupplierDetail();
+        },
+      ),
+      GoRoute( // 거래처관리 > 공급사 관리 > 공급사 등록/수정 
+        path: '/regist-supplier',
+        builder: (BuildContext context, GoRouterState state) {
+          return RegistSupplier();
         },
       ),
       GoRoute( // 통계데이터 

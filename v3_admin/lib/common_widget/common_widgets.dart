@@ -468,6 +468,7 @@ Widget customCheckbox(
   );
 }
 
+// 등록 및 수정페이지_ 텍스트 필드
 Widget buildCell(String text,
     {bool isHeader = false, TextEditingController? controller}) {
   return Padding(
