@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:v3_admin/screens/client_mgt/regist_sup.dart';
 import 'package:v3_admin/screens/client_mgt/supplier_detail.dart';
 import 'package:v3_admin/screens/client_mgt/supplier_page.dart';
 import 'package:v3_admin/screens/login.dart';
@@ -14,6 +15,7 @@ import 'package:v3_admin/screens/operation_mgt/forward_comp_detail.dart';
 import 'package:v3_admin/screens/operation_mgt/forward_completed.dart';
 import 'package:v3_admin/screens/operation_mgt/forward_inquiry.dart';
 import 'package:v3_admin/screens/operation_mgt/forward_inquiry_detail.dart';
+import 'package:v3_admin/screens/operation_mgt/forward_inquiry_edit.dart';
 import 'package:v3_admin/screens/operation_mgt/forward_prog_detail.dart';
 import 'package:v3_admin/screens/operation_mgt/forward_progress.dart';
 import 'package:v3_admin/screens/operation_mgt/forward_test.dart';
@@ -117,9 +119,9 @@ class WithRouter extends StatelessWidget {
         },
       ),
       GoRoute( // 운영관리 > 선도거리 > 문의/계약 > 수정 
-        path: '/inquiry-detail',
+        path: '/inquiry-edit',
         builder: (BuildContext context, GoRouterState state) {
-          return InquiryDetail();
+          return EditInquiry();
         },
       ),
       GoRoute( // 운영관리 > 선도거리 > 진행
@@ -204,6 +206,12 @@ class WithRouter extends StatelessWidget {
         path: '/supplier',
         builder: (BuildContext context, GoRouterState state) {
           return SupplierDetail();
+        },
+      ),
+      GoRoute( // 거래처관리 > 공급사 관리 > 공급사 등록/수정 
+        path: '/regist-supplier',
+        builder: (BuildContext context, GoRouterState state) {
+          return RegistSupplier();
         },
       ),
       GoRoute( // 통계데이터 

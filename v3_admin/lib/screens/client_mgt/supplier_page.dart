@@ -307,7 +307,9 @@ class _SupplierMgtState extends State<SupplierMgt> {
                   CustomElevatedButton1(
                     backgroundColor: Color(0xFF5D75BF),
                     text: '등록',
-                    onPressed: () {},
+                    onPressed: () {
+                      context.go('/regist-supplier');
+                    },
                   ),
                   SizedBox(
                     width: 20,

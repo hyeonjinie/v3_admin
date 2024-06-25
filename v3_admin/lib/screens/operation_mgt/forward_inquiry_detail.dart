@@ -6,6 +6,9 @@ import 'package:v3_admin/common_widget/common_widgets.dart';
 import 'package:v3_admin/common_widget/layout.dart';
 import 'package:v3_admin/common_widget/naviagtion_helper.dart';
 import 'package:v3_admin/screens/client_mgt/supplier_detail.dart';
+import 'package:intl/intl.dart';
+
+final NumberFormat currencyFormat = NumberFormat('#,##0', 'en_US');
 
 class InquiryDetail extends StatefulWidget {
   const InquiryDetail({super.key});
@@ -133,7 +136,6 @@ class DetailView extends StatefulWidget {
 }
 
 class _DetailViewState extends State<DetailView> {
-  int _selectedSupplierIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -167,24 +169,27 @@ class _DetailViewState extends State<DetailView> {
     };
 
     // 공급처
-    final List<Map<String, String>> _data = [
+    final List<Map<String, dynamic>> _data = [
       {
-        '업체명': '한결농산 / 1234556890',
-        '원물가격': '1,600원',
-        '공급수량': '6,000kg',
-        '총 금액': '9,600,000원',
+        'supplierName': '한결농산',
+        "bizRegiNum": "123456789",
+        'cost': 1600,
+        'volume': 6000,
+        'totalAmount': 9600000,
       },
       {
-        '업체명': '냠냠농산 / 1234556890',
-        '원물가격': '1,800원',
-        '공급수량': '2,000kg',
-        '총 금액': '3,600,000원',
+        'supplierName': '냠냠농산',
+        "bizRegiNum": "123456789",
+        'cost': 1800,
+        'volume': 2000,
+        'totalAmount': 3600000,
       },
       {
-        '업체명': '꿀꿀농산 / 1234556890',
-        '원물가격': '1,800원',
-        '공급수량': '2,000kg',
-        '총 금액': '3,600,000원',
+        'supplierName': '꿀꿀농산',
+        "bizRegiNum": "123456789",
+        'cost': 1800,
+        'volume': 2000,
+        'totalAmount': 3600000,
       },
     ];
 
@@ -209,7 +214,9 @@ class _DetailViewState extends State<DetailView> {
                   CustomElevatedButton1(
                     backgroundColor: Color(0xFF5D75BF),
                     text: '수정',
-                    onPressed: () {},
+                    onPressed: () {
+                      context.go('/inquiry-edit');
+                    },
                   ),
                   SizedBox(
                     width: 10,
@@ -462,38 +469,7 @@ class _DetailViewState extends State<DetailView> {
                               ),
                               Container(
                                 child: Expanded(
-                                child: CustomToggleColumn(
-                                  data: _data,
-                                  selectedIndex: _selectedSupplierIndex,
-                                  onSelected: (index) {
-                                    setState(() {
-                                      _selectedSupplierIndex = index;
-                                    });
-                                  },
-                                  tabTitlePrefix: '공급처',
-                                  btnText: '공급처 추가',
-                                  content: [
-                                    tabTextBox(
-                                        '업체명 :',
-                                        '${_data[_selectedSupplierIndex]['업체명']} / ${_data[_selectedSupplierIndex]['사업자번호']}',
-                                        120),
-                                    SizedBox(height: 16.0),
-                                    tabTextBox(
-                                        '원물가격 :',
-                                        '${_data[_selectedSupplierIndex]['원물가격']}',
-                                        120),
-                                    SizedBox(height: 16.0),
-                                    tabTextBox(
-                                        '공급수량 :',
-                                        '${_data[_selectedSupplierIndex]['공급수량']}',
-                                        120),
-                                    SizedBox(height: 16.0),
-                                    tabTextBox(
-                                        '총 금액 :',
-                                        '${_data[_selectedSupplierIndex]['총 금액']}',
-                                        120),
-                                  ],
-                                ),
+                                child: SuppliersButtons(suppliers: _data, isAdd: false, isSub: false,)
                               ),
                               ),
                               SizedBox(
@@ -524,6 +500,131 @@ class _DetailViewState extends State<DetailView> {
             ],
           ),
         ),
+      ],
+    );
+  }
+}
+
+
+// sub 공급처
+class SuppliersButtons extends StatefulWidget {
+  final List<dynamic> suppliers;
+  final bool isAdd;
+  final bool isSub;
+
+  SuppliersButtons(
+      {required this.suppliers,
+      required this.isAdd,
+      required this.isSub});
+
+  @override
+  _SuppliersButtonsState createState() => _SuppliersButtonsState();
+}
+
+class _SuppliersButtonsState extends State<SuppliersButtons> {
+  int _selectedSupplierIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Column(
+      children: [
+        Row(
+          children: [
+            if (widget.suppliers == null || widget.suppliers.isEmpty)
+              const Expanded(
+                child: Row(
+                  children: [
+                    Text(
+                      '공급처 정보 없음',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Spacer(),
+                  ],
+                ),
+              )
+            else
+              Expanded(
+                child: Row(
+                  children: List<Widget>.generate(widget.suppliers.length, (index) {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _selectedSupplierIndex = index;
+                        });
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        alignment: Alignment.center,
+                        width: 85,
+                        height: 45,
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(8.0),
+                            topRight: Radius.circular(8.0),
+                          ),
+                          border: Border.all(
+                              color: _selectedSupplierIndex == index
+                                  ? Color(0xFF5D75BF)
+                                  : Color(0xFFD6D6D6)),
+                        ),
+                        child: Text(
+                          '공급처${index + 1}',
+                          style: TextStyle(
+                            color: _selectedSupplierIndex == index
+                                ? Color(0xFF5D75BF)
+                                : Colors.black,
+                            fontWeight: _selectedSupplierIndex == index
+                                ? FontWeight.bold
+                                : FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+              ),
+          ],
+        ),
+        if (widget.suppliers != null && widget.suppliers.isNotEmpty)
+          Container(
+            padding: const EdgeInsets.all(25.0),
+            alignment: Alignment.center,
+            height: widget.isSub ? 360 : 170,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(8.0),
+                bottomRight: Radius.circular(8.0),
+                topRight: Radius.circular(8.0),
+              ),
+              border: Border.all(color: Color(0xFFD6D6D6)),
+            ),
+            child: Column(
+              children: [
+                tabTextBox(
+                    '업체명 :',
+                    '${widget.suppliers[_selectedSupplierIndex!]['supplierName']} / ${widget.suppliers[_selectedSupplierIndex!]['bizRegiNum']}',
+                    120),
+                const SizedBox(
+                  height: 12,
+                ),
+                tabTextBox('원물가격 :',
+                    '${currencyFormat.format((widget.suppliers[_selectedSupplierIndex!]['cost']))}원', 120),
+                const SizedBox(
+                  height: 12,
+                ),
+                tabTextBox('공급물량 :',
+                    '${currencyFormat.format(widget.suppliers[_selectedSupplierIndex!]['volume'])}kg', 120),
+                const SizedBox(
+                  height: 12,
+                ),
+                tabTextBox(
+                    '총 금액 :',
+                    '${currencyFormat.format(widget.suppliers[_selectedSupplierIndex!]['totalAmount'])}원',
+                    120),
+              ],
+            ),
+          ),
       ],
     );
   }
