@@ -109,7 +109,7 @@ class _ProgressDetailState extends State<ProgressDetail> {
                     ],
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -361,7 +361,7 @@ class _DetailViewState extends State<DetailView> {
               // 디테일 페이지 상단 영역(타이틀 라인)
               Row(
                 children: [
-                  Text(
+                  const Text(
                     '{선도거래 타이틀(거래명)}',
                     style: TextStyle(
                       fontSize: 18.0,
@@ -427,7 +427,7 @@ class _DetailViewState extends State<DetailView> {
                                         child: OutlinedButton(
                                           onPressed: () {},
                                           style: OutlinedButton.styleFrom(
-                                            side: BorderSide(
+                                            side: const BorderSide(
                                                 color: Color(0xFFD6D6D6)),
                                             backgroundColor: Colors.white,
                                           ),
@@ -639,7 +639,7 @@ class _DetailViewState extends State<DetailView> {
                                                   height: 170,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
-                                                        BorderRadius.only(
+                                                        const BorderRadius.only(
                                                       bottomLeft:
                                                           Radius.circular(8.0),
                                                       bottomRight:
@@ -657,21 +657,21 @@ class _DetailViewState extends State<DetailView> {
                                                           '업체명 :',
                                                           '${orderInfo['client']['companyName']} / ${orderInfo['client']['bizRegiNum']}',
                                                           120),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 12,
                                                       ),
                                                       tabTextBox(
                                                           '업태 :',
                                                           '${orderInfo['client']['bizField']}',
                                                           120),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 12,
                                                       ),
                                                       tabTextBox(
                                                           '종목 :',
                                                           '${orderInfo['client']['bizType']}',
                                                           120),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 12,
                                                       ),
                                                       tabTextBox(
@@ -683,7 +683,7 @@ class _DetailViewState extends State<DetailView> {
                                             ],
                                           ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 20,
                                         ),
                                         // 공급처
@@ -702,15 +702,17 @@ class _DetailViewState extends State<DetailView> {
                               )
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Btn_TableBar(
                             titleText: '회차별 주문',
                             btnText: '주문서 생성',
-                            onBtnPressed: () {},
+                            onBtnPressed: () {
+                              _showOrderFormDialog(context);
+                            },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           OrderList(subOrders: orderInfo["subOrders"]),
@@ -791,7 +793,7 @@ class _OrderCardState extends State<OrderCard> {
                   child: Center(
                     child: Text(
                       '${widget.index + 1}회차',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(0xFF00AF66),
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
@@ -802,7 +804,7 @@ class _OrderCardState extends State<OrderCard> {
                 SizedBox(width: 10),
                 Text(
                   '${widget.order['quantity']}kg  |  ${widget.order['amount']}원',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color(0xFF323232),
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
@@ -811,7 +813,7 @@ class _OrderCardState extends State<OrderCard> {
                 Spacer(),
                 Text(
                   '${widget.order['registeredDate']}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color(0xFF323232),
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
@@ -853,7 +855,7 @@ class _OrderCardState extends State<OrderCard> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             width: 90,
                             child: Text(
                               '진행상태',
@@ -866,7 +868,7 @@ class _OrderCardState extends State<OrderCard> {
                           ),
                           SelectBoxExample(
                             initialValue: '${widget.order['status']}',
-                            options: [
+                            options: const [
                               '주문요청',
                               '배송예정',
                               '배송완료',
@@ -898,7 +900,7 @@ class _OrderCardState extends State<OrderCard> {
                             children: [
                               Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     '주문 내용',
                                     style: TextStyle(
                                       color: Color(0xFF323232),
@@ -909,7 +911,7 @@ class _OrderCardState extends State<OrderCard> {
                                   Spacer(),
                                   TextButton(
                                     onPressed: () {},
-                                    child: Text(
+                                    child: const Text(
                                       '편집',
                                       style: TextStyle(
                                         color: Color(0xFF5D75BF),
@@ -978,12 +980,12 @@ class _OrderCardState extends State<OrderCard> {
                                   ],
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     '메모',
                                     style: TextStyle(
                                       color: Color(0xFF323232),
@@ -994,7 +996,7 @@ class _OrderCardState extends State<OrderCard> {
                                   Spacer(),
                                   TextButton(
                                     onPressed: () {},
-                                    child: Text(
+                                    child: const Text(
                                       '편집',
                                       style: TextStyle(
                                         color: Color(0xFF5D75BF),
@@ -1022,7 +1024,7 @@ class _OrderCardState extends State<OrderCard> {
                           flex: 1,
                           child: Column(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               SuppliersToggleButtons(
@@ -1031,7 +1033,7 @@ class _OrderCardState extends State<OrderCard> {
                                 isAdd: true,
                                 isSub: true,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               LogisticButtons(
@@ -1040,7 +1042,7 @@ class _OrderCardState extends State<OrderCard> {
                                 isAdd: true,
                                 isSub: true,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               OtherButtons(
@@ -1104,7 +1106,7 @@ class _SuppliersToggleButtonsState extends State<SuppliersToggleButtons> {
         Row(
           children: [
             if (suppliers == null || suppliers.isEmpty)
-              Expanded(
+              const Expanded(
                 child: Row(
                   children: [
                     Text(
@@ -1131,7 +1133,7 @@ class _SuppliersToggleButtonsState extends State<SuppliersToggleButtons> {
                         width: 85,
                         height: 45,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(8.0),
                             topRight: Radius.circular(8.0),
                           ),
@@ -1159,7 +1161,7 @@ class _SuppliersToggleButtonsState extends State<SuppliersToggleButtons> {
             if (suppliers != null && suppliers.isNotEmpty && widget.isAdd)
               TextButton(
                 onPressed: () {},
-                child: Text(
+                child: const Text(
                   '편집',
                   style: TextStyle(
                     color: Color(0xFF5D75BF),
@@ -1174,7 +1176,7 @@ class _SuppliersToggleButtonsState extends State<SuppliersToggleButtons> {
                       side: BorderSide(color: Color(0xFFD6D6D6)),
                       backgroundColor: Colors.white,
                     ),
-                    child: Text(
+                    child: const Text(
                       '공급처 추가',
                       style: TextStyle(
                         color: Color(0xFF323232),
@@ -1191,7 +1193,7 @@ class _SuppliersToggleButtonsState extends State<SuppliersToggleButtons> {
             alignment: Alignment.center,
             height: widget.isSub ? 360 : 170,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(8.0),
                 bottomRight: Radius.circular(8.0),
                 topRight: Radius.circular(8.0),
@@ -1204,17 +1206,17 @@ class _SuppliersToggleButtonsState extends State<SuppliersToggleButtons> {
                     '업체명 :',
                     '${suppliers[_selectedSupplierIndex!]['supplierName']} / ${suppliers[_selectedSupplierIndex!]['bizRegiNum']}',
                     120),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 tabTextBox('원물가격 :',
                     '${suppliers[_selectedSupplierIndex!]['cost']}원', 120),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 tabTextBox('공급물량 :',
                     '${suppliers[_selectedSupplierIndex!]['volume']}kg', 120),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 tabTextBox(
@@ -1287,7 +1289,7 @@ class _LogisticButtonsState extends State<LogisticButtons> {
         Row(
           children: [
             if (logistics == null || logistics.isEmpty)
-              Expanded(
+              const Expanded(
                 child: Row(
                   children: [
                     Text(
@@ -1314,7 +1316,7 @@ class _LogisticButtonsState extends State<LogisticButtons> {
                         width: 85,
                         height: 45,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(8.0),
                             topRight: Radius.circular(8.0),
                           ),
@@ -1342,7 +1344,7 @@ class _LogisticButtonsState extends State<LogisticButtons> {
             if (logistics != null && logistics.isNotEmpty && widget.isAdd)
               TextButton(
                 onPressed: () {},
-                child: Text(
+                child: const Text(
                   '편집',
                   style: TextStyle(
                     color: Color(0xFF5D75BF),
@@ -1357,7 +1359,7 @@ class _LogisticButtonsState extends State<LogisticButtons> {
                       side: BorderSide(color: Color(0xFFD6D6D6)),
                       backgroundColor: Colors.white,
                     ),
-                    child: Text(
+                    child: const Text(
                       '물류 추가',
                       style: TextStyle(
                         color: Color(0xFF323232),
@@ -1374,7 +1376,7 @@ class _LogisticButtonsState extends State<LogisticButtons> {
             alignment: Alignment.center,
             height: widget.isSub ? 330 : 170,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(8.0),
                 bottomRight: Radius.circular(8.0),
                 topRight: Radius.circular(8.0),
@@ -1387,14 +1389,14 @@ class _LogisticButtonsState extends State<LogisticButtons> {
                     '업체명 :',
                     '${logistics[_selectedLogisticIndex!]['logisticName']}',
                     120),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 tabTextBox(
                     '담당기사 :',
                     '${logistics[_selectedLogisticIndex!]['driverName']} / ${logistics[_selectedLogisticIndex!]['driverContact']}',
                     120),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 tabTextBox(
@@ -1467,7 +1469,7 @@ class _OtherButtonsState extends State<OtherButtons> {
         Row(
           children: [
             if (others == null || others.isEmpty)
-              Expanded(
+              const Expanded(
                 child: Row(
                   children: [
                     Text(
@@ -1494,7 +1496,7 @@ class _OtherButtonsState extends State<OtherButtons> {
                         width: 85,
                         height: 45,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(8.0),
                             topRight: Radius.circular(8.0),
                           ),
@@ -1522,7 +1524,7 @@ class _OtherButtonsState extends State<OtherButtons> {
             if (others != null && others.isNotEmpty && widget.isAdd)
               TextButton(
                 onPressed: () {},
-                child: Text(
+                child: const Text(
                   '편집',
                   style: TextStyle(
                     color: Color(0xFF5D75BF),
@@ -1537,7 +1539,7 @@ class _OtherButtonsState extends State<OtherButtons> {
                       side: BorderSide(color: Color(0xFFD6D6D6)),
                       backgroundColor: Colors.white,
                     ),
-                    child: Text(
+                    child: const Text(
                       '기타 추가',
                       style: TextStyle(
                         color: Color(0xFF323232),
@@ -1554,7 +1556,7 @@ class _OtherButtonsState extends State<OtherButtons> {
             alignment: Alignment.center,
             height: widget.isSub ? 360 : 170,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(8.0),
                 bottomRight: Radius.circular(8.0),
                 topRight: Radius.circular(8.0),
@@ -1565,12 +1567,12 @@ class _OtherButtonsState extends State<OtherButtons> {
               children: [
                 tabTextBox(
                     '업체명 :', '${others[_selectedOtherIndex!]['name']}', 120),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 tabTextBox(
                     '유형 :', '${others[_selectedOtherIndex!]['type']}', 120),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 tabTextBox('총 금액 :',
@@ -1619,207 +1621,303 @@ class _OtherButtonsState extends State<OtherButtons> {
 
 
 // sub 주문 생성
-// void _showOrderFormDialog(BuildContext context) {
-//   showDialog(
-//     context: context,
-//     builder: (BuildContext context) {
-//       return Dialog(
-//         child: Container(
-//           width: 570,
-//           padding: EdgeInsets.all(16.0),
-//           decoration: BoxDecoration(
-//             color: Colors.white,
-//             borderRadius: BorderRadius.all(Radius.circular(8)),
-//           ),
-//           child: Column(
-//             mainAxisSize: MainAxisSize.min,
-//             children: [
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               Text(
-//                 '주문서 생성',
-//                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-//               ),
-//               SizedBox(height: 16),
-//               OrderForm(),
-//               SizedBox(height: 16),
-//               Row(
-//                 mainAxisAlignment: MainAxisAlignment.end,
-//                 children: [
-//                   TextButton(
-//                     child: Text('취소'),
-//                     onPressed: () {
-//                       Navigator.of(context).pop();
-//                     },
-//                   ),
-//                   TextButton(
-//                     child: Text('제출'),
-//                     onPressed: () {
-//                       Navigator.of(context).pop();
-//                     },
-//                   ),
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ),
-//       );
-//     },
-//   );
-// }
+void _showOrderFormDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        child: Container(
+          width: 570,
+          padding: EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                '회차별 주문서',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 16),
+              OrderForm(),
+              SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomElevatedButton2(
+                    text: '취소',
+                    backgroundColor: Colors.white,
+                    textColor: Color(0xFF9A9A9A),
+                    borderColor: Color(0xFFD6D6D6),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  CustomElevatedButton1(
+                    backgroundColor: Color(0xFF5D75BF),
+                    text: '제출',
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
 
 // sub 주문 생성 폼
-// class OrderForm extends StatefulWidget {
-//   @override
-//   _OrderFormState createState() => _OrderFormState();
-// }
+class OrderForm extends StatefulWidget {
+  @override
+  _OrderFormState createState() => _OrderFormState();
+}
 
-// class _OrderFormState extends State<OrderForm> {
-//   final _formKey = GlobalKey<FormState>();
-//   @override
-//   void initState() {
-//     super.initState();
-//     quantityContoller = TextEditingController();
-//     priceController = TextEditingController();
-//     contactController = TextEditingController();
-//     adressController = TextEditingController();
-//     deliveryDateController = TextEditingController();
-//     completionController = TextEditingController();
-//     selectedDate = DateTime.now();
-//   }
+class _OrderFormState extends State<OrderForm> {
+  final _formKey = GlobalKey<FormState>();
+  late TextEditingController quantityContoller;
+  late TextEditingController priceController;
+  late TextEditingController contactController;
+  late TextEditingController adressController;
+  late TextEditingController deliveryDateController;
+  late TextEditingController completionController;
+  late TextEditingController stlCoController;
+  late TextEditingController stlTargetController;
+  late TextEditingController stlDateController;
+  late TextEditingController taxCoController;
+  late TextEditingController taxTargetController;
+  late TextEditingController taxDateController;
+  late TextEditingController taxNumController;
+  late DateTime selectedDate;
 
-//   @override
-//   void dispose() {
-//     quantityContoller.dispose();
-//     priceController.dispose();
-//     contactController.dispose();
-//     adressController.dispose();
-//     deliveryDateController.dispose();
-//     completionController.dispose();
-//     super.dispose();
-//   }
+  @override
+  void initState() {
+    super.initState();
+    quantityContoller = TextEditingController();
+    priceController = TextEditingController();
+    contactController = TextEditingController();
+    adressController = TextEditingController();
+    deliveryDateController = TextEditingController();
+    completionController = TextEditingController();
+    stlCoController = TextEditingController();
+    stlTargetController = TextEditingController();
+    stlDateController = TextEditingController();
+    taxCoController = TextEditingController();
+    taxTargetController = TextEditingController();
+    taxDateController = TextEditingController();
+    taxNumController = TextEditingController();
+    selectedDate = DateTime.now();
+  }
 
-//   Future<void> _selectDate(
-//       BuildContext context, TextEditingController controller) async {
-//     final DateTime? pickedDate = await showDatePicker(
-//       context: context,
-//       initialDate: DateTime.now(),
-//       firstDate: DateTime(2000),
-//       lastDate: DateTime(2101),
-//     );
-//     if (pickedDate != null && pickedDate != DateTime.now()) {
-//       setState(() {
-//         controller.text = "${pickedDate.toLocal()}".split(' ')[0];
-//       });
-//     }
-//   }
+  @override
+  void dispose() {
+    quantityContoller.dispose();
+    priceController.dispose();
+    contactController.dispose();
+    adressController.dispose();
+    deliveryDateController.dispose();
+    completionController.dispose();
+    stlCoController.dispose();
+    stlTargetController.dispose();
+    stlDateController.dispose();
+    taxCoController.dispose();
+    taxTargetController.dispose();
+    taxDateController.dispose();
+    taxNumController.dispose();
+    super.dispose();
+  }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Form(
-//       key: _formKey,
-//       child: SingleChildScrollView(
-//         child: Padding(
-//           padding: const EdgeInsets.all(15.0),
-//           child: Column(
-//             mainAxisSize: MainAxisSize.min,
-//             children: <Widget>[
-//               customTextField('거래량', '(kg) 단위로 숫자만 입력', quantityContoller),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               customTextField('금액', '(원) 단위로 숫자만 입력', priceController),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               customTextField('담당자연락처', '', contactController),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               customTextField('배송지', '', adressController),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               Row(
-//                 children: [
-//                   SizedBox(
-//                     width: 120,
-//                     child: Text(
-//                       '배송희망일',
-//                       style: TextStyle(
-//                         fontSize: 14,
-//                         fontWeight: FontWeight.bold,
-//                         color: Colors.black,
-//                       ),
-//                     ),
-//                   ),
-//                   Container(
-//                     width: 350,
-//                     height: 45,
-//                     child: TextFormField(
-//                       controller: deliveryDateController,
-//                       readOnly: true,
-//                       onTap: () => _selectDate(context, deliveryDateController),
-//                       decoration: InputDecoration(
-//                         border: OutlineInputBorder(
-//                           borderSide: BorderSide(
-//                             color: Color(0xFFD1D1D1),
-//                           ),
-//                         ),
-//                         enabledBorder: OutlineInputBorder(
-//                           borderSide: BorderSide(
-//                             color: Color(0xFFD1D1D1),
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               Row(
-//                 children: [
-//                   SizedBox(
-//                     width: 120,
-//                     child: Text(
-//                       '배송완료일',
-//                       style: TextStyle(
-//                         fontSize: 14,
-//                         fontWeight: FontWeight.bold,
-//                         color: Colors.black,
-//                       ),
-//                     ),
-//                   ),
-//                   Container(
-//                     width: 350,
-//                     height: 45,
-//                     child: TextFormField(
-//                       controller: deliveryDateController,
-//                       readOnly: true,
-//                       onTap: () => _selectDate(context, deliveryDateController),
-//                       decoration: InputDecoration(
-//                         border: OutlineInputBorder(
-//                           borderSide: BorderSide(
-//                             color: Color(0xFFD1D1D1),
-//                           ),
-//                         ),
-//                         enabledBorder: OutlineInputBorder(
-//                           borderSide: BorderSide(
-//                             color: Color(0xFFD1D1D1),
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+  Future<void> _selectDate(
+      BuildContext context, TextEditingController controller) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (pickedDate != null && pickedDate != DateTime.now()) {
+      setState(() {
+        controller.text = "${pickedDate.toLocal()}".split(' ')[0];
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              customTextField('거래량', '(kg) 단위로 숫자만 입력', quantityContoller),
+              SizedBox(
+                height: 10,
+              ),
+              customTextField('금액', '(원) 단위로 숫자만 입력', priceController),
+              SizedBox(
+                height: 10,
+              ),
+              customTextField('담당자연락처', '', contactController),
+              SizedBox(
+                height: 10,
+              ),
+              customTextField('배송지', '', adressController),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 120,
+                    child: Text(
+                      '배송희망일',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 350,
+                    height: 45,
+                    child: CustomDatePickerField(
+                      controller: deliveryDateController,
+                      onDateTap: _selectDate,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 120,
+                    child: Text(
+                      '배송완료일',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 350,
+                    height: 45,
+                    child: CustomDatePickerField(
+                      controller: completionController,
+                      onDateTap: _selectDate,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              textToText(stlCoController, stlTargetController, '정산', 160),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 120,
+                    child: Text(
+                      ' - 정산일',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 180,
+                    height: 45,
+                    child: CustomDatePickerField(
+                      controller: stlDateController,
+                      onDateTap: _selectDate,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  SelectBoxExample(
+                    initialValue: '정산예정',
+                    options: ['정산예정', '정산완료'],
+                    onChanged: (String? newValue) {
+                      setState(() {});
+                    },
+                    custom_width: 160.0,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              textToText(taxCoController, taxTargetController, '세금계산서', 160),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 120,
+                    child: Text(
+                      ' - 발행일',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 180,
+                    height: 45,
+                    child: CustomDatePickerField(
+                      controller: taxDateController,
+                      onDateTap: _selectDate,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  SelectBoxExample(
+                    initialValue: '발행예정',
+                    options: ['발행예정', '발행완료'],
+                    onChanged: (String? newValue) {
+                      setState(() {});
+                    },
+                    custom_width: 160.0,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              customTextField('승인번호', '', taxNumController),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
