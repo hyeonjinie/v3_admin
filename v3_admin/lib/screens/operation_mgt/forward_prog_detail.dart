@@ -128,7 +128,6 @@ class _ProgressDetailState extends State<ProgressDetail> {
   }
 }
 
-
 // 주문 정보
 final Map<String, dynamic> orderInfo = {
   "main": {
@@ -573,7 +572,8 @@ class _DetailViewState extends State<DetailView> {
                                                     alignment: Alignment.center,
                                                     width: 80,
                                                     height: 40,
-                                                    decoration: const BoxDecoration(
+                                                    decoration:
+                                                        const BoxDecoration(
                                                       borderRadius:
                                                           BorderRadius.only(
                                                         topLeft:
@@ -955,7 +955,6 @@ class _OrderCardState extends State<OrderCard> {
                                     tabTextBox(
                                         '정산 :',
                                         '${widget.order['settlement']['settleTargetName']} → ${widget.order['settlement']['settleCompanyName']}',
-                                        // widget.order['subSupplierList'].isEmpty? '${widget.index}' : '${widget.order['subSupplierList'][widget.index]['settlement']['settleTargetName']}' '→ ',
                                         150),
                                     SizedBox(height: 16.0),
                                     tabTextBox(
@@ -1618,7 +1617,6 @@ class _OtherButtonsState extends State<OtherButtons> {
     );
   }
 }
-
 
 // sub 주문 생성
 void _showOrderFormDialog(BuildContext context) {

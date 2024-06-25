@@ -109,7 +109,7 @@ class _InquiryDetailState extends State<InquiryDetail> {
                     ],
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -136,63 +136,84 @@ class DetailView extends StatefulWidget {
 }
 
 class _DetailViewState extends State<DetailView> {
+  bool isEditing = false;
+  late Map<String, TextEditingController> controllers;
+  late TextEditingController memoController;
+
+  // 문의내용
+  final Map<String, String> inquiryInfo = {
+    '품목': '사과',
+    '품종': '부사',
+    '등급': '상',
+    '원산지': '경상북도',
+    '단가': '1,500원',
+    '공급물량': '12,520kg',
+    '거래횟수': '',
+    '공급기간': '2024-04-24 ~ 2024-10-10',
+    '희망배송일': '2024-04-24',
+    '총 금액': '18,780,000원',
+    '담당자 연락처': '010-1234-1234',
+    '통장사본':
+        'https://firebasestorage.googleapis.com/v0/b/v3mvp-b9aa4.appspot.com/o/uploads%2Fregister%2Fclient%2FIdyZUA7S6CcsbeKu7h7Gj8k9zpB2%2Fbusiness_registration_image?alt=media&token=7a17324f-6e09-4520-b4ef-6d4ddc4c29ae'
+  };
+
+  // 기업정보
+  final Map<String, String> memberInfo = {
+    '업체명': '비굿컴퍼니',
+    '사업자등록번호': '1234567890',
+    '업태/종목': '도매/농업',
+    '담당자명': '김현진',
+    '담당자 연락처': '010-1234-1234',
+    '이메일': 'abc@bgood.co.kr',
+    '사업장 주소': '서울특별시 서초구 매헌로8길 39, D동 4층 406호(양재동, 희경재단) 테스트테스트테스트테스트',
+  };
+
+  // 공급처
+  final List<Map<String, dynamic>> _data = [
+    {
+      'supplierName': '한결농산',
+      "bizRegiNum": "123456789",
+      'cost': 1600,
+      'volume': 6000,
+      'totalAmount': 9600000,
+    },
+    {
+      'supplierName': '냠냠농산',
+      "bizRegiNum": "123456789",
+      'cost': 1800,
+      'volume': 2000,
+      'totalAmount': 3600000,
+    },
+    {
+      'supplierName': '꿀꿀농산',
+      "bizRegiNum": "123456789",
+      'cost': 1800,
+      'volume': 2000,
+      'totalAmount': 3600000,
+    },
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    controllers = {
+      for (var entry in inquiryInfo.entries)
+        entry.key: TextEditingController(text: entry.value)
+    };
+    memoController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    for (var controller in controllers.values) {
+      controller.dispose();
+    }
+    memoController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    
-    // 문의내용 
-    final Map<String, String> inquiryInfo = {
-      '품목': '사과',
-      '품종': '부사',
-      '등급': '상',
-      '원산지': '경상북도',
-      '단가': '1,500원',
-      '공급물량': '12,520kg',
-      '거래횟수': '',
-      '공급기간': '2024-04-24 ~ 2024-10-10',
-      '희망배송일': '2024-04-24',
-      '총 금액': '18,780,000원',
-      '담당자 연락처': '010-1234-1234',
-      '통장사본':
-          'https://firebasestorage.googleapis.com/v0/b/v3mvp-b9aa4.appspot.com/o/uploads%2Fregister%2Fclient%2FIdyZUA7S6CcsbeKu7h7Gj8k9zpB2%2Fbusiness_registration_image?alt=media&token=7a17324f-6e09-4520-b4ef-6d4ddc4c29ae'
-    };
-
-    // 기업정보 
-    final Map<String, String> memberInfo = {
-      '업체명': '비굿컴퍼니',
-      '사업자등록번호': '1234567890',
-      '업태/종목': '도매/농업',
-      '담당자명': '김현진',
-      '담당자 연락처': '010-1234-1234',
-      '이메일': 'abc@bgood.co.kr',
-      '사업장 주소': '서울특별시 서초구 매헌로8길 39, D동 4층 406호(양재동, 희경재단) 테스트테스트테스트테스트',
-    };
-
-    // 공급처
-    final List<Map<String, dynamic>> _data = [
-      {
-        'supplierName': '한결농산',
-        "bizRegiNum": "123456789",
-        'cost': 1600,
-        'volume': 6000,
-        'totalAmount': 9600000,
-      },
-      {
-        'supplierName': '냠냠농산',
-        "bizRegiNum": "123456789",
-        'cost': 1800,
-        'volume': 2000,
-        'totalAmount': 3600000,
-      },
-      {
-        'supplierName': '꿀꿀농산',
-        "bizRegiNum": "123456789",
-        'cost': 1800,
-        'volume': 2000,
-        'totalAmount': 3600000,
-      },
-    ];
-
     return Column(
       children: [
         Container(
@@ -203,7 +224,7 @@ class _DetailViewState extends State<DetailView> {
               // 디테일 페이지 상단 영역
               Row(
                 children: [
-                  Text(
+                  const Text(
                     '{선도거래 타이틀(거래명)}',
                     style: TextStyle(
                       fontSize: 18.0,
@@ -213,9 +234,15 @@ class _DetailViewState extends State<DetailView> {
                   Spacer(),
                   CustomElevatedButton1(
                     backgroundColor: Color(0xFF5D75BF),
-                    text: '수정',
+                    text: isEditing ? '저장' : '수정',
                     onPressed: () {
-                      context.go('/inquiry-edit');
+                      setState(() {
+                        if (isEditing) {
+                          inquiryInfo.updateAll(
+                              (key, value) => controllers[key]!.text);
+                        }
+                        isEditing = !isEditing;
+                      });
                     },
                   ),
                   SizedBox(
@@ -238,7 +265,7 @@ class _DetailViewState extends State<DetailView> {
                 padding: const EdgeInsets.only(top: 10.0),
                 child: Container(
                   width: double.infinity,
-                  height: 1000,
+                  height: isEditing ? 1100 : 1000,
                   decoration: commonBoxDecoration,
                   child: Padding(
                     padding: const EdgeInsets.all(40.0),
@@ -254,8 +281,8 @@ class _DetailViewState extends State<DetailView> {
                                 color: Color(0xFFF9FCFE),
                                 child: Row(
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
+                                    const Padding(
+                                      padding: EdgeInsets.symmetric(
                                           horizontal: 16.0),
                                       child: Text(
                                         '담당자 : 이준형',
@@ -267,7 +294,7 @@ class _DetailViewState extends State<DetailView> {
                                       ),
                                     ),
                                     Spacer(),
-                                    Text(
+                                    const Text(
                                       '2024-06-17',
                                       style: TextStyle(
                                         color: Color(0xFF323232),
@@ -284,7 +311,7 @@ class _DetailViewState extends State<DetailView> {
                                               color: Color(0xFFD6D6D6)),
                                           backgroundColor: Colors.white,
                                         ),
-                                        child: Text(
+                                        child: const Text(
                                           '나에게 배정',
                                           style: TextStyle(
                                             color: Color(0xFF323232),
@@ -306,7 +333,7 @@ class _DetailViewState extends State<DetailView> {
                                 width: double.infinity,
                                 height: 500,
                                 child: Table(
-                                  border: TableBorder(
+                                  border: const TableBorder(
                                     top: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                     bottom: BorderSide(
@@ -316,7 +343,7 @@ class _DetailViewState extends State<DetailView> {
                                     horizontalInside: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                   ),
-                                  columnWidths: {
+                                  columnWidths: const {
                                     0: FractionColumnWidth(0.3),
                                     1: FractionColumnWidth(0.7),
                                   },
@@ -328,7 +355,7 @@ class _DetailViewState extends State<DetailView> {
                                               vertical: 12.0, horizontal: 20),
                                           child: Text(
                                             entry.key,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Color(0xFF323232),
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600,
@@ -339,24 +366,76 @@ class _DetailViewState extends State<DetailView> {
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 12.0, horizontal: 20),
                                           child: entry.key == '통장사본'
-                                              ? (entry.value == null
-                                                  ? Text('')
-                                                  : Row(
+                                              ? Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
                                                       children: [
                                                         Image.network(
                                                           entry.value,
                                                           height: 100,
                                                           fit: BoxFit.contain,
                                                         ),
+                                                        if (isEditing)
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        10.0),
+                                                            child: CustomElevatedButton1(
+                                                                backgroundColor:
+                                                                    Color(
+                                                                        0xFF5D75BF),
+                                                                text: '파일선택',
+                                                                onPressed:
+                                                                    () {}),
+                                                          ),
                                                       ],
-                                                    ))
-                                              : Text(
-                                                  entry.value,
-                                                  style: TextStyle(
-                                                    color: Color(0xFF323232),
-                                                    fontSize: 14,
-                                                  ),
-                                                ),
+                                                    ),
+                                                  ],
+                                                )
+                                              : isEditing
+                                                  ? Container(
+                                                      width: 350,
+                                                      height: 45,
+                                                      child: TextFormField(
+                                                        controller: controllers[
+                                                            entry.key],
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                        ),
+                                                        decoration:
+                                                            InputDecoration(
+                                                          hintText: entry.value,
+                                                          border:
+                                                              const OutlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide(
+                                                              color: Color(
+                                                                  0xFFD1D1D1),
+                                                            ),
+                                                          ),
+                                                          enabledBorder:
+                                                              const OutlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide(
+                                                              color: Color(
+                                                                  0xFFD1D1D1),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : Text(
+                                                      entry.value,
+                                                      style: const TextStyle(
+                                                        color:
+                                                            Color(0xFF323232),
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
                                         ),
                                       ],
                                     );
@@ -377,7 +456,7 @@ class _DetailViewState extends State<DetailView> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 90,
                                     child: Text(
                                       '상태 변경',
@@ -390,7 +469,7 @@ class _DetailViewState extends State<DetailView> {
                                   ),
                                   SelectBoxExample(
                                     initialValue: '대기중',
-                                    options: [
+                                    options: const [
                                       '대기중',
                                       '진행중',
                                       '완료',
@@ -422,7 +501,7 @@ class _DetailViewState extends State<DetailView> {
                                 width: double.infinity,
                                 height: 350,
                                 child: Table(
-                                  border: TableBorder(
+                                  border: const TableBorder(
                                     top: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                     bottom: BorderSide(
@@ -444,7 +523,7 @@ class _DetailViewState extends State<DetailView> {
                                               vertical: 12.0, horizontal: 20),
                                           child: Text(
                                             entry.key,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Color(0xFF323232),
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600,
@@ -456,7 +535,7 @@ class _DetailViewState extends State<DetailView> {
                                               vertical: 12.0, horizontal: 20),
                                           child: Text(
                                             entry.value,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Color(0xFF323232),
                                               fontSize: 14,
                                             ),
@@ -468,9 +547,11 @@ class _DetailViewState extends State<DetailView> {
                                 ),
                               ),
                               Container(
-                                child: Expanded(
-                                child: SuppliersButtons(suppliers: _data, isAdd: false, isSub: false,)
-                              ),
+                                child: SuppliersButtons(
+                                  suppliers: _data,
+                                  isAdd: isEditing ? true : false,
+                                  isSub: false,
+                                ),
                               ),
                               SizedBox(
                                 height: 20,
@@ -485,6 +566,28 @@ class _DetailViewState extends State<DetailView> {
                                     color: Color(0xFFD6D6D6),
                                   ),
                                 ),
+                                child: isEditing
+                                    ? TextField(
+                                        controller: memoController,
+                                        keyboardType: TextInputType.multiline,
+                                        maxLines: null,
+                                        expands: true,
+                                        decoration: const InputDecoration(
+                                          contentPadding: EdgeInsets.all(8.0),
+                                          border: InputBorder.none,
+                                          hintText: '내용을 입력하세요',
+                                        ),
+                                      )
+                                    : Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          memoController.text,
+                                          style: TextStyle(
+                                            color: Color(0xFF323232),
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
                               ),
                             ],
                           ),
@@ -505,7 +608,6 @@ class _DetailViewState extends State<DetailView> {
   }
 }
 
-
 // sub 공급처
 class SuppliersButtons extends StatefulWidget {
   final List<dynamic> suppliers;
@@ -513,9 +615,7 @@ class SuppliersButtons extends StatefulWidget {
   final bool isSub;
 
   SuppliersButtons(
-      {required this.suppliers,
-      required this.isAdd,
-      required this.isSub});
+      {required this.suppliers, required this.isAdd, required this.isSub});
 
   @override
   _SuppliersButtonsState createState() => _SuppliersButtonsState();
@@ -523,10 +623,22 @@ class SuppliersButtons extends StatefulWidget {
 
 class _SuppliersButtonsState extends State<SuppliersButtons> {
   int _selectedSupplierIndex = 0;
+  void _showEditDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return EditDialog(
+          suppliers: widget.suppliers,
+          onSave: (updatedSuppliers) {
+            setState(() {});
+          },
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
         Row(
@@ -546,7 +658,8 @@ class _SuppliersButtonsState extends State<SuppliersButtons> {
             else
               Expanded(
                 child: Row(
-                  children: List<Widget>.generate(widget.suppliers.length, (index) {
+                  children:
+                      List<Widget>.generate(widget.suppliers.length, (index) {
                     return GestureDetector(
                       onTap: () {
                         setState(() {
@@ -584,13 +697,44 @@ class _SuppliersButtonsState extends State<SuppliersButtons> {
                   }),
                 ),
               ),
+            if (widget.suppliers != null &&
+                widget.suppliers.isNotEmpty &&
+                widget.isAdd)
+              TextButton(
+                onPressed: () {
+                  _showEditDialog();
+                },
+                child: const Text(
+                  '편집',
+                  style: TextStyle(
+                    color: Color(0xFF5D75BF),
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            widget.isAdd
+                ? OutlinedButton(
+                    onPressed: () {},
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide(color: Color(0xFFD6D6D6)),
+                      backgroundColor: Colors.white,
+                    ),
+                    child: const Text(
+                      '공급처 추가',
+                      style: TextStyle(
+                        color: Color(0xFF323232),
+                        fontSize: 14,
+                      ),
+                    ),
+                  )
+                : SizedBox(),
           ],
         ),
         if (widget.suppliers != null && widget.suppliers.isNotEmpty)
           Container(
             padding: const EdgeInsets.all(25.0),
             alignment: Alignment.center,
-            height: widget.isSub ? 360 : 170,
+            height: 170,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(8.0),
@@ -608,13 +752,17 @@ class _SuppliersButtonsState extends State<SuppliersButtons> {
                 const SizedBox(
                   height: 12,
                 ),
-                tabTextBox('원물가격 :',
-                    '${currencyFormat.format((widget.suppliers[_selectedSupplierIndex!]['cost']))}원', 120),
+                tabTextBox(
+                    '원물가격 :',
+                    '${currencyFormat.format((widget.suppliers[_selectedSupplierIndex!]['cost']))}원',
+                    120),
                 const SizedBox(
                   height: 12,
                 ),
-                tabTextBox('공급물량 :',
-                    '${currencyFormat.format(widget.suppliers[_selectedSupplierIndex!]['volume'])}kg', 120),
+                tabTextBox(
+                    '공급물량 :',
+                    '${currencyFormat.format(widget.suppliers[_selectedSupplierIndex!]['volume'])}kg',
+                    120),
                 const SizedBox(
                   height: 12,
                 ),
@@ -628,4 +776,191 @@ class _SuppliersButtonsState extends State<SuppliersButtons> {
       ],
     );
   }
+}
+
+
+// 공급처 편집 
+class EditDialog extends StatefulWidget {
+  final List<dynamic> suppliers;
+  final Function(List<Map<String, dynamic>>) onSave;
+
+  EditDialog({required this.suppliers, required this.onSave});
+
+  @override
+  _EditDialogState createState() => _EditDialogState();
+}
+
+class _EditDialogState extends State<EditDialog> {
+  late List<Map<String, dynamic>> _tempSuppliers;
+
+  @override
+  void initState() {
+    super.initState();
+    _tempSuppliers = List.from(widget.suppliers);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Container(
+        width: 570,
+        padding: EdgeInsets.all(20.0),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              '공급처 정보 편집',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,
+            ), ),
+            SizedBox(height: 20),
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: _tempSuppliers.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            icon: Icon(
+                              Icons.delete,
+                              color: Color(0xFF5D75BF),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _tempSuppliers.removeAt(index);
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+
+                      customTextField(
+                        '업체명',
+                        '업체명을 입력하세요',
+                        TextEditingController(
+                          text: _tempSuppliers[index]['supplierName'],
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      customTextField(
+                        '사업자등록번호',
+                        '사업자등록번호를 입력하세요',
+                        TextEditingController(
+                          text: _tempSuppliers[index]['bizRegiNum'],
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      customTextField(
+                        '원물가격',
+                        '원물가격을 입력하세요',
+                        TextEditingController(
+                          text: _tempSuppliers[index]['cost'].toString(),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      customTextField(
+                        '공급물량',
+                        '공급물량을 입력하세요',
+                        TextEditingController(
+                          text: _tempSuppliers[index]['volume'].toString(),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      customTextField(
+                        '총 금액',
+                        '총 금액을 입력하세요',
+                        TextEditingController(
+                          text: _tempSuppliers[index]['totalAmount'].toString(),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      
+                      const Divider(),
+                    ],
+                  );
+                },
+              ),
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomElevatedButton2(
+                    text: '취소',
+                    backgroundColor: Colors.white,
+                    textColor: Color(0xFF9A9A9A),
+                    borderColor: Color(0xFFD6D6D6),
+                    onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  ),
+                SizedBox(width: 10),
+                CustomElevatedButton1(
+                    backgroundColor: Color(0xFF5D75BF),
+                    text: '수정',
+                    onPressed: () {
+                    widget.onSave(_tempSuppliers);
+                    Navigator.of(context).pop();
+                  },
+                  ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+//   Widget customTextField(String txt, String hint, TextEditingController controller) {
+//     return Row(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         SizedBox(
+//           width: 120,
+//           child: Text(
+//             txt,
+//             style: TextStyle(
+//               fontSize: 14,
+//               fontWeight: FontWeight.bold,
+//               color: Colors.black,
+//             ),
+//           ),
+//         ),
+//         SizedBox(width: 20),
+//         Container(
+//           width: 350,
+//           height: 45,
+//           child: TextFormField(
+//             controller: controller,
+//             decoration: InputDecoration(
+//               hintText: hint,
+//               border: OutlineInputBorder(
+//                 borderSide: BorderSide(
+//                   color: Color(0xFFD1D1D1),
+//                 ),
+//               ),
+//               enabledBorder: OutlineInputBorder(
+//                 borderSide: BorderSide(
+//                   color: Color(0xFFD1D1D1),
+//                 ),
+//               ),
+//               contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
 }

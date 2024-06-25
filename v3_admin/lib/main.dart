@@ -118,12 +118,12 @@ class WithRouter extends StatelessWidget {
           return InquiryDetail();
         },
       ),
-      GoRoute( // 운영관리 > 선도거리 > 문의/계약 > 수정 
-        path: '/inquiry-edit',
-        builder: (BuildContext context, GoRouterState state) {
-          return EditInquiry();
-        },
-      ),
+      // GoRoute( // 운영관리 > 선도거리 > 문의/계약 > 수정 
+      //   path: '/inquiry-edit',
+      //   builder: (BuildContext context, GoRouterState state) {
+      //     return EditInquiry();
+      //   },
+      // ),
       GoRoute( // 운영관리 > 선도거리 > 진행
         path: '/progress',
         builder: (BuildContext context, GoRouterState state) {

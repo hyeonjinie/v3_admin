@@ -519,104 +519,6 @@ TableRow buildRow(String label, {TextEditingController? controller}) {
   );
 }
 
-// 탭 형태 container
-// class CustomToggleColumn extends StatelessWidget {
-//   final List<Map<String, String>> data;
-//   final int selectedIndex;
-//   final Function(int) onSelected;
-//   final String tabTitlePrefix;
-//   final List<Widget> content;
-//   final String btnText;
-
-//   CustomToggleColumn({
-//     required this.data,
-//     required this.selectedIndex,
-//     required this.onSelected,
-//     required this.tabTitlePrefix,
-//     required this.content,
-//     required this.btnText,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         Row(
-//           children: [
-//             Expanded(
-//               child: ToggleButtons(
-//                 isSelected: List.generate(data.isEmpty ? 1 : data.length,
-//                     (index) => index == selectedIndex),
-//                 onPressed: onSelected,
-//                 borderRadius: BorderRadius.only(
-//                   topLeft: Radius.circular(8.0),
-//                   topRight: Radius.circular(8.0),
-//                 ),
-//                 selectedBorderColor: Color(0xFF5D75BF),
-//                 selectedColor: Color(0xFF5D75BF),
-//                 fillColor: Colors.white,
-//                 color: Colors.black,
-//                 constraints: BoxConstraints(
-//                   minHeight: 40.0,
-//                 ),
-//                 children:
-//                     List.generate(data.isEmpty ? 1 : data.length, (index) {
-//                   return Container(
-//                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
-//                     alignment: Alignment.center,
-//                     child: Text(
-//                       '$tabTitlePrefix${index + 1}',
-//                       style: TextStyle(
-//                         fontWeight: selectedIndex == index
-//                             ? FontWeight.bold
-//                             : FontWeight.normal,
-//                       ),
-//                     ),
-//                   );
-//                 }),
-//               ),
-//             ),
-//             if (btnText.isNotEmpty)
-//               Padding(
-//                 padding: const EdgeInsets.only(left: 8.0),
-//                 child: OutlinedButton(
-//                   onPressed: () {},
-//                   style: OutlinedButton.styleFrom(
-//                     side: BorderSide(color: Color(0xFFD6D6D6)),
-//                     backgroundColor: Colors.white,
-//                   ),
-//                   child: Text(
-//                     btnText,
-//                     style: TextStyle(
-//                       color: Color(0xFF323232),
-//                       fontSize: 14,
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//           ],
-//         ),
-//         Container(
-//           width: double.infinity,
-//           decoration: BoxDecoration(
-//             border: Border.all(color: Color(0xFFD0D0D0)),
-//             borderRadius: BorderRadius.only(
-//               topRight: Radius.circular(8.0),
-//               bottomLeft: Radius.circular(8.0),
-//               bottomRight: Radius.circular(8.0),
-//             ),
-//           ),
-//           padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: content,
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
-
 // 탭 구조 안 텍스트
 Widget tabTextBox(String text1, String text2, double w) {
   return Row(
@@ -636,6 +538,7 @@ Widget tabTextBox(String text1, String text2, double w) {
     ],
   );
 }
+
 
 Widget customTextField(
     String txt, String hint, TextEditingController? controller) {
@@ -758,156 +661,298 @@ Widget textToText(TextEditingController? controller1,
 }
 
 // 공급처
-class SuppliersButtons extends StatefulWidget {
-  final List<dynamic> suppliers;
-  final bool isAdd;
-  final bool isSub;
+// class SuppliersButtons extends StatefulWidget {
+//   final List<dynamic> suppliers;
+//   final bool isAdd;
+//   final bool isSub;
 
-  SuppliersButtons(
-      {required this.suppliers, required this.isAdd, required this.isSub});
+//   SuppliersButtons(
+//       {required this.suppliers, required this.isAdd, required this.isSub});
 
-  @override
-  _SuppliersButtonsState createState() => _SuppliersButtonsState();
-}
+//   @override
+//   _SuppliersButtonsState createState() => _SuppliersButtonsState();
+// }
 
-class _SuppliersButtonsState extends State<SuppliersButtons> {
-  int _selectedSupplierIndex = 0;
+// class _SuppliersButtonsState extends State<SuppliersButtons> {
+//   int _selectedSupplierIndex = 0;
+//   void _showEditDialog() {
+//     showDialog(
+//       context: context,
+//       builder: (BuildContext context) {
+//         return EditDialog(
+//           suppliers: widget.suppliers,
+//           onSave: (updatedSuppliers) {
+//             setState(() {
+//             });
+//           },
+//         );
+//       },
+//     );
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            if (widget.suppliers == null || widget.suppliers.isEmpty)
-              const Expanded(
-                child: Row(
-                  children: [
-                    Text(
-                      '공급처 정보 없음',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Spacer(),
-                  ],
-                ),
-              )
-            else
-              Expanded(
-                child: Row(
-                  children:
-                      List<Widget>.generate(widget.suppliers.length, (index) {
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _selectedSupplierIndex = index;
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        alignment: Alignment.center,
-                        width: 85,
-                        height: 45,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(8.0),
-                            topRight: Radius.circular(8.0),
-                          ),
-                          border: Border.all(
-                              color: _selectedSupplierIndex == index
-                                  ? Color(0xFF5D75BF)
-                                  : Color(0xFFD6D6D6)),
-                        ),
-                        child: Text(
-                          '공급처${index + 1}',
-                          style: TextStyle(
-                            color: _selectedSupplierIndex == index
-                                ? Color(0xFF5D75BF)
-                                : Colors.black,
-                            fontWeight: _selectedSupplierIndex == index
-                                ? FontWeight.bold
-                                : FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    );
-                  }),
-                ),
-              ),
-            if (widget.suppliers != null &&
-                widget.suppliers.isNotEmpty &&
-                widget.isAdd)
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  '편집',
-                  style: TextStyle(
-                    color: Color(0xFF5D75BF),
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-            widget.isAdd
-                ? OutlinedButton(
-                    onPressed: () {},
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: Color(0xFFD6D6D6)),
-                      backgroundColor: Colors.white,
-                    ),
-                    child: const Text(
-                      '공급처 추가',
-                      style: TextStyle(
-                        color: Color(0xFF323232),
-                        fontSize: 14,
-                      ),
-                    ),
-                  )
-                : SizedBox(),
-          ],
-        ),
-        if (widget.suppliers != null && widget.suppliers.isNotEmpty)
-          Container(
-            padding: const EdgeInsets.all(25.0),
-            alignment: Alignment.center,
-            height: 170,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(8.0),
-                bottomRight: Radius.circular(8.0),
-                topRight: Radius.circular(8.0),
-              ),
-              border: Border.all(color: Color(0xFFD6D6D6)),
-            ),
-            child: Column(
-              children: [
-                tabTextBox(
-                    '업체명 :',
-                    '${widget.suppliers[_selectedSupplierIndex!]['supplierName']} / ${widget.suppliers[_selectedSupplierIndex!]['bizRegiNum']}',
-                    120),
-                const SizedBox(
-                  height: 12,
-                ),
-                tabTextBox(
-                    '원물가격 :',
-                    '${currencyFormat.format((widget.suppliers[_selectedSupplierIndex!]['cost']))}원',
-                    120),
-                const SizedBox(
-                  height: 12,
-                ),
-                tabTextBox(
-                    '공급물량 :',
-                    '${currencyFormat.format(widget.suppliers[_selectedSupplierIndex!]['volume'])}kg',
-                    120),
-                const SizedBox(
-                  height: 12,
-                ),
-                tabTextBox(
-                    '총 금액 :',
-                    '${currencyFormat.format(widget.suppliers[_selectedSupplierIndex!]['totalAmount'])}원',
-                    120),
-              ],
-            ),
-          ),
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       children: [
+//         Row(
+//           children: [
+//             if (widget.suppliers == null || widget.suppliers.isEmpty)
+//               const Expanded(
+//                 child: Row(
+//                   children: [
+//                     Text(
+//                       '공급처 정보 없음',
+//                       style: TextStyle(fontWeight: FontWeight.bold),
+//                     ),
+//                     Spacer(),
+//                   ],
+//                 ),
+//               )
+//             else
+//               Expanded(
+//                 child: Row(
+//                   children:
+//                       List<Widget>.generate(widget.suppliers.length, (index) {
+//                     return GestureDetector(
+//                       onTap: () {
+//                         setState(() {
+//                           _selectedSupplierIndex = index;
+//                         });
+//                       },
+//                       child: Container(
+//                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
+//                         alignment: Alignment.center,
+//                         width: 85,
+//                         height: 45,
+//                         decoration: BoxDecoration(
+//                           borderRadius: const BorderRadius.only(
+//                             topLeft: Radius.circular(8.0),
+//                             topRight: Radius.circular(8.0),
+//                           ),
+//                           border: Border.all(
+//                               color: _selectedSupplierIndex == index
+//                                   ? Color(0xFF5D75BF)
+//                                   : Color(0xFFD6D6D6)),
+//                         ),
+//                         child: Text(
+//                           '공급처${index + 1}',
+//                           style: TextStyle(
+//                             color: _selectedSupplierIndex == index
+//                                 ? Color(0xFF5D75BF)
+//                                 : Colors.black,
+//                             fontWeight: _selectedSupplierIndex == index
+//                                 ? FontWeight.bold
+//                                 : FontWeight.w500,
+//                           ),
+//                         ),
+//                       ),
+//                     );
+//                   }),
+//                 ),
+//               ),
+//             if (widget.suppliers != null &&
+//                 widget.suppliers.isNotEmpty &&
+//                 widget.isAdd)
+//               TextButton(
+//                 onPressed: () {
+//                   _showEditDialog();
+//                 },
+//                 child: const Text(
+//                   '편집',
+//                   style: TextStyle(
+//                     color: Color(0xFF5D75BF),
+//                     fontSize: 14,
+//                   ),
+//                 ),
+//               ),
+//             widget.isAdd
+//                 ? OutlinedButton(
+//                     onPressed: () {},
+//                     style: OutlinedButton.styleFrom(
+//                       side: BorderSide(color: Color(0xFFD6D6D6)),
+//                       backgroundColor: Colors.white,
+//                     ),
+//                     child: const Text(
+//                       '공급처 추가',
+//                       style: TextStyle(
+//                         color: Color(0xFF323232),
+//                         fontSize: 14,
+//                       ),
+//                     ),
+//                   )
+//                 : SizedBox(),
+//           ],
+//         ),
+//         if (widget.suppliers != null && widget.suppliers.isNotEmpty)
+//           Container(
+//             padding: const EdgeInsets.all(25.0),
+//             alignment: Alignment.center,
+//             height: 170,
+//             decoration: BoxDecoration(
+//               borderRadius: const BorderRadius.only(
+//                 bottomLeft: Radius.circular(8.0),
+//                 bottomRight: Radius.circular(8.0),
+//                 topRight: Radius.circular(8.0),
+//               ),
+//               border: Border.all(color: Color(0xFFD6D6D6)),
+//             ),
+//             child: Column(
+//               children: [
+//                 tabTextBox(
+//                     '업체명 :',
+//                     '${widget.suppliers[_selectedSupplierIndex!]['supplierName']} / ${widget.suppliers[_selectedSupplierIndex!]['bizRegiNum']}',
+//                     120),
+//                 const SizedBox(
+//                   height: 12,
+//                 ),
+//                 tabTextBox(
+//                     '원물가격 :',
+//                     '${currencyFormat.format((widget.suppliers[_selectedSupplierIndex!]['cost']))}원',
+//                     120),
+//                 const SizedBox(
+//                   height: 12,
+//                 ),
+//                 tabTextBox(
+//                     '공급물량 :',
+//                     '${currencyFormat.format(widget.suppliers[_selectedSupplierIndex!]['volume'])}kg',
+//                     120),
+//                 const SizedBox(
+//                   height: 12,
+//                 ),
+//                 tabTextBox(
+//                     '총 금액 :',
+//                     '${currencyFormat.format(widget.suppliers[_selectedSupplierIndex!]['totalAmount'])}원',
+//                     120),
+//               ],
+//             ),
+//           ),
+//       ],
+//     );
+//   }
+// }
+
+// class EditDialog extends StatefulWidget {
+//   final List<dynamic> suppliers;
+//   final Function(List<Map<String, dynamic>>) onSave;
+
+//   EditDialog({required this.suppliers, required this.onSave});
+
+//   @override
+//   _EditDialogState createState() => _EditDialogState();
+// }
+
+// class _EditDialogState extends State<EditDialog> {
+//   late List<Map<String, dynamic>> _tempSuppliers;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _tempSuppliers = List.from(widget.suppliers);
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return AlertDialog(
+//       title: Text('공급처 정보 편집'),
+//       content: SingleChildScrollView(
+//         child: Column(
+//           children: List<Widget>.generate(_tempSuppliers.length, (index) {
+//             return Column(
+//               children: [
+//                 TextField(
+//                   decoration: InputDecoration(
+//                     labelText: '업체명',
+//                   ),
+//                   controller: TextEditingController(
+//                     text: _tempSuppliers[index]['supplierName'],
+//                   ),
+//                   readOnly: true,
+//                 ),
+//                 TextField(
+//                   decoration: InputDecoration(
+//                     labelText: '사업자등록번호',
+//                   ),
+//                   controller: TextEditingController(
+//                     text: _tempSuppliers[index]['bizRegiNum'],
+//                   ),
+//                   readOnly: true,
+//                 ),
+//                 TextField(
+//                   decoration: InputDecoration(
+//                     labelText: '원물가격',
+//                   ),
+//                   controller: TextEditingController(
+//                     text: _tempSuppliers[index]['cost'].toString(),
+//                   ),
+//                   onChanged: (value) {
+//                     _tempSuppliers[index]['cost'] = int.parse(value);
+//                   },
+//                   keyboardType: TextInputType.number,
+//                 ),
+//                 TextField(
+//                   decoration: InputDecoration(
+//                     labelText: '공급물량',
+//                   ),
+//                   controller: TextEditingController(
+//                     text: _tempSuppliers[index]['volume'].toString(),
+//                   ),
+//                   onChanged: (value) {
+//                     _tempSuppliers[index]['volume'] = int.parse(value);
+//                   },
+//                   keyboardType: TextInputType.number,
+//                 ),
+//                 TextField(
+//                   decoration: InputDecoration(
+//                     labelText: '총 금액',
+//                   ),
+//                   controller: TextEditingController(
+//                     text: _tempSuppliers[index]['totalAmount'].toString(),
+//                   ),
+//                   onChanged: (value) {
+//                     _tempSuppliers[index]['totalAmount'] = int.parse(value);
+//                   },
+//                   keyboardType: TextInputType.number,
+//                 ),
+//                 TextButton(
+//                   onPressed: () {
+//                     setState(() {
+//                       _tempSuppliers.removeAt(index);
+//                     });
+//                   },
+//                   child: Text(
+//                     '삭제',
+//                     style: TextStyle(color: Colors.red),
+//                   ),
+//                 ),
+//                 const Divider(),
+//               ],
+//             );
+//           }),
+//         ),
+//       ),
+//       actions: [
+//         TextButton(
+//           onPressed: () {
+//             Navigator.of(context).pop();
+//           },
+//           child: Text('취소'),
+//         ),
+//         ElevatedButton(
+//           onPressed: () {
+//             widget.onSave(_tempSuppliers);
+//             Navigator.of(context).pop();
+//           },
+//           child: Text('수정'),
+//         ),
+//       ],
+//     );
+//   }
+// }
+
+
+
+
+
+
+
+
