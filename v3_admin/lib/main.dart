@@ -16,9 +16,9 @@ import 'package:v3_admin/screens/operation_mgt/forward_completed.dart';
 import 'package:v3_admin/screens/operation_mgt/forward_inquiry.dart';
 import 'package:v3_admin/screens/operation_mgt/forward_inquiry_detail.dart';
 import 'package:v3_admin/screens/operation_mgt/forward_inquiry_edit.dart';
+import 'package:v3_admin/screens/operation_mgt/forward_prog_add.dart';
 import 'package:v3_admin/screens/operation_mgt/forward_prog_detail.dart';
 import 'package:v3_admin/screens/operation_mgt/forward_progress.dart';
-import 'package:v3_admin/screens/operation_mgt/forward_test.dart';
 import 'package:v3_admin/screens/operation_mgt/market_cancel.dart';
 import 'package:v3_admin/screens/operation_mgt/market_order.dart';
 import 'package:v3_admin/screens/operation_mgt/market_order_detail.dart';
@@ -118,12 +118,12 @@ class WithRouter extends StatelessWidget {
           return InquiryDetail();
         },
       ),
-      // GoRoute( // 운영관리 > 선도거리 > 문의/계약 > 수정 
-      //   path: '/inquiry-edit',
-      //   builder: (BuildContext context, GoRouterState state) {
-      //     return EditInquiry();
-      //   },
-      // ),
+      GoRoute( // 운영관리 > 선도거리 > 진행 > 메인 주문서 생성 
+        path: '/regist-order',
+        builder: (BuildContext context, GoRouterState state) {
+          return RegistMainOrder();
+        },
+      ),
       GoRoute( // 운영관리 > 선도거리 > 진행
         path: '/progress',
         builder: (BuildContext context, GoRouterState state) {
