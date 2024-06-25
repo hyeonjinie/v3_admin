@@ -417,7 +417,7 @@ class _ProgressListState extends State<ProgressList> {
                 backgroundColor: Color(0xFF5D75BF),
                 text: '주문 생성',
                 onPressed: () {
-                  // _showMainOrderDialog(context);
+                  context.go('/regist-order');
                 },
               ),
               const SizedBox(

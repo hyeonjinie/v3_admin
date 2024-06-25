@@ -10,6 +10,87 @@ import 'package:intl/intl.dart';
 
 final NumberFormat currencyFormat = NumberFormat('#,##0', 'en_US');
 
+// 문의내용
+final Map<String, String> inquiryInfo = {
+  '품목': '사과',
+  '품종': '부사',
+  '등급': '상',
+  '원산지': '경상북도',
+  '단가': '1,500원',
+  '공급물량': '12,520kg',
+  '거래횟수': '',
+  '공급기간': '2024-04-24 ~ 2024-10-10',
+  '희망배송일': '2024-04-24',
+  '총 금액': '18,780,000원',
+  '담당자 연락처': '010-1234-1234',
+  '통장사본':
+      'https://firebasestorage.googleapis.com/v0/b/v3mvp-b9aa4.appspot.com/o/uploads%2Fregister%2Fclient%2FIdyZUA7S6CcsbeKu7h7Gj8k9zpB2%2Fbusiness_registration_image?alt=media&token=7a17324f-6e09-4520-b4ef-6d4ddc4c29ae'
+};
+
+// 기업정보
+final Map<String, String> memberInfo = {
+  '업체명': '비굿컴퍼니',
+  '사업자등록번호': '1234567890',
+  '업태/종목': '도매/농업',
+  '담당자명': '김현진',
+  '담당자 연락처': '010-1234-1234',
+  '이메일': 'abc@bgood.co.kr',
+  '사업장 주소': '서울특별시 서초구 매헌로8길 39, D동 4층 406호(양재동, 희경재단) 테스트테스트테스트테스트',
+};
+
+// 등록된 공급처
+final List<Map<String, dynamic>> _data = [
+  {
+    'supplierName': '한결농산',
+    "bizRegiNum": "123456789",
+    'cost': 1600,
+    'volume': 6000,
+    'totalAmount': 9600000,
+  },
+  {
+    'supplierName': '냠냠농산',
+    "bizRegiNum": "123456789",
+    'cost': 1800,
+    'volume': 2000,
+    'totalAmount': 3600000,
+  },
+  {
+    'supplierName': '꿀꿀농산',
+    "bizRegiNum": "123456789",
+    'cost': 1800,
+    'volume': 2000,
+    'totalAmount': 3600000,
+  },
+];
+
+// 공급처 목록
+final List<Map<String, dynamic>> suppliersList = [
+  {
+    'supplierName': 'a',
+    "bizRegiNum": "123456789",
+  },
+  {
+    'supplierName': 'b',
+    "bizRegiNum": "123456789",
+  },
+  {
+    'supplierName': 'c',
+    "bizRegiNum": "123456789",
+  },
+  {
+    'supplierName': 'd',
+    "bizRegiNum": "123456789",
+  },
+  {
+    'supplierName': 'e',
+    "bizRegiNum": "123456789",
+  },
+  {
+    'supplierName': 'f',
+    "bizRegiNum": "123456789",
+  },
+];
+
 class InquiryDetail extends StatefulWidget {
   const InquiryDetail({super.key});
 
@@ -139,59 +220,6 @@ class _DetailViewState extends State<DetailView> {
   bool isEditing = false;
   late Map<String, TextEditingController> controllers;
   late TextEditingController memoController;
-
-  // 문의내용
-  final Map<String, String> inquiryInfo = {
-    '품목': '사과',
-    '품종': '부사',
-    '등급': '상',
-    '원산지': '경상북도',
-    '단가': '1,500원',
-    '공급물량': '12,520kg',
-    '거래횟수': '',
-    '공급기간': '2024-04-24 ~ 2024-10-10',
-    '희망배송일': '2024-04-24',
-    '총 금액': '18,780,000원',
-    '담당자 연락처': '010-1234-1234',
-    '통장사본':
-        'https://firebasestorage.googleapis.com/v0/b/v3mvp-b9aa4.appspot.com/o/uploads%2Fregister%2Fclient%2FIdyZUA7S6CcsbeKu7h7Gj8k9zpB2%2Fbusiness_registration_image?alt=media&token=7a17324f-6e09-4520-b4ef-6d4ddc4c29ae'
-  };
-
-  // 기업정보
-  final Map<String, String> memberInfo = {
-    '업체명': '비굿컴퍼니',
-    '사업자등록번호': '1234567890',
-    '업태/종목': '도매/농업',
-    '담당자명': '김현진',
-    '담당자 연락처': '010-1234-1234',
-    '이메일': 'abc@bgood.co.kr',
-    '사업장 주소': '서울특별시 서초구 매헌로8길 39, D동 4층 406호(양재동, 희경재단) 테스트테스트테스트테스트',
-  };
-
-  // 공급처
-  final List<Map<String, dynamic>> _data = [
-    {
-      'supplierName': '한결농산',
-      "bizRegiNum": "123456789",
-      'cost': 1600,
-      'volume': 6000,
-      'totalAmount': 9600000,
-    },
-    {
-      'supplierName': '냠냠농산',
-      "bizRegiNum": "123456789",
-      'cost': 1800,
-      'volume': 2000,
-      'totalAmount': 3600000,
-    },
-    {
-      'supplierName': '꿀꿀농산',
-      "bizRegiNum": "123456789",
-      'cost': 1800,
-      'volume': 2000,
-      'totalAmount': 3600000,
-    },
-  ];
 
   @override
   void initState() {
@@ -608,7 +636,7 @@ class _DetailViewState extends State<DetailView> {
   }
 }
 
-// sub 공급처
+// 공급처 영역
 class SuppliersButtons extends StatefulWidget {
   final List<dynamic> suppliers;
   final bool isAdd;
@@ -631,6 +659,27 @@ class _SuppliersButtonsState extends State<SuppliersButtons> {
           suppliers: widget.suppliers,
           onSave: (updatedSuppliers) {
             setState(() {});
+          },
+        );
+      },
+    );
+  }
+
+  void _showAddSupplierDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AddSupplierDialog(
+          onSupplierSelected: (selectedSupplier, cost, volume, totalAmount) {
+            setState(() {
+              _data.add({
+                'supplierName': selectedSupplier['supplierName'],
+                'bizRegiNum': selectedSupplier['bizRegiNum'],
+                'cost': cost,
+                'volume': volume,
+                'totalAmount': totalAmount,
+              });
+            });
           },
         );
       },
@@ -714,7 +763,7 @@ class _SuppliersButtonsState extends State<SuppliersButtons> {
               ),
             widget.isAdd
                 ? OutlinedButton(
-                    onPressed: () {},
+                    onPressed: _showAddSupplierDialog,
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(color: Color(0xFFD6D6D6)),
                       backgroundColor: Colors.white,
@@ -778,8 +827,7 @@ class _SuppliersButtonsState extends State<SuppliersButtons> {
   }
 }
 
-
-// 공급처 편집 
+// 공급처 편집 팝업창
 class EditDialog extends StatefulWidget {
   final List<dynamic> suppliers;
   final Function(List<Map<String, dynamic>>) onSave;
@@ -809,17 +857,20 @@ class _EditDialogState extends State<EditDialog> {
         width: 570,
         padding: EdgeInsets.all(20.0),
         decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-          ),
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               '공급처 정보 편집',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,
-            ), ),
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
@@ -845,7 +896,6 @@ class _EditDialogState extends State<EditDialog> {
                           ),
                         ],
                       ),
-
                       customTextField(
                         '업체명',
                         '업체명을 입력하세요',
@@ -886,7 +936,6 @@ class _EditDialogState extends State<EditDialog> {
                         ),
                       ),
                       SizedBox(height: 10),
-                      
                       const Divider(),
                     ],
                   );
@@ -898,23 +947,23 @@ class _EditDialogState extends State<EditDialog> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CustomElevatedButton2(
-                    text: '취소',
-                    backgroundColor: Colors.white,
-                    textColor: Color(0xFF9A9A9A),
-                    borderColor: Color(0xFFD6D6D6),
-                    onPressed: () {
+                  text: '취소',
+                  backgroundColor: Colors.white,
+                  textColor: Color(0xFF9A9A9A),
+                  borderColor: Color(0xFFD6D6D6),
+                  onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  ),
+                ),
                 SizedBox(width: 10),
                 CustomElevatedButton1(
-                    backgroundColor: Color(0xFF5D75BF),
-                    text: '수정',
-                    onPressed: () {
+                  backgroundColor: Color(0xFF5D75BF),
+                  text: '수정',
+                  onPressed: () {
                     widget.onSave(_tempSuppliers);
                     Navigator.of(context).pop();
                   },
-                  ),
+                ),
               ],
             ),
           ],
@@ -923,44 +972,157 @@ class _EditDialogState extends State<EditDialog> {
     );
   }
 
-//   Widget customTextField(String txt, String hint, TextEditingController controller) {
-//     return Row(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         SizedBox(
-//           width: 120,
-//           child: Text(
-//             txt,
-//             style: TextStyle(
-//               fontSize: 14,
-//               fontWeight: FontWeight.bold,
-//               color: Colors.black,
-//             ),
-//           ),
-//         ),
-//         SizedBox(width: 20),
-//         Container(
-//           width: 350,
-//           height: 45,
-//           child: TextFormField(
-//             controller: controller,
-//             decoration: InputDecoration(
-//               hintText: hint,
-//               border: OutlineInputBorder(
-//                 borderSide: BorderSide(
-//                   color: Color(0xFFD1D1D1),
-//                 ),
-//               ),
-//               enabledBorder: OutlineInputBorder(
-//                 borderSide: BorderSide(
-//                   color: Color(0xFFD1D1D1),
-//                 ),
-//               ),
-//               contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
+}
+
+// 공급처 추가 팝업창 
+class AddSupplierDialog extends StatefulWidget {
+  final void Function(Map<String, dynamic>, int, int, int) onSupplierSelected;
+
+  const AddSupplierDialog({required this.onSupplierSelected});
+
+  @override
+  _AddSupplierDialogState createState() => _AddSupplierDialogState();
+}
+
+class _AddSupplierDialogState extends State<AddSupplierDialog> {
+  Map<String, dynamic>? _selectedSupplier;
+  late TextEditingController priceController; //원물가격
+  late TextEditingController volumeController; //공급물량
+  late TextEditingController amountController; //총 금액
+
+  @override
+  void initState() {
+    super.initState();
+    priceController = TextEditingController();
+    volumeController = TextEditingController();
+    amountController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    priceController.dispose();
+    volumeController.dispose();
+    amountController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Container(
+        width: 570,
+        padding: EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: 10),
+            Text(
+              '공급처 추가',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 16),
+            Container(
+              height: 200,
+              decoration: BoxDecoration(
+                border: Border.all(color: Color(0xFFD6D6D6)),
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              child: ListView.builder(
+                itemCount: suppliersList.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(
+                      '${suppliersList[index]['supplierName']} (${suppliersList[index]['bizRegiNum']})',
+                    ),
+                    onTap: () {
+                      setState(() {
+                        _selectedSupplier = suppliersList[index];
+                      });
+                    },
+                  );
+                },
+              ),
+            ),
+            if (_selectedSupplier != null) ...[
+              SizedBox(height: 16),
+              Container(
+                width: 540,
+                padding: EdgeInsets.all(12.0),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Color(0xFFD6D6D6)),
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10),
+                    Text(
+                      '공급사명: ${_selectedSupplier!['supplierName']} / 사업자번호: ${_selectedSupplier!['bizRegiNum']}',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 20),
+                    customTextField(
+                      '원물가격',
+                      '(원) 단위로 숫자만 입력',
+                      priceController
+                    ),
+                    SizedBox(height: 10),
+                    customTextField(
+                      '공급물량',
+                      '(kg) 단위로 숫자만 입력',
+                      volumeController
+                    ),
+                    SizedBox(height: 10),
+                    customTextField(
+                      '총 금액',
+                      '(원) 단위로 숫자만 입력',
+                      amountController
+                    ),
+                    SizedBox(height: 15),
+                  ],
+                ),
+              ),
+            ],
+            SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomElevatedButton2(
+                  text: '취소',
+                  backgroundColor: Colors.white,
+                  textColor: Color(0xFF9A9A9A),
+                  borderColor: Color(0xFFD6D6D6),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                SizedBox(width: 10),
+                CustomElevatedButton1(
+                  backgroundColor: Color(0xFF5D75BF),
+                  text: '등록',
+                  onPressed: _selectedSupplier == null
+                      ? () {
+                          Navigator.of(context).pop();
+                        }
+                      : () {
+                          widget.onSupplierSelected(
+                            _selectedSupplier!,
+                            int.tryParse(priceController.text) ?? 0,
+                            int.tryParse(volumeController.text) ?? 0,
+                            int.tryParse(amountController.text) ?? 0,
+                          );
+                          Navigator.of(context).pop();
+                        },
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
