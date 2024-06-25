@@ -15,7 +15,7 @@ class Progress extends StatefulWidget {
 class _ProgressState extends State<Progress> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectIndex = 2; // GNB : 운영관리
-  int selectedMenu = 2; // SUB : 선도거래 > 진행 
+  int selectedMenu = 2; // SUB : 선도거래 > 진행
 
   void _updateIndex(int index) {
     setState(() {
@@ -52,9 +52,9 @@ class _ProgressState extends State<Progress> {
                           setState(() {
                             selectedMenu = index;
                           });
-                          if(index == 1) {
+                          if (index == 1) {
                             context.go('/operation');
-                          } else if(index == 2) {
+                          } else if (index == 2) {
                             context.go('/progress');
                           } else if (index == 3) {
                             context.go('/completed');
@@ -123,6 +123,11 @@ class _ProgressState extends State<Progress> {
   }
 }
 
+late List<Map<String, String>> _filteredData;
+late TextEditingController StartDateController;
+late TextEditingController EndDateController;
+late TextEditingController SearchController;
+
 class ProgressList extends StatefulWidget {
   const ProgressList({super.key});
 
@@ -133,12 +138,8 @@ class ProgressList extends StatefulWidget {
 class _ProgressListState extends State<ProgressList> {
   int _rowsPerPage = 10;
   int _pageIndex = 0;
-  late List<Map<String, String>> _filteredData;
-  late TextEditingController StartDateController;
-  late TextEditingController EndDateController;
-  late TextEditingController SearchController;
-  late List<bool> isSelected;
 
+  late List<bool> isSelected;
   late DateTime selectedDate;
 
   @override
@@ -411,10 +412,13 @@ class _ProgressListState extends State<ProgressList> {
                   fontSize: 16.0,
                 ),
               ),
-              Spacer(),CustomElevatedButton1(
+              Spacer(),
+              CustomElevatedButton1(
                 backgroundColor: Color(0xFF5D75BF),
                 text: '주문 생성',
-                onPressed: () {},
+                onPressed: () {
+                  // _showMainOrderDialog(context);
+                },
               ),
               const SizedBox(
                 width: 10,
@@ -574,3 +578,313 @@ class _ProgressListState extends State<ProgressList> {
     );
   }
 }
+
+// // main 주문 생성
+// void _showMainOrderDialog(BuildContext context) {
+//   showDialog(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return Dialog(
+//         child: Container(
+//           width: 570,
+//           height: 800,
+//           padding: EdgeInsets.all(16.0),
+//           decoration: BoxDecoration(
+//             color: Colors.white,
+//             borderRadius: BorderRadius.all(Radius.circular(8)),
+//           ),
+//           child: SingleChildScrollView(
+//             child: Column(
+//               mainAxisSize: MainAxisSize.min,
+//               children: [
+//                 SizedBox(
+//                   height: 10,
+//                 ),
+//                 Text(
+//                   '선도거래 주문서',
+//                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+//                 ),
+//                 SizedBox(height: 16),
+//                 OrderForm(),
+//                 SizedBox(height: 16),
+//                 Row(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   children: [
+//                     CustomElevatedButton2(
+//                       text: '취소',
+//                       backgroundColor: Colors.white,
+//                       textColor: Color(0xFF9A9A9A),
+//                       borderColor: Color(0xFFD6D6D6),
+//                       onPressed: () {
+//                         Navigator.of(context).pop();
+//                       },
+//                     ),
+//                     SizedBox(
+//                       width: 15,
+//                     ),
+//                     CustomElevatedButton1(
+//                       backgroundColor: Color(0xFF5D75BF),
+//                       text: '제출',
+//                       onPressed: () {
+//                         Navigator.of(context).pop();
+//                       },
+//                     ),
+//                   ],
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//       );
+//     },
+//   );
+// }
+
+// // sub 주문 생성 폼
+// class OrderForm extends StatefulWidget {
+//   @override
+//   _OrderFormState createState() => _OrderFormState();
+// }
+
+// class _OrderFormState extends State<OrderForm> {
+//   final _formKey = GlobalKey<FormState>();
+//   late TextEditingController itemContoller; // 품목
+//   late TextEditingController priceController;  // 품종
+//   late TextEditingController contactController;   //등급
+//   late TextEditingController adressController;  //원산지
+//   late TextEditingController priceController;  //단가
+//   late TextEditingController quantityContoller;   //공급기간_시작일 
+//   late TextEditingController priceController;     //공급기간_종료일
+//   late TextEditingController contactController;   //총 공급물량 
+//   late TextEditingController adressController;    //총 금액 
+//   late TextEditingController deliveryDateController;  //수요처
+//   late TextEditingController completionController;
+//   late TextEditingController stlCoController;
+//   late TextEditingController stlTargetController;
+//   late TextEditingController stlDateController;
+//   late TextEditingController taxCoController;
+//   late TextEditingController taxTargetController;
+//   late TextEditingController taxDateController;
+//   late TextEditingController taxNumController;
+//   late DateTime selectedDate;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     quantityContoller = TextEditingController();
+//     priceController = TextEditingController();
+//     contactController = TextEditingController();
+//     adressController = TextEditingController();
+//     deliveryDateController = TextEditingController();
+//     completionController = TextEditingController();
+//     stlCoController = TextEditingController();
+//     stlTargetController = TextEditingController();
+//     stlDateController = TextEditingController();
+//     taxCoController = TextEditingController();
+//     taxTargetController = TextEditingController();
+//     taxDateController = TextEditingController();
+//     taxNumController = TextEditingController();
+//     selectedDate = DateTime.now();
+//   }
+
+//   @override
+//   void dispose() {
+//     quantityContoller.dispose();
+//     priceController.dispose();
+//     contactController.dispose();
+//     adressController.dispose();
+//     deliveryDateController.dispose();
+//     completionController.dispose();
+//     stlCoController.dispose();
+//     stlTargetController.dispose();
+//     stlDateController.dispose();
+//     taxCoController.dispose();
+//     taxTargetController.dispose();
+//     taxDateController.dispose();
+//     taxNumController.dispose();
+//     super.dispose();
+//   }
+
+//   Future<void> _selectDate(
+//       BuildContext context, TextEditingController controller) async {
+//     final DateTime? pickedDate = await showDatePicker(
+//       context: context,
+//       initialDate: DateTime.now(),
+//       firstDate: DateTime(2000),
+//       lastDate: DateTime(2101),
+//     );
+//     if (pickedDate != null && pickedDate != DateTime.now()) {
+//       setState(() {
+//         controller.text = "${pickedDate.toLocal()}".split(' ')[0];
+//       });
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Form(
+//       key: _formKey,
+//       child: SingleChildScrollView(
+//         child: Padding(
+//           padding: const EdgeInsets.all(15.0),
+//           child: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             children: <Widget>[
+//               customTextField('거래량', '(kg) 단위로 숫자만 입력', quantityContoller),
+//               SizedBox(
+//                 height: 10,
+//               ),
+//               customTextField('금액', '(원) 단위로 숫자만 입력', priceController),
+//               SizedBox(
+//                 height: 10,
+//               ),
+//               customTextField('담당자연락처', '', contactController),
+//               SizedBox(
+//                 height: 10,
+//               ),
+//               customTextField('배송지', '', adressController),
+//               SizedBox(
+//                 height: 10,
+//               ),
+//               Row(
+//                 children: [
+//                   SizedBox(
+//                     width: 120,
+//                     child: Text(
+//                       '배송희망일',
+//                       style: TextStyle(
+//                         fontSize: 14,
+//                         fontWeight: FontWeight.bold,
+//                         color: Colors.black,
+//                       ),
+//                     ),
+//                   ),
+//                   Container(
+//                     width: 350,
+//                     height: 45,
+//                     child: CustomDatePickerField(
+//                       controller: StartDateController,
+//                       onDateTap: _selectDate,
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//               SizedBox(
+//                 height: 10,
+//               ),
+//               Row(
+//                 children: [
+//                   SizedBox(
+//                     width: 120,
+//                     child: Text(
+//                       '배송완료일',
+//                       style: TextStyle(
+//                         fontSize: 14,
+//                         fontWeight: FontWeight.bold,
+//                         color: Colors.black,
+//                       ),
+//                     ),
+//                   ),
+//                   Container(
+//                     width: 350,
+//                     height: 45,
+//                     child: CustomDatePickerField(
+//                       controller: stlDateController,
+//                       onDateTap: _selectDate,
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//               SizedBox(
+//                 height: 20,
+//               ),
+//               textToText(stlCoController, stlTargetController, '정산', 160),
+//               SizedBox(
+//                 height: 10,
+//               ),
+//               Row(
+//                 children: [
+//                   SizedBox(
+//                     width: 120,
+//                     child: Text(
+//                       ' - 정산일',
+//                       style: TextStyle(
+//                         fontSize: 14,
+//                         fontWeight: FontWeight.bold,
+//                         color: Colors.black,
+//                       ),
+//                     ),
+//                   ),
+//                   Container(
+//                     width: 180,
+//                     height: 45,
+//                     child: CustomDatePickerField(
+//                       controller: EndDateController,
+//                       onDateTap: _selectDate,
+//                     ),
+//                   ),
+//                   SizedBox(
+//                     width: 10,
+//                   ),
+//                   SelectBoxExample(
+//                     initialValue: '정산예정',
+//                     options: ['정산예정', '정산완료'],
+//                     onChanged: (String? newValue) {
+//                       setState(() {});
+//                     },
+//                     custom_width: 160.0,
+//                   ),
+//                 ],
+//               ),
+//               SizedBox(
+//                 height: 20,
+//               ),
+//               textToText(taxCoController, taxTargetController, '세금계산서', 160),
+//               SizedBox(
+//                 height: 10,
+//               ),
+//               Row(
+//                 children: [
+//                   SizedBox(
+//                     width: 120,
+//                     child: Text(
+//                       ' - 발행일',
+//                       style: TextStyle(
+//                         fontSize: 14,
+//                         fontWeight: FontWeight.bold,
+//                         color: Colors.black,
+//                       ),
+//                     ),
+//                   ),
+//                   Container(
+//                     width: 180,
+//                     height: 45,
+//                     child: CustomDatePickerField(
+//                       controller: taxDateController,
+//                       onDateTap: _selectDate,
+//                     ),
+//                   ),
+//                   SizedBox(
+//                     width: 10,
+//                   ),
+//                   SelectBoxExample(
+//                     initialValue: '발행예정',
+//                     options: ['발행예정', '발행완료'],
+//                     onChanged: (String? newValue) {
+//                       setState(() {});
+//                     },
+//                     custom_width: 160.0,
+//                   ),
+//                 ],
+//               ),
+//               SizedBox(
+//                 height: 10,
+//               ),
+//               customTextField('승인번호', '', taxNumController),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
