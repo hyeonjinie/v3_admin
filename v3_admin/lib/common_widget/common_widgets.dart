@@ -471,7 +471,8 @@ Widget customCheckbox(
   );
 }
 
-// 등록 및 수정페이지_ 텍스트 필드
+
+// 테이블 내의 텍스트필드(항목 | 내용)
 Widget buildCell(String text,
     {bool isHeader = false, TextEditingController? controller}) {
   return Padding(
@@ -520,7 +521,7 @@ TableRow buildRow(String label, {TextEditingController? controller}) {
   );
 }
 
-// 탭 구조 안 텍스트
+// 텍스트(항목 : 내용)
 Widget tabTextBox(String text1, String text2, double w) {
   return Row(
     children: [
@@ -540,13 +541,13 @@ Widget tabTextBox(String text1, String text2, double w) {
   );
 }
 
-// 텍스트필드 디자인 
+// 기본 텍스트필드 디자인 
 Widget customTextField(
-    String txt, String hint, TextEditingController? controller) {
+    String txt, String hint, TextEditingController? controller, double width) {
   return Row(
     children: [
       SizedBox(
-        width: 120,
+        width: width,
         child: Text(
           txt,
           style: TextStyle(
@@ -580,6 +581,7 @@ Widget customTextField(
   );
 }
 
+// 라디오버튼 
 Widget buildRadioButton(String label, bool isSelected) {
   return Row(
     children: [
@@ -594,13 +596,13 @@ Widget buildRadioButton(String label, bool isSelected) {
   );
 }
 
-// 정산 및 세금계산서 등록에 필요한 텍스트필드
+// 정산 및 세금계산서 등록에 필요한 2칸짜리 텍스트필드
 Widget textToText(TextEditingController? controller1,
-    TextEditingController? controller2, String _text, double custom_width) {
+    TextEditingController? controller2, String _text, double field_width, double custom_width) {
   return Row(
     children: [
       SizedBox(
-        width: 120,
+        width: field_width,
         child: Text(
           _text,
           style: TextStyle(
