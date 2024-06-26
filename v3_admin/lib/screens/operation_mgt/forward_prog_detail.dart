@@ -7,6 +7,7 @@ import 'package:v3_admin/common_widget/layout.dart';
 import 'package:v3_admin/common_widget/naviagtion_helper.dart';
 import 'package:v3_admin/screens/member_mgt/member_detail.dart';
 import 'package:intl/intl.dart';
+import 'package:v3_admin/screens/operation_mgt/forward_inquiry_detail.dart';
 
 final NumberFormat currencyFormat = NumberFormat('#,##0', 'en_US');
 
@@ -128,6 +129,33 @@ class _ProgressDetailState extends State<ProgressDetail> {
   }
 }
 
+// 공급처 목록
+final List<Map<String, dynamic>> suppliersList = [
+  {
+    'supplierName': 'a',
+    "bizRegiNum": "123456789",
+  },
+  {
+    'supplierName': 'b',
+    "bizRegiNum": "123456789",
+  },
+  {
+    'supplierName': 'c',
+    "bizRegiNum": "123456789",
+  },
+  {
+    'supplierName': 'd',
+    "bizRegiNum": "123456789",
+  },
+  {
+    'supplierName': 'e',
+    "bizRegiNum": "123456789",
+  },
+  {
+    'supplierName': 'f',
+    "bizRegiNum": "123456789",
+  },
+];
 // 주문 정보
 final Map<String, dynamic> orderInfo = {
   "main": {
@@ -763,6 +791,68 @@ class OrderCard extends StatefulWidget {
 
 class _OrderCardState extends State<OrderCard> {
   bool isExpanded = false;
+  bool isOrderEditing = false;
+  bool isMemoEditing = false;
+  late TextEditingController quantityController;
+  late TextEditingController amountController;
+  late TextEditingController contactController;
+  late TextEditingController deliveryDateController;
+  late TextEditingController completedDateController;
+  late TextEditingController addressController;
+  late TextEditingController settleTargetNameController;
+  late TextEditingController settleCompanyNameController;
+  late TextEditingController settleDateController;
+  late TextEditingController taxIssueCompanyNameController;
+  late TextEditingController taxIssueTargetNameController;
+  late TextEditingController taxIssueDateController;
+  late TextEditingController taxApprovalNumController;
+  late TextEditingController memoController;
+
+  @override
+  void initState() {
+    super.initState();
+    memoController = TextEditingController();
+    quantityController =
+        TextEditingController(text: widget.order['quantity'].toString());
+    amountController =
+        TextEditingController(text: widget.order['amount'].toString());
+    contactController = TextEditingController(text: widget.order['contact']);
+    deliveryDateController =
+        TextEditingController(text: widget.order['deliveryDate']);
+    completedDateController =
+        TextEditingController(text: widget.order['completedDate'] ?? '');
+    addressController = TextEditingController(text: widget.order['address']);
+    settleTargetNameController = TextEditingController(
+        text: widget.order['settlement']['settleTargetName']);
+    settleCompanyNameController = TextEditingController(
+        text: widget.order['settlement']['settleCompanyName']);
+    settleDateController = TextEditingController(
+        text: widget.order['settlement']['settleDate'] ?? '');
+    taxIssueCompanyNameController = TextEditingController(
+        text: widget.order['taxInvoice']['taxIssueCompanyName']);
+    taxIssueTargetNameController = TextEditingController(
+        text: widget.order['taxInvoice']['taxIssueTargetName']);
+    taxIssueDateController = TextEditingController(
+        text: widget.order['taxInvoice']['taxIssueDate'] ?? '');
+    taxApprovalNumController = TextEditingController(
+        text: widget.order['taxInvoice']['taxApprovalNum'] ?? '');
+    memoController = TextEditingController(text: ''); // 메모 필요
+  }
+
+  Future<void> _selectDate(
+      BuildContext context, TextEditingController controller) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (pickedDate != null) {
+      setState(() {
+        controller.text = "${pickedDate.toLocal()}".split(' ')[0];
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -910,10 +1000,14 @@ class _OrderCardState extends State<OrderCard> {
                                   ),
                                   Spacer(),
                                   TextButton(
-                                    onPressed: () {},
-                                    child: const Text(
-                                      '편집',
-                                      style: TextStyle(
+                                    onPressed: () {
+                                      setState(() {
+                                        isOrderEditing = !isOrderEditing;
+                                      });
+                                    },
+                                    child: Text(
+                                      isOrderEditing ? '저장' : '편집',
+                                      style: const TextStyle(
                                         color: Color(0xFF5D75BF),
                                         fontSize: 14,
                                       ),
@@ -933,49 +1027,180 @@ class _OrderCardState extends State<OrderCard> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    tabTextBox('거래량 :',
-                                        '${widget.order['quantity']}kg', 150),
+                                    isOrderEditing
+                                        ? customTextField(
+                                            '거래량 :',
+                                            '(kg) 단위로 숫자만 입력',
+                                            quantityController,
+                                            150)
+                                        : tabTextBox(
+                                            '거래량 :',
+                                            '${widget.order['quantity']}kg',
+                                            150),
                                     SizedBox(height: 16.0),
-                                    tabTextBox('금액 :',
-                                        '${widget.order['amount']}원', 150),
+                                    isOrderEditing
+                                        ? customTextField(
+                                            '금액 :',
+                                            '(원) 단위로 숫자만 입력',
+                                            amountController,
+                                            150)
+                                        : tabTextBox('금액 :',
+                                            '${widget.order['amount']}원', 150),
                                     SizedBox(height: 16.0),
-                                    tabTextBox('담당자 연락처 :',
-                                        '${widget.order['contact']}', 150),
+                                    isOrderEditing
+                                        ? customTextField('담당자 연락처 :', '',
+                                            contactController, 150)
+                                        : tabTextBox('담당자 연락처 :',
+                                            '${widget.order['contact']}', 150),
                                     SizedBox(height: 16.0),
-                                    tabTextBox(
-                                        '배송희망일/완료일 :',
-                                        '${widget.order['deliveryDate']} / ${widget.order['completedDate'] ?? '-'}',
-                                        150),
+                                    isOrderEditing
+                                        ? Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  const SizedBox(
+                                                    width: 150,
+                                                    child: Text(
+                                                      '배송희망일 : ',
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  CustomDatePickerField(
+                                                    controller:
+                                                        deliveryDateController,
+                                                    onDateTap: _selectDate,
+                                                    hintText: '',
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(height: 16.0),
+                                              Row(
+                                                children: [
+                                                  const SizedBox(
+                                                    width: 150,
+                                                    child: Text(
+                                                      '배송완료일 : ',
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  CustomDatePickerField(
+                                                    controller:
+                                                        completedDateController,
+                                                    onDateTap: _selectDate,
+                                                    hintText: '',
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          )
+                                        : tabTextBox(
+                                            '배송희망일/완료일 :',
+                                            '${widget.order['deliveryDate']} / ${widget.order['completedDate'] ?? '-'}',
+                                            150),
                                     SizedBox(height: 16.0),
-                                    tabTextBox('배송지 :',
-                                        '${widget.order['address']}', 150),
+                                    isOrderEditing
+                                        ? customTextField(
+                                            '배송지 :', '', addressController, 150)
+                                        : tabTextBox('배송지 :',
+                                            '${widget.order['address']}', 150),
                                     SizedBox(height: 16.0),
                                     Divider(),
                                     SizedBox(height: 16.0),
-                                    tabTextBox(
-                                        '정산 :',
-                                        '${widget.order['settlement']['settleTargetName']} → ${widget.order['settlement']['settleCompanyName']}',
-                                        150),
+                                    isOrderEditing
+                                        ? textToText(
+                                            settleCompanyNameController,
+                                            settleTargetNameController,
+                                            '정산 :',
+                                            150,
+                                            160)
+                                        : tabTextBox(
+                                            '정산 :',
+                                            '${widget.order['settlement']['settleTargetName']} → ${widget.order['settlement']['settleCompanyName']}',
+                                            150),
                                     SizedBox(height: 16.0),
-                                    tabTextBox(
-                                        ' - 정산일 :',
-                                        '${widget.order['settlement']['settleDate'] ?? '-'}',
-                                        150),
+                                    isOrderEditing
+                                        ? Row(
+                                            children: [
+                                              const SizedBox(
+                                                width: 150,
+                                                child: Text(
+                                                  '정산일 : ',
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                              CustomDatePickerField(
+                                                controller:
+                                                    completedDateController,
+                                                onDateTap: _selectDate,
+                                                hintText: '',
+                                              ),
+                                            ],
+                                          )
+                                        : tabTextBox(
+                                            ' - 정산일 :',
+                                            '${widget.order['settlement']['settleDate'] ?? '-'}',
+                                            150),
                                     SizedBox(height: 16.0),
-                                    tabTextBox(
-                                        '세금계산서 :',
-                                        '${widget.order['taxInvoice']['taxIssueCompanyName']} → ${widget.order['taxInvoice']['taxIssueTargetName']}',
-                                        150),
+                                    isOrderEditing
+                                        ? textToText(
+                                            taxIssueCompanyNameController,
+                                            taxIssueTargetNameController,
+                                            '세금계산서 :',
+                                            150,
+                                            160)
+                                        : tabTextBox(
+                                            '세금계산서 :',
+                                            '${widget.order['taxInvoice']['taxIssueCompanyName']} → ${widget.order['taxInvoice']['taxIssueTargetName']}',
+                                            150),
                                     SizedBox(height: 16.0),
-                                    tabTextBox(
-                                        ' - 발행일 :',
-                                        '${widget.order['taxInvoice']['taxIssueDate'] ?? '-'}',
-                                        150),
+                                    isOrderEditing
+                                        ? Row(
+                                            children: [
+                                              const SizedBox(
+                                                width: 150,
+                                                child: Text(
+                                                  ' - 발행일 : ',
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                              CustomDatePickerField(
+                                                controller:
+                                                    taxIssueDateController,
+                                                onDateTap: _selectDate,
+                                                hintText: '',
+                                              ),
+                                            ],
+                                          )
+                                        : tabTextBox(
+                                            ' - 발행일 :',
+                                            '${widget.order['taxInvoice']['taxIssueDate'] ?? '-'}',
+                                            150),
                                     SizedBox(height: 16.0),
-                                    tabTextBox(
-                                        ' - 승인번호 :',
-                                        '${widget.order['taxInvoice']['taxApprovalNum'] == '' ? '-' : widget.order['taxInvoice']['taxApprovalNum']}',
-                                        150),
+                                    isOrderEditing
+                                        ? customTextField(' - 승인번호 :', '',
+                                            taxApprovalNumController, 150)
+                                        : tabTextBox(
+                                            ' - 승인번호 :',
+                                            '${widget.order['taxInvoice']['taxApprovalNum'] == '' ? '-' : widget.order['taxInvoice']['taxApprovalNum']}',
+                                            150),
                                   ],
                                 ),
                               ),
@@ -994,10 +1219,14 @@ class _OrderCardState extends State<OrderCard> {
                                   ),
                                   Spacer(),
                                   TextButton(
-                                    onPressed: () {},
-                                    child: const Text(
-                                      '편집',
-                                      style: TextStyle(
+                                    onPressed: () {
+                                      setState(() {
+                                        isMemoEditing = !isMemoEditing;
+                                      });
+                                    },
+                                    child: Text(
+                                      isMemoEditing ? '저장' : '편집',
+                                      style: const TextStyle(
                                         color: Color(0xFF5D75BF),
                                         fontSize: 14,
                                       ),
@@ -1009,10 +1238,32 @@ class _OrderCardState extends State<OrderCard> {
                                 width: double.infinity,
                                 height: 150,
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xFFD6D6D6)),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8.0)),
+                                  border: Border.all(
+                                    color: Color(0xFFD6D6D6),
+                                  ),
                                 ),
+                                child: isMemoEditing
+                                    ? TextField(
+                                        controller: memoController,
+                                        keyboardType: TextInputType.multiline,
+                                        maxLines: null,
+                                        expands: true,
+                                        decoration: const InputDecoration(
+                                          contentPadding: EdgeInsets.all(8.0),
+                                          border: InputBorder.none,
+                                          hintText: '내용을 입력하세요',
+                                        ),
+                                      )
+                                    : Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          memoController.text,
+                                          style: const TextStyle(
+                                            color: Color(0xFF323232),
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
                               ),
                             ],
                           ),
@@ -1087,7 +1338,8 @@ class SuppliersToggleButtons extends StatefulWidget {
       {required this.orderInfo,
       required this.listName,
       required this.isAdd,
-      required this.isSub});
+      required this.isSub,
+      });
 
   @override
   _SuppliersToggleButtonsState createState() => _SuppliersToggleButtonsState();
@@ -1095,6 +1347,70 @@ class SuppliersToggleButtons extends StatefulWidget {
 
 class _SuppliersToggleButtonsState extends State<SuppliersToggleButtons> {
   int _selectedSupplierIndex = 0;
+  late Map<String, dynamic> _orderInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    _orderInfo = Map.from(widget.orderInfo);
+  }
+
+  void _showEditDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SuppliersEdit(
+          suppliers: List.from(widget.orderInfo[widget.listName]),
+          onSave: (updatedSuppliers) {
+            setState(() {
+              widget.orderInfo[widget.listName] = updatedSuppliers;
+            });
+          },
+        );
+      },
+    );
+  }
+
+  void _showAddSupplierDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AddSupplierDialog(
+          onSupplierSelected: (selectedSupplier, price, volume, amount) {
+            setState(() {
+              _orderInfo['subSupplierList'].add({
+                'supplierId': '',
+                'supplierName': selectedSupplier['supplierName'],
+                'bizRegiNum': selectedSupplier['bizRegiNum'],
+                'cost': price,
+                'volume': volume,
+                'unit': 'kg',
+                'totalAmount': amount,
+                'settlement': {
+                  'settleCompanyId': '',
+                  'settleCompanyName': '비굿',
+                  'settleTargetId': '',
+                  'settleTargetName': selectedSupplier['supplierName'],
+                  'settleDate': null,
+                  'settleStatus': '예정'
+                },
+                'taxInvoice': {
+                  'taxIssueCompanyId': '',
+                  'taxIssueCompanyName': selectedSupplier['supplierName'],
+                  'taxIssueTargetId': '',
+                  'taxIssueTargetName': '비굿',
+                  'taxIssueDate': null,
+                  'taxIssueStatus': '예정',
+                  'taxApprovalNum': ''
+                }
+              });
+            }
+            );
+          },
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -1159,7 +1475,7 @@ class _SuppliersToggleButtonsState extends State<SuppliersToggleButtons> {
               ),
             if (suppliers != null && suppliers.isNotEmpty && widget.isAdd)
               TextButton(
-                onPressed: () {},
+                onPressed: _showEditDialog,
                 child: const Text(
                   '편집',
                   style: TextStyle(
@@ -1170,7 +1486,7 @@ class _SuppliersToggleButtonsState extends State<SuppliersToggleButtons> {
               ),
             widget.isAdd
                 ? OutlinedButton(
-                    onPressed: () {},
+                    onPressed: _showAddSupplierDialog,
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(color: Color(0xFFD6D6D6)),
                       backgroundColor: Colors.white,
@@ -1229,7 +1545,7 @@ class _SuppliersToggleButtonsState extends State<SuppliersToggleButtons> {
                   tabTextBox(
                       '정산 :',
                       '${suppliers[_selectedSupplierIndex!]['settlement']['settleCompanyName']}  →  ${suppliers[_selectedSupplierIndex!]['settlement']['settleTargetName']}',
-                      120),
+                      150),
                   SizedBox(height: 12.0),
                   tabTextBox(
                       ' - 정산일 :',
@@ -1259,6 +1575,268 @@ class _SuppliersToggleButtonsState extends State<SuppliersToggleButtons> {
   }
 }
 
+// 공급처 편집 팝업창
+class SuppliersEdit extends StatefulWidget {
+  final List<dynamic> suppliers;
+  final Function(List<Map<String, dynamic>>) onSave;
+
+  SuppliersEdit({required this.suppliers, required this.onSave});
+
+  @override
+  _SuppliersEditState createState() => _SuppliersEditState();
+}
+
+class _SuppliersEditState extends State<SuppliersEdit> {
+  late List<Map<String, dynamic>> _tempSuppliers;
+
+  @override
+  void initState() {
+    super.initState();
+    _tempSuppliers = List.from(widget.suppliers);
+  }
+
+  Future<void> _selectDate(
+      BuildContext context, TextEditingController controller) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+
+    if (pickedDate != null) {
+      setState(() {
+        controller.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Container(
+        width: 570,
+        padding: EdgeInsets.all(20.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              '공급처 정보 편집',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 20),
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: _tempSuppliers.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            icon: Icon(
+                              Icons.delete,
+                              color: Color(0xFF5D75BF),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _tempSuppliers.removeAt(index);
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      customTextField(
+                          '업체명',
+                          '업체명을 입력하세요',
+                          TextEditingController(
+                            text: _tempSuppliers[index]['supplierName'],
+                          ),
+                          120),
+                      SizedBox(height: 10),
+                      customTextField(
+                          '사업자등록번호',
+                          '사업자등록번호를 입력하세요',
+                          TextEditingController(
+                            text: _tempSuppliers[index]['bizRegiNum'],
+                          ),
+                          120),
+                      SizedBox(height: 10),
+                      customTextField(
+                          '원물가격',
+                          '원물가격을 입력하세요',
+                          TextEditingController(
+                            text: _tempSuppliers[index]['cost'].toString(),
+                          ),
+                          120),
+                      SizedBox(height: 10),
+                      customTextField(
+                          '공급물량',
+                          '공급물량을 입력하세요',
+                          TextEditingController(
+                            text: _tempSuppliers[index]['volume'].toString(),
+                          ),
+                          120),
+                      SizedBox(height: 10),
+                      customTextField(
+                          '총 금액',
+                          '총 금액을 입력하세요',
+                          TextEditingController(
+                            text:
+                                _tempSuppliers[index]['totalAmount'].toString(),
+                          ),
+                          120),
+                      SizedBox(height: 10),
+                      SizedBox(height: 10),
+                      customTextField(
+                        '정산(업체)',
+                        '정산 업체명을 입력하세요',
+                        TextEditingController(
+                          text: _tempSuppliers[index]['settlement']
+                              ['settleCompanyName'],
+                        ),
+                        120,
+                      ),
+                      SizedBox(height: 10),
+                      customTextField(
+                        '정산(대상)',
+                        '정산 대상명을 입력하세요',
+                        TextEditingController(
+                          text: _tempSuppliers[index]['settlement']
+                              ['settleTargetName'],
+                        ),
+                        120,
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        children: [
+                          const SizedBox(
+                            width: 120,
+                            child: Text(
+                              ' - 정산일 : ',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          CustomDatePickerField(
+                            controller: TextEditingController(
+                              text: _tempSuppliers[index]['settlement']
+                                  ['settleDate'],
+                            ),
+                            onDateTap: _selectDate,
+                            hintText: '정산일을 선택하세요',
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      customTextField(
+                        '세금계산서(발행)',
+                        '세금계산서 발행자명을 입력하세요',
+                        TextEditingController(
+                          text: _tempSuppliers[index]['taxInvoice']
+                              ['taxIssueCompanyName'],
+                        ),
+                        120,
+                      ),
+                      SizedBox(height: 10),
+                      customTextField(
+                        '세금계산서(대상)',
+                        '세금계산서 대상자명을 입력하세요',
+                        TextEditingController(
+                          text: _tempSuppliers[index]['taxInvoice']
+                              ['taxIssueTargetName'],
+                        ),
+                        120,
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        children: [
+                          const SizedBox(
+                            width: 120,
+                            child: Text(
+                              ' - 발행일 : ',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          CustomDatePickerField(
+                            controller: TextEditingController(
+                              text: _tempSuppliers[index]['taxInvoice']
+                                  ['taxIssueDate'],
+                            ),
+                            onDateTap: _selectDate,
+                            hintText: '발행일을 선택하세요',
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      customTextField(
+                        ' - 승인번호',
+                        '세금계산서 승인번호를 입력하세요',
+                        TextEditingController(
+                          text: _tempSuppliers[index]['taxInvoice']
+                              ['taxApprovalNum'],
+                        ),
+                        120,
+                      ),
+                      SizedBox(height: 20),
+                      const Divider(),
+                    ],
+                  );
+                },
+              ),
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomElevatedButton2(
+                  text: '취소',
+                  backgroundColor: Colors.white,
+                  textColor: Color(0xFF9A9A9A),
+                  borderColor: Color(0xFFD6D6D6),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                SizedBox(width: 10),
+                CustomElevatedButton1(
+                  backgroundColor: Color(0xFF5D75BF),
+                  text: '수정',
+                  onPressed: () {
+                    widget.onSave(_tempSuppliers);
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 // sub 물류
 class LogisticButtons extends StatefulWidget {
   final Map<String, dynamic> orderInfo;
@@ -1278,6 +1856,29 @@ class LogisticButtons extends StatefulWidget {
 
 class _LogisticButtonsState extends State<LogisticButtons> {
   int _selectedLogisticIndex = 0;
+  late Map<String, dynamic> _orderInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    _orderInfo = Map.from(widget.orderInfo);
+  }
+
+  // void _showEditDialog() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return LogisticsEdit(
+  //         logistics: List.from(widget.orderInfo[widget.listName]),
+  //         onSave: (updatedLogistics) {
+  //           setState(() {
+  //             widget.orderInfo[widget.listName] = updatedLogistics;
+  //           });
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -1342,7 +1943,7 @@ class _LogisticButtonsState extends State<LogisticButtons> {
               ),
             if (logistics != null && logistics.isNotEmpty && widget.isAdd)
               TextButton(
-                onPressed: () {},
+                onPressed: (){},
                 child: const Text(
                   '편집',
                   style: TextStyle(
@@ -1438,6 +2039,8 @@ class _LogisticButtonsState extends State<LogisticButtons> {
     );
   }
 }
+
+
 
 // sub 기타
 class OtherButtons extends StatefulWidget {
@@ -1676,63 +2279,6 @@ void _showOrderFormDialog(BuildContext context) {
   );
 }
 
-// void _showOrderFormDialog(BuildContext context) {
-//   showDialog(
-//     context: context,
-//     builder: (BuildContext context) {
-//       return Dialog(
-//         child: Container(
-//           width: 570,
-//           padding: EdgeInsets.all(16.0),
-//           decoration: BoxDecoration(
-//             color: Colors.white,
-//             borderRadius: BorderRadius.all(Radius.circular(8)),
-//           ),
-//           child: Column(
-//             mainAxisSize: MainAxisSize.min,
-//             children: [
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               Text(
-//                 '회차별 주문서',
-//                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-//               ),
-//               SizedBox(height: 16),
-//               OrderForm(),
-//               SizedBox(height: 16),
-//               Row(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: [
-//                   CustomElevatedButton2(
-//                     text: '취소',
-//                     backgroundColor: Colors.white,
-//                     textColor: Color(0xFF9A9A9A),
-//                     borderColor: Color(0xFFD6D6D6),
-//                     onPressed: () {
-//                       Navigator.of(context).pop();
-//                     },
-//                   ),
-//                   SizedBox(
-//                     width: 15,
-//                   ),
-//                   CustomElevatedButton1(
-//                     backgroundColor: Color(0xFF5D75BF),
-//                     text: '제출',
-//                     onPressed: () {
-//                       Navigator.of(context).pop();
-//                     },
-//                   ),
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ),
-//       );
-//     },
-//   );
-// }
-
 // sub 주문 생성 폼
 class OrderForm extends StatefulWidget {
   final Function(Map<String, dynamic>) onSubmit;
@@ -1792,7 +2338,8 @@ class OrderFormState extends State<OrderForm> {
     super.dispose();
   }
 
-  Future<void> _selectDate(BuildContext context, TextEditingController controller) async {
+  Future<void> _selectDate(
+      BuildContext context, TextEditingController controller) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -1857,13 +2404,14 @@ class OrderFormState extends State<OrderForm> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              customTextField('거래량', '(kg) 단위로 숫자만 입력', quantityController),
+              customTextField(
+                  '거래량', '(kg) 단위로 숫자만 입력', quantityController, 120),
               SizedBox(height: 10),
-              customTextField('금액', '(원) 단위로 숫자만 입력', priceController),
+              customTextField('금액', '(원) 단위로 숫자만 입력', priceController, 120),
               SizedBox(height: 10),
-              customTextField('담당자연락처', '', contactController),
+              customTextField('담당자연락처', '', contactController, 120),
               SizedBox(height: 10),
-              customTextField('배송지', '', addressController),
+              customTextField('배송지', '', addressController, 120),
               SizedBox(height: 10),
               Row(
                 children: [
@@ -1891,7 +2439,7 @@ class OrderFormState extends State<OrderForm> {
               SizedBox(height: 10),
               SizedBox(height: 20),
               textToText(settleCompanyNameController,
-                  settleTargetNameController, '정산', 160),
+                  settleTargetNameController, '정산', 120, 160),
               SizedBox(height: 10),
               Row(
                 children: [
@@ -1918,7 +2466,7 @@ class OrderFormState extends State<OrderForm> {
               ),
               SizedBox(height: 20),
               textToText(taxIssueCompanyNameController,
-                  taxIssueTargetNameController, '세금계산서', 160),
+                  taxIssueTargetNameController, '세금계산서', 120, 160),
               SizedBox(height: 10),
               Row(
                 children: [
@@ -1950,247 +2498,3 @@ class OrderFormState extends State<OrderForm> {
     );
   }
 }
-
-
-// class OrderForm extends StatefulWidget {
-//   @override
-//   _OrderFormState createState() => _OrderFormState();
-// }
-
-// class _OrderFormState extends State<OrderForm> {
-//   final _formKey = GlobalKey<FormState>();
-//   late TextEditingController quantityContoller;
-//   late TextEditingController priceController;
-//   late TextEditingController contactController;
-//   late TextEditingController adressController;
-//   late TextEditingController deliveryDateController;
-//   late TextEditingController completionController;
-//   late TextEditingController stlCoController;
-//   late TextEditingController stlTargetController;
-//   late TextEditingController stlDateController;
-//   late TextEditingController taxCoController;
-//   late TextEditingController taxTargetController;
-//   late TextEditingController taxDateController;
-//   late TextEditingController taxNumController;
-//   late DateTime selectedDate;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     quantityContoller = TextEditingController();
-//     priceController = TextEditingController();
-//     contactController = TextEditingController();
-//     adressController = TextEditingController();
-//     deliveryDateController = TextEditingController();
-//     completionController = TextEditingController();
-//     stlCoController = TextEditingController();
-//     stlTargetController = TextEditingController();
-//     stlDateController = TextEditingController();
-//     taxCoController = TextEditingController();
-//     taxTargetController = TextEditingController();
-//     taxDateController = TextEditingController();
-//     taxNumController = TextEditingController();
-//     selectedDate = DateTime.now();
-//   }
-
-//   @override
-//   void dispose() {
-//     quantityContoller.dispose();
-//     priceController.dispose();
-//     contactController.dispose();
-//     adressController.dispose();
-//     deliveryDateController.dispose();
-//     completionController.dispose();
-//     stlCoController.dispose();
-//     stlTargetController.dispose();
-//     stlDateController.dispose();
-//     taxCoController.dispose();
-//     taxTargetController.dispose();
-//     taxDateController.dispose();
-//     taxNumController.dispose();
-//     super.dispose();
-//   }
-
-//   Future<void> _selectDate(
-//       BuildContext context, TextEditingController controller) async {
-//     final DateTime? pickedDate = await showDatePicker(
-//       context: context,
-//       initialDate: DateTime.now(),
-//       firstDate: DateTime(2000),
-//       lastDate: DateTime(2101),
-//     );
-//     if (pickedDate != null && pickedDate != DateTime.now()) {
-//       setState(() {
-//         controller.text = "${pickedDate.toLocal()}".split(' ')[0];
-//       });
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Form(
-//       key: _formKey,
-//       child: SingleChildScrollView(
-//         child: Padding(
-//           padding: const EdgeInsets.all(15.0),
-//           child: Column(
-//             mainAxisSize: MainAxisSize.min,
-//             children: <Widget>[
-//               customTextField('거래량', '(kg) 단위로 숫자만 입력', quantityContoller),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               customTextField('금액', '(원) 단위로 숫자만 입력', priceController),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               customTextField('담당자연락처', '', contactController),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               customTextField('배송지', '', adressController),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               Row(
-//                 children: [
-//                   SizedBox(
-//                     width: 120,
-//                     child: Text(
-//                       '배송희망일',
-//                       style: TextStyle(
-//                         fontSize: 14,
-//                         fontWeight: FontWeight.bold,
-//                         color: Colors.black,
-//                       ),
-//                     ),
-//                   ),
-//                   Container(
-//                     width: 350,
-//                     height: 45,
-//                     child: CustomDatePickerField(
-//                       controller: deliveryDateController,
-//                       onDateTap: _selectDate,
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               Row(
-//                 children: [
-//                   SizedBox(
-//                     width: 120,
-//                     child: Text(
-//                       '배송완료일',
-//                       style: TextStyle(
-//                         fontSize: 14,
-//                         fontWeight: FontWeight.bold,
-//                         color: Colors.black,
-//                       ),
-//                     ),
-//                   ),
-//                   Container(
-//                     width: 350,
-//                     height: 45,
-//                     child: CustomDatePickerField(
-//                       controller: completionController,
-//                       onDateTap: _selectDate,
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//               SizedBox(
-//                 height: 20,
-//               ),
-//               textToText(stlCoController, stlTargetController, '정산', 160),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               Row(
-//                 children: [
-//                   SizedBox(
-//                     width: 120,
-//                     child: Text(
-//                       ' - 정산일',
-//                       style: TextStyle(
-//                         fontSize: 14,
-//                         fontWeight: FontWeight.bold,
-//                         color: Colors.black,
-//                       ),
-//                     ),
-//                   ),
-//                   Container(
-//                     width: 180,
-//                     height: 45,
-//                     child: CustomDatePickerField(
-//                       controller: stlDateController,
-//                       onDateTap: _selectDate,
-//                     ),
-//                   ),
-//                   SizedBox(
-//                     width: 10,
-//                   ),
-//                   SelectBoxExample(
-//                     initialValue: '정산예정',
-//                     options: ['정산예정', '정산완료'],
-//                     onChanged: (String? newValue) {
-//                       setState(() {});
-//                     },
-//                     custom_width: 160.0,
-//                   ),
-//                 ],
-//               ),
-//               SizedBox(
-//                 height: 20,
-//               ),
-//               textToText(taxCoController, taxTargetController, '세금계산서', 160),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               Row(
-//                 children: [
-//                   SizedBox(
-//                     width: 120,
-//                     child: Text(
-//                       ' - 발행일',
-//                       style: TextStyle(
-//                         fontSize: 14,
-//                         fontWeight: FontWeight.bold,
-//                         color: Colors.black,
-//                       ),
-//                     ),
-//                   ),
-//                   Container(
-//                     width: 180,
-//                     height: 45,
-//                     child: CustomDatePickerField(
-//                       controller: taxDateController,
-//                       onDateTap: _selectDate,
-//                     ),
-//                   ),
-//                   SizedBox(
-//                     width: 10,
-//                   ),
-//                   SelectBoxExample(
-//                     initialValue: '발행예정',
-//                     options: ['발행예정', '발행완료'],
-//                     onChanged: (String? newValue) {
-//                       setState(() {});
-//                     },
-//                     custom_width: 160.0,
-//                   ),
-//                 ],
-//               ),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               customTextField('승인번호', '', taxNumController),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

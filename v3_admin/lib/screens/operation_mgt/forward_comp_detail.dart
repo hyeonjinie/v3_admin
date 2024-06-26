@@ -339,7 +339,7 @@ class _SupplierFormState extends State<SupplierForm> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              customTextField('공급사명', '', nameController),
+              customTextField('공급사명', '', nameController, 120),
               SizedBox(
                 height: 10,
               ),

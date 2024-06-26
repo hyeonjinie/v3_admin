@@ -518,11 +518,9 @@ class _DetailViewState extends State<DetailView> {
                                   ),
                                 ],
                               ),
-
                               SizedBox(
                                 height: 20,
                               ),
-
                               // 기업 정보
                               TableBar(titleText: '기업 정보'),
                               Container(
@@ -897,44 +895,45 @@ class _EditDialogState extends State<EditDialog> {
                         ],
                       ),
                       customTextField(
-                        '업체명',
-                        '업체명을 입력하세요',
-                        TextEditingController(
-                          text: _tempSuppliers[index]['supplierName'],
-                        ),
-                      ),
+                          '업체명',
+                          '업체명을 입력하세요',
+                          TextEditingController(
+                            text: _tempSuppliers[index]['supplierName'],
+                          ),
+                          120),
                       SizedBox(height: 10),
                       customTextField(
-                        '사업자등록번호',
-                        '사업자등록번호를 입력하세요',
-                        TextEditingController(
-                          text: _tempSuppliers[index]['bizRegiNum'],
-                        ),
-                      ),
+                          '사업자등록번호',
+                          '사업자등록번호를 입력하세요',
+                          TextEditingController(
+                            text: _tempSuppliers[index]['bizRegiNum'],
+                          ),
+                          120),
                       SizedBox(height: 10),
                       customTextField(
-                        '원물가격',
-                        '원물가격을 입력하세요',
-                        TextEditingController(
-                          text: _tempSuppliers[index]['cost'].toString(),
-                        ),
-                      ),
+                          '원물가격',
+                          '원물가격을 입력하세요',
+                          TextEditingController(
+                            text: _tempSuppliers[index]['cost'].toString(),
+                          ),
+                          120),
                       SizedBox(height: 10),
                       customTextField(
-                        '공급물량',
-                        '공급물량을 입력하세요',
-                        TextEditingController(
-                          text: _tempSuppliers[index]['volume'].toString(),
-                        ),
-                      ),
+                          '공급물량',
+                          '공급물량을 입력하세요',
+                          TextEditingController(
+                            text: _tempSuppliers[index]['volume'].toString(),
+                          ),
+                          120),
                       SizedBox(height: 10),
                       customTextField(
-                        '총 금액',
-                        '총 금액을 입력하세요',
-                        TextEditingController(
-                          text: _tempSuppliers[index]['totalAmount'].toString(),
-                        ),
-                      ),
+                          '총 금액',
+                          '총 금액을 입력하세요',
+                          TextEditingController(
+                            text:
+                                _tempSuppliers[index]['totalAmount'].toString(),
+                          ),
+                          120),
                       SizedBox(height: 10),
                       const Divider(),
                     ],
@@ -971,10 +970,9 @@ class _EditDialogState extends State<EditDialog> {
       ),
     );
   }
-
 }
 
-// 공급처 추가 팝업창 
+// 공급처 추가 팝업창
 class AddSupplierDialog extends StatefulWidget {
   final void Function(Map<String, dynamic>, int, int, int) onSupplierSelected;
 
@@ -1066,22 +1064,13 @@ class _AddSupplierDialogState extends State<AddSupplierDialog> {
                     ),
                     SizedBox(height: 20),
                     customTextField(
-                      '원물가격',
-                      '(원) 단위로 숫자만 입력',
-                      priceController
-                    ),
+                        '원물가격', '(원) 단위로 숫자만 입력', priceController, 120),
                     SizedBox(height: 10),
                     customTextField(
-                      '공급물량',
-                      '(kg) 단위로 숫자만 입력',
-                      volumeController
-                    ),
+                        '공급물량', '(kg) 단위로 숫자만 입력', volumeController, 120),
                     SizedBox(height: 10),
                     customTextField(
-                      '총 금액',
-                      '(원) 단위로 숫자만 입력',
-                      amountController
-                    ),
+                        '총 금액', '(원) 단위로 숫자만 입력', amountController, 120),
                     SizedBox(height: 15),
                   ],
                 ),
