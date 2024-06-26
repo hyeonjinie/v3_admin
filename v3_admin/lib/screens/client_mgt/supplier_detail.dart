@@ -56,7 +56,7 @@ class _SupplierDetailState extends State<SupplierDetail> {
                     ],
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -122,7 +122,7 @@ class _DetailViewState extends State<DetailView> {
               // 디테일 페이지 상단 영역
               Row(
                 children: [
-                  Text(
+                  const Text(
                     '에스앤이컴퍼니(공급사명)',
                     style: TextStyle(
                       fontSize: 18.0,
@@ -135,7 +135,7 @@ class _DetailViewState extends State<DetailView> {
                     text: '수정',
                     onPressed: () {},
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   CustomElevatedButton2(
@@ -167,7 +167,7 @@ class _DetailViewState extends State<DetailView> {
                                 width: double.infinity,
                                 height: 600,
                                 child: Table(
-                                  border: TableBorder(
+                                  border: const TableBorder(
                                     top: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                     bottom: BorderSide(
@@ -177,7 +177,7 @@ class _DetailViewState extends State<DetailView> {
                                     horizontalInside: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                   ),
-                                  columnWidths: {
+                                  columnWidths: const {
                                     0: FractionColumnWidth(0.3),
                                     1: FractionColumnWidth(0.7),
                                   },
@@ -189,7 +189,7 @@ class _DetailViewState extends State<DetailView> {
                                               vertical: 12.0, horizontal: 20),
                                           child: Text(
                                             entry.key,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Color(0xFF323232),
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600,
@@ -220,7 +220,7 @@ class _DetailViewState extends State<DetailView> {
                                                     ))
                                               : Text(
                                                   entry.value ?? '',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     color: Color(0xFF323232),
                                                     fontSize: 14,
                                                   ),
@@ -234,7 +234,7 @@ class _DetailViewState extends State<DetailView> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 40,
                         ),
                         Expanded(
@@ -245,7 +245,7 @@ class _DetailViewState extends State<DetailView> {
                                 width: double.infinity,
                                 height: 250,
                                 child: Table(
-                                  border: TableBorder(
+                                  border: const TableBorder(
                                     top: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                     bottom: BorderSide(
@@ -255,7 +255,7 @@ class _DetailViewState extends State<DetailView> {
                                     horizontalInside: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                   ),
-                                  columnWidths: {
+                                  columnWidths: const {
                                     0: FractionColumnWidth(0.3),
                                     1: FractionColumnWidth(0.7),
                                   },
@@ -267,7 +267,7 @@ class _DetailViewState extends State<DetailView> {
                                               vertical: 12.0, horizontal: 20),
                                           child: Text(
                                             entry.key,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Color(0xFF323232),
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600,
@@ -297,7 +297,7 @@ class _DetailViewState extends State<DetailView> {
                                                     ))
                                               : Text(
                                                   entry.value ?? '',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     color: Color(0xFF323232),
                                                     fontSize: 14,
                                                   ),
@@ -308,7 +308,7 @@ class _DetailViewState extends State<DetailView> {
                                   }).toList(),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               TableBar(titleText: '담당자 정보'),
@@ -316,7 +316,7 @@ class _DetailViewState extends State<DetailView> {
                                 width: double.infinity,
                                 height: 172,
                                 child: Table(
-                                  border: TableBorder(
+                                  border: const TableBorder(
                                     top: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                     bottom: BorderSide(
@@ -326,7 +326,7 @@ class _DetailViewState extends State<DetailView> {
                                     horizontalInside: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                   ),
-                                  columnWidths: {
+                                  columnWidths: const {
                                     0: FractionColumnWidth(0.3),
                                     1: FractionColumnWidth(0.7),
                                   },
@@ -338,7 +338,7 @@ class _DetailViewState extends State<DetailView> {
                                               vertical: 12.0, horizontal: 20),
                                           child: Text(
                                             entry.key,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Color(0xFF323232),
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600,
@@ -350,7 +350,7 @@ class _DetailViewState extends State<DetailView> {
                                               vertical: 12.0, horizontal: 20),
                                           child: Text(
                                             entry.value,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Color(0xFF323232),
                                               fontSize: 14,
                                             ),
@@ -361,7 +361,7 @@ class _DetailViewState extends State<DetailView> {
                                   }).toList(),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               TableBar(titleText: '메모'),
@@ -382,7 +382,7 @@ class _DetailViewState extends State<DetailView> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
             ],

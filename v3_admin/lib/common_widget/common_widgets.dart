@@ -471,6 +471,7 @@ Widget customCheckbox(
   );
 }
 
+
 // 테이블 내의 텍스트필드(항목 | 내용)
 Widget buildCell(String text,
     {bool isHeader = false, TextEditingController? controller}) {
