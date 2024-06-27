@@ -166,7 +166,7 @@ class _RegistViewState extends State<RegistView> {
               Row(
                 children: [
                   Text(
-                    '공급사 등록 / 수정',
+                    '공급사 등록',
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w700,
