@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:v3_admin/common_widget/common_widgets.dart';
 import 'package:v3_admin/common_widget/layout.dart';
 import 'package:v3_admin/common_widget/naviagtion_helper.dart';
@@ -50,6 +51,7 @@ class _SupplierDetailState extends State<SupplierDetail> {
                         onTap: () {
                           setState(() {
                             selectedMenu = 1;
+                            context.go('/client');
                           });
                         },
                       ),
