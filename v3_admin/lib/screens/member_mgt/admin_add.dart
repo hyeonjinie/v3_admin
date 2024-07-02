@@ -141,7 +141,7 @@ class _RegistrationState extends State<Registration> {
               Row(
                 children: [
                   Text(
-                    '운영자 등록 / 수정',
+                    '운영자 등록',
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w700,

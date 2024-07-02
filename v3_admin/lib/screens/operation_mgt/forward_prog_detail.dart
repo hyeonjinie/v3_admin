@@ -839,7 +839,7 @@ class _OrderCardState extends State<OrderCard> {
         text: widget.order['taxInvoice']['taxIssueDate'] ?? '');
     taxApprovalNumController = TextEditingController(
         text: widget.order['taxInvoice']['taxApprovalNum'] ?? '');
-    memoController = TextEditingController(text: ''); // 메모 필요
+    memoController = TextEditingController(text: ''); 
   }
 
   Future<void> _selectDate(

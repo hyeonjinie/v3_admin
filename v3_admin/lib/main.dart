@@ -25,7 +25,10 @@ import 'package:v3_admin/screens/operation_mgt/market_order_detail.dart';
 import 'package:v3_admin/screens/product_mgt/category.dart';
 import 'package:v3_admin/screens/product_mgt/prod_detail.dart';
 import 'package:v3_admin/screens/product_mgt/regist_prod.dart';
+import 'package:v3_admin/screens/settlement_mgt/settlement_forward.dart';
+import 'package:v3_admin/screens/settlement_mgt/settlement_market.dart';
 import 'package:v3_admin/screens/settlement_mgt/settlement_page.dart';
+import 'package:v3_admin/screens/settlement_mgt/settlement_tax.dart';
 import 'package:v3_admin/screens/statistics_data/statistics_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -172,7 +175,25 @@ class WithRouter extends StatelessWidget {
           return MarketCancel();
         },
       ),
-      GoRoute( // 정산관리 > 
+      GoRoute( // 정산관리 > 세금계산서
+        path: '/taxbill',
+        builder: (BuildContext context, GoRouterState state) {
+          return TaxBill();
+        },
+      ),
+      GoRoute( // 정산관리 > 선도주문 
+        path: '/settle-forward',
+        builder: (BuildContext context, GoRouterState state) {
+          return SettleForward();
+        },
+      ),
+      GoRoute( // 정산관리 > 비굿마켓 
+        path: '/settle-market',
+        builder: (BuildContext context, GoRouterState state) {
+          return SettleMarket();
+        },
+      ),
+      GoRoute( // 정산관리 > 정산 
         path: '/settlement',
         builder: (BuildContext context, GoRouterState state) {
           return SettlementPage();

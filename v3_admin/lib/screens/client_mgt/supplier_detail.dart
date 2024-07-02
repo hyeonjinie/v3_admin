@@ -87,6 +87,8 @@ class DetailView extends StatefulWidget {
 class _DetailViewState extends State<DetailView> {
   bool isEditing = false;
   late Map<String, TextEditingController> controllers;
+  late TextEditingController memoController;
+
   final Map<String, String> supplierInfo = {
     '공급사명': '농블리마켓',
     '대표자명': '농블리',
@@ -124,6 +126,7 @@ class _DetailViewState extends State<DetailView> {
       for (var entry in contactInfo.entries)
         entry.key: TextEditingController(text: entry.value)
     };
+    memoController = TextEditingController(text: ''); // 저장된 메모로 초기화 필요 
   }
 
   @override
@@ -522,6 +525,28 @@ class _DetailViewState extends State<DetailView> {
                                     color: Color(0xFFD6D6D6),
                                   ),
                                 ),
+                                child: isEditing
+                                    ? TextField(
+                                        controller: memoController,
+                                        keyboardType: TextInputType.multiline,
+                                        maxLines: null,
+                                        expands: true,
+                                        decoration: const InputDecoration(
+                                          contentPadding: EdgeInsets.all(8.0),
+                                          border: InputBorder.none,
+                                          hintText: '내용을 입력하세요',
+                                        ),
+                                      )
+                                    : Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          memoController.text,
+                                          style: const TextStyle(
+                                            color: Color(0xFF323232),
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
                               ),
                             ],
                           ),

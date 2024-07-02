@@ -98,38 +98,66 @@ class DetailView extends StatefulWidget {
 }
 
 class _DetailViewState extends State<DetailView> {
+  bool isEditing = false;
+  late Map<String, TextEditingController> controllers;
+  late TextEditingController memoController;
+
+  final Map<String, String> supplierInfo = {
+    '업체명': '비굿컴퍼니',
+    '대표자명': '강현구',
+    '회원유형': '기타',
+    '사업자등록번호': '1234567890',
+    '업태': '도매',
+    '종목': '농업',
+    '사업장 주소': '서울특별시 서초구 매헌로8길 39, D동 4층 406호(양재동, 희경재단) 테스트테스트테스트테스트',
+    '사업장 연락처': '010-1234-1234',
+    '사업자등록증':
+        'https://firebasestorage.googleapis.com/v0/b/v3mvp-b9aa4.appspot.com/o/uploads%2Fregister%2Fclient%2FIdyZUA7S6CcsbeKu7h7Gj8k9zpB2%2Fbusiness_registration_image?alt=media&token=7a17324f-6e09-4520-b4ef-6d4ddc4c29ae',
+    '통장사본':
+        'https://firebasestorage.googleapis.com/v0/b/v3mvp-b9aa4.appspot.com/o/uploads%2Fregister%2Fclient%2FIdyZUA7S6CcsbeKu7h7Gj8k9zpB2%2Fbusiness_registration_image?alt=media&token=7a17324f-6e09-4520-b4ef-6d4ddc4c29ae',
+  };
+  final Map<String, String> contactInfo = {
+    '이름': '이태형',
+    '연락처': '010-1234-1234',
+    '이메일': 'thl@bgood.co.kr',
+  };
+  final Map<String, String> orderInfo = {
+    '주문 건': '{n}건',
+    '취소 건': '{n}건',
+    '반품 건': '{n}건',
+  };
+  final Map<String, String> tradeInfo = {
+    '주문 건': '{n}건',
+    '취소 건': '{n}건',
+    '반품 건': '{n}건',
+  };
+
+  @override
+  void initState() {
+    super.initState();
+    controllers = {
+      for (var entry in supplierInfo.entries)
+        entry.key: TextEditingController(text: entry.value),
+      for (var entry in contactInfo.entries)
+        entry.key: TextEditingController(text: entry.value),
+      for (var entry in orderInfo.entries)
+        entry.key: TextEditingController(text: entry.value),
+      for (var entry in tradeInfo.entries)
+        entry.key: TextEditingController(text: entry.value)
+    };
+    memoController = TextEditingController(text: ''); // 저장된 메모로 초기화 필요 
+  }
+
+  @override
+  void dispose() {
+    for (var controller in controllers.values) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Map<String, String> supplierInfo = {
-      '업체명': '비굿컴퍼니',
-      '대표자명': '강현구',
-      '회원유형': '기타',
-      '사업자등록번호': '1234567890',
-      '업태': '도매',
-      '종목': '농업',
-      '사업장 주소': '서울특별시 서초구 매헌로8길 39, D동 4층 406호(양재동, 희경재단) 테스트테스트테스트테스트',
-      '사업장 연락처': '010-1234-1234',
-      '사업자등록증':
-          'https://firebasestorage.googleapis.com/v0/b/v3mvp-b9aa4.appspot.com/o/uploads%2Fregister%2Fclient%2FIdyZUA7S6CcsbeKu7h7Gj8k9zpB2%2Fbusiness_registration_image?alt=media&token=7a17324f-6e09-4520-b4ef-6d4ddc4c29ae',
-      '통장사본':
-          'https://firebasestorage.googleapis.com/v0/b/v3mvp-b9aa4.appspot.com/o/uploads%2Fregister%2Fclient%2FIdyZUA7S6CcsbeKu7h7Gj8k9zpB2%2Fbusiness_registration_image?alt=media&token=7a17324f-6e09-4520-b4ef-6d4ddc4c29ae',
-    };
-    final Map<String, String> contactInfo = {
-      '이름': '이태형',
-      '연락처': '010-1234-1234',
-      '이메일': 'thl@bgood.co.kr',
-    };
-    final Map<String, String> orderInfo = {
-      '주문 건': '{n}건',
-      '취소 건': '{n}건',
-      '반품 건': '{n}건',
-    };
-    final Map<String, String> tradeInfo = {
-      '주문 건': '{n}건',
-      '취소 건': '{n}건',
-      '반품 건': '{n}건',
-    };
-
     return Column(
       children: [
         Container(
@@ -150,8 +178,12 @@ class _DetailViewState extends State<DetailView> {
                   Spacer(),
                   CustomElevatedButton1(
                     backgroundColor: Color(0xFF5D75BF),
-                    text: '수정',
-                    onPressed: () {},
+                    text: isEditing ? '저장' : '수정',
+                    onPressed: () {
+                      setState(() {
+                        isEditing = !isEditing;
+                      });
+                    },
                   ),
                   const SizedBox(
                     width: 10,
@@ -171,7 +203,7 @@ class _DetailViewState extends State<DetailView> {
                 padding: const EdgeInsets.only(top: 10.0),
                 child: Container(
                   width: double.infinity,
-                  height: 900,
+                  height: isEditing ? 1000 : 900,
                   decoration: commonBoxDecoration,
                   child: Padding(
                     padding: const EdgeInsets.all(40.0),
@@ -218,7 +250,8 @@ class _DetailViewState extends State<DetailView> {
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 12.0, horizontal: 20),
-                                          child: entry.key == '사업자등록증' || entry.key == '통장사본'
+                                          child: entry.key == '사업자등록증' ||
+                                                  entry.key == '통장사본'
                                               ? (entry.value == null
                                                   ? Text('')
                                                   : Row(
@@ -228,15 +261,70 @@ class _DetailViewState extends State<DetailView> {
                                                           height: 100,
                                                           fit: BoxFit.contain,
                                                         ),
+                                                        if (isEditing)
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        10.0),
+                                                            child: CustomElevatedButton1(
+                                                                backgroundColor:
+                                                                    Color(
+                                                                        0xFF5D75BF),
+                                                                text: '파일선택',
+                                                                onPressed:
+                                                                    () {}),
+                                                          ),
                                                       ],
                                                     ))
-                                              : Text(
-                                                  entry.value,
-                                                  style: const TextStyle(
-                                                    color: Color(0xFF323232),
-                                                    fontSize: 14,
-                                                  ),
-                                                ),
+                                              : isEditing
+                                                  ? Container(
+                                                      width: 350,
+                                                      height:
+                                                          entry.key == '사업장 주소'
+                                                              ? 80
+                                                              : 45,
+                                                      child: TextFormField(
+                                                        controller: controllers[
+                                                            entry.key],
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                        ),
+                                                        maxLines: entry.key ==
+                                                                '사업장 주소'
+                                                            ? null
+                                                            : 1,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          hintText: entry.value,
+                                                          border:
+                                                              const OutlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide(
+                                                              color: Color(
+                                                                  0xFFD1D1D1),
+                                                            ),
+                                                          ),
+                                                          enabledBorder:
+                                                              const OutlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide(
+                                                              color: Color(
+                                                                  0xFFD1D1D1),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : Text(
+                                                      entry.value,
+                                                      style: const TextStyle(
+                                                        color:
+                                                            Color(0xFF323232),
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
                                         ),
                                       ],
                                     );
@@ -246,7 +334,6 @@ class _DetailViewState extends State<DetailView> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              
                             ],
                           ),
                         ),
@@ -261,7 +348,7 @@ class _DetailViewState extends State<DetailView> {
                               TableBar(titleText: '기업 담당자 정보'),
                               Container(
                                 width: double.infinity,
-                                height: 160,
+                                height: isEditing ? 240 : 160,
                                 child: Table(
                                   border: const TableBorder(
                                     top: BorderSide(
@@ -295,13 +382,42 @@ class _DetailViewState extends State<DetailView> {
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 12.0, horizontal: 20),
-                                          child: Text(
-                                            entry.value,
-                                            style: const TextStyle(
-                                              color: Color(0xFF323232),
-                                              fontSize: 14,
-                                            ),
-                                          ),
+                                          child: isEditing
+                                              ? Container(
+                                                  width: 350,
+                                                  height: 45,
+                                                  child: TextFormField(
+                                                    controller:
+                                                        controllers[entry.key],
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                    ),
+                                                    decoration: InputDecoration(
+                                                      hintText: entry.value,
+                                                      border:
+                                                          const OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                          color:
+                                                              Color(0xFFD1D1D1),
+                                                        ),
+                                                      ),
+                                                      enabledBorder:
+                                                          const OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                          color:
+                                                              Color(0xFFD1D1D1),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              : Text(
+                                                  entry.value,
+                                                  style: const TextStyle(
+                                                    color: Color(0xFF323232),
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
                                         ),
                                       ],
                                     );
@@ -418,6 +534,28 @@ class _DetailViewState extends State<DetailView> {
                                     color: Color(0xFFD6D6D6),
                                   ),
                                 ),
+                                child: isEditing
+                                    ? TextField(
+                                        controller: memoController,
+                                        keyboardType: TextInputType.multiline,
+                                        maxLines: null,
+                                        expands: true,
+                                        decoration: const InputDecoration(
+                                          contentPadding: EdgeInsets.all(8.0),
+                                          border: InputBorder.none,
+                                          hintText: '내용을 입력하세요',
+                                        ),
+                                      )
+                                    : Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          memoController.text,
+                                          style: const TextStyle(
+                                            color: Color(0xFF323232),
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
                               ),
                             ],
                           ),
