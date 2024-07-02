@@ -94,9 +94,9 @@ class AdminDetailView extends StatefulWidget {
 }
 
 class _AdminDetailViewState extends State<AdminDetailView> {
-  @override
-  Widget build(BuildContext context) {
-    final Map<String, String> staffInfo = {
+  bool isEditing = false;
+
+  final Map<String, String> staffInfo = {
       '이름': '심재윤',
       '연락처': '010-1234-1234',
       '이메일': 'thl@bgood.co.kr',
@@ -108,6 +108,9 @@ class _AdminDetailViewState extends State<AdminDetailView> {
       '휴직일': '2024-02-01 ~ 2024-02-20',  
       '퇴사일': '-',
     };
+
+  @override
+  Widget build(BuildContext context) {
 
     return Column(
       children: [
@@ -129,9 +132,11 @@ class _AdminDetailViewState extends State<AdminDetailView> {
                   Spacer(),
                   CustomElevatedButton1(
                     backgroundColor: Color(0xFF5D75BF),
-                    text: '수정',
+                    text: isEditing ? '저장' : '수정',
                     onPressed: () {
-                      context.go('/admin-reg');
+                      setState(() {
+                        isEditing = !isEditing;
+                      });
                     },
                   ),
                   SizedBox(

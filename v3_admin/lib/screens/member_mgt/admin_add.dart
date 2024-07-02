@@ -140,8 +140,10 @@ class _RegistrationState extends State<Registration> {
               // 디테일 페이지 상단 영역
               Row(
                 children: [
-                  const Text(
-                    '운영자 등록 / 수정',
+
+                  Text(
+                    '운영자 등록',
+
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w700,
