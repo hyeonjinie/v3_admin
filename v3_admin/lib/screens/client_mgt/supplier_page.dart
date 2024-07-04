@@ -59,7 +59,7 @@ class _ClientManagementState extends State<ClientManagement> {
                     ],
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -252,7 +252,7 @@ class _SupplierMgtState extends State<SupplierMgt> {
                               height: 45,
                               child: TextFormField(
                                 controller: SearchController,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   hintText: '검색어를 입력하세요',
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide(
@@ -273,7 +273,7 @@ class _SupplierMgtState extends State<SupplierMgt> {
                               text: '검색',
                               onPressed: () {},
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             CustomElevatedButton2(
@@ -290,14 +290,14 @@ class _SupplierMgtState extends State<SupplierMgt> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
 
               // 표 상단 영역
               Row(
                 children: [
-                  Text(
+                  const Text(
                     ' 총 n개',
                     style: TextStyle(
                       fontSize: 16.0,
@@ -311,7 +311,7 @@ class _SupplierMgtState extends State<SupplierMgt> {
                       context.go('/regist-supplier');
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   SelectBoxExample(
@@ -347,7 +347,7 @@ class _SupplierMgtState extends State<SupplierMgt> {
                           child: Container(
                             width: MediaQuery.of(context).size.width * 0.75,
                             child: DataTable(
-                              columns: [
+                              columns: const [
                                 DataColumn(
                                   label: Text(
                                     '공급사명',
@@ -410,7 +410,7 @@ class _SupplierMgtState extends State<SupplierMgt> {
                                       },
                                       child: Text(
                                         item['공급사명']! + ' >',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Color(0xFF4470F6),
                                           fontWeight: FontWeight.bold,
                                         ),

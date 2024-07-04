@@ -143,6 +143,7 @@ class _RegistrationState extends State<Registration> {
                 children: [
                   const Text(
                     '운영자 등록',
+
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w700,
@@ -393,7 +394,7 @@ class _RegistrationState extends State<Registration> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
             ],
