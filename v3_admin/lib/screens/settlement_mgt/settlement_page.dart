@@ -6,6 +6,9 @@ import 'package:v3_admin/common_widget/common_widgets.dart';
 import 'package:v3_admin/common_widget/layout.dart';
 import 'package:v3_admin/common_widget/naviagtion_helper.dart';
 import 'package:intl/intl.dart';
+import 'package:v3_admin/screens/operation_mgt/forward_inquiry_detail.dart';
+
+final NumberFormat currencyFormat = NumberFormat('#,##0', 'en_US');
 
 class SettlementPage extends StatefulWidget {
   const SettlementPage({super.key});
@@ -139,7 +142,7 @@ class _SettlementListState extends State<SettlementList> {
       '거래유형': '선도거래',
       '업체명': '넉넉한 사람들',
       '구분': '공급처',
-      '금액': '2500000',
+      '금액': 2500000,
       '정산일자': '2024-05-23',
     },
     {
@@ -147,7 +150,7 @@ class _SettlementListState extends State<SettlementList> {
       '거래유형': '선도거래',
       '업체명': '넉넉한 사람들',
       '구분': '공급처',
-      '금액': '2500000',
+      '금액': 2500000,
       '정산일자': '2024-05-23',
     },
     {
@@ -155,7 +158,7 @@ class _SettlementListState extends State<SettlementList> {
       '거래유형': '선도거래',
       '업체명': '넉넉한 사람들',
       '구분': '공급처',
-      '금액': '2500000',
+      '금액': 2500000,
       '정산일자': '2024-05-23',
     },
     {
@@ -163,7 +166,7 @@ class _SettlementListState extends State<SettlementList> {
       '거래유형': '선도거래',
       '업체명': '넉넉한 사람들',
       '구분': '공급처',
-      '금액': '2500000',
+      '금액': 2500000,
       '정산일자': '2024-05-23',
     },
     {
@@ -171,7 +174,7 @@ class _SettlementListState extends State<SettlementList> {
       '거래유형': '선도거래',
       '업체명': '넉넉한 사람들',
       '구분': '공급처',
-      '금액': '2500000',
+      '금액': 2500000,
       '정산일자': '2024-05-23',
     },
     {
@@ -179,7 +182,7 @@ class _SettlementListState extends State<SettlementList> {
       '거래유형': '선도거래',
       '업체명': '넉넉한 사람들',
       '구분': '공급처',
-      '금액': '2500000',
+      '금액': 2500000,
       '정산일자': '2024-05-23',
     },
     {
@@ -187,7 +190,7 @@ class _SettlementListState extends State<SettlementList> {
       '거래유형': '선도거래',
       '업체명': '넉넉한 사람들',
       '구분': '공급처',
-      '금액': '2500000',
+      '금액': 2500000,
       '정산일자': '2024-05-23',
     },
     {
@@ -195,7 +198,7 @@ class _SettlementListState extends State<SettlementList> {
       '거래유형': '선도거래',
       '업체명': '넉넉한 사람들',
       '구분': '공급처',
-      '금액': '2500000',
+      '금액': 2500000,
       '정산일자': '2024-05-23',
     },
     {
@@ -203,7 +206,7 @@ class _SettlementListState extends State<SettlementList> {
       '거래유형': '선도거래',
       '업체명': '넉넉한 사람들',
       '구분': '공급처',
-      '금액': '2500000',
+      '금액': 2500000,
       '정산일자': '2024-05-23',
     },
     {
@@ -211,7 +214,7 @@ class _SettlementListState extends State<SettlementList> {
       '거래유형': '선도거래',
       '업체명': '넉넉한 사람들',
       '구분': '공급처',
-      '금액': '2500000',
+      '금액': 2500000,
       '정산일자': '2024-05-23',
     },
     {
@@ -219,7 +222,7 @@ class _SettlementListState extends State<SettlementList> {
       '거래유형': '선도거래',
       '업체명': '넉넉한 사람들',
       '구분': '공급처',
-      '금액': '2500000',
+      '금액': 2500000,
       '정산일자': '2024-05-23',
     },
     {
@@ -227,7 +230,7 @@ class _SettlementListState extends State<SettlementList> {
       '거래유형': '선도거래',
       '업체명': '넉넉한 사람들',
       '구분': '공급처',
-      '금액': '2500000',
+      '금액': 2500000,
       '정산일자': '2024-05-23',
     },
     {
@@ -235,7 +238,7 @@ class _SettlementListState extends State<SettlementList> {
       '거래유형': '선도거래',
       '업체명': '넉넉한 사람들',
       '구분': '공급처',
-      '금액': '2500000',
+      '금액': 2500000,
       '정산일자': '2024-05-23',
     },
   ];
@@ -641,7 +644,7 @@ class _SettlementListState extends State<SettlementList> {
                               DataCell(Text(item['거래유형']!)),
                               DataCell(Text(item['업체명']!)),
                               DataCell(Text(item['구분']!)),
-                              DataCell(Text(item['금액']!)),
+                              DataCell(Text(currencyFormat.format(item['금액']) + '원')),
                               DataCell(Text(item['정산일자']!)),
                             ]);
                           }).toList(),

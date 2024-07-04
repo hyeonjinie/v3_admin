@@ -71,7 +71,7 @@ class _AdminAddState extends State<AdminAdd> {
                     ],
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -113,7 +113,8 @@ class _RegistrationState extends State<Registration> {
     selectedDate = DateTime.now();
   }
 
-  Future<void> _selectDate(BuildContext context, TextEditingController controller) async {
+  Future<void> _selectDate(
+      BuildContext context, TextEditingController controller) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
@@ -140,8 +141,7 @@ class _RegistrationState extends State<Registration> {
               // 디테일 페이지 상단 영역
               Row(
                 children: [
-
-                  Text(
+                  const Text(
                     '운영자 등록',
 
                     style: TextStyle(

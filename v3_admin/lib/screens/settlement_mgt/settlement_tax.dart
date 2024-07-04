@@ -5,6 +5,8 @@ import 'package:v3_admin/common_widget/layout.dart';
 import 'package:v3_admin/common_widget/naviagtion_helper.dart';
 import 'package:intl/intl.dart';
 
+final NumberFormat currencyFormat = NumberFormat('#,##0', 'en_US');
+
 class TaxBill extends StatefulWidget {
   const TaxBill({super.key});
 
@@ -104,6 +106,119 @@ class _TaxBillState extends State<TaxBill> {
   }
 }
 
+final List<Map<String, dynamic>> _data = [
+  {
+    "id": "HrLfZNVVmZ9gsXxgBgH0",
+    "issueDate": null,
+    "title": "[맞춤]산울림(우리동네 자회사어쩌고 저쩌고)",
+    "type": "suborders",
+    "companyName": "나만보면바나나",
+    "amount": 3000,
+    "approvalNum": "",
+    "status": "예정"
+  },
+  {
+    "id": "UvdAHsTXNc3BmU6fdqG7",
+    "issueDate": "2024-06-21 15:22",
+    "title": "[맞춤]산울림(우리동네 자회사어쩌고 저쩌고)",
+    "type": "suborders",
+    "companyName": "비굿",
+    "amount": 15040000,
+    "approvalNum": "20240621-20240622-10392349",
+    "status": "완료"
+  },
+  {
+    "id": "iIDnzl7JkeSiic1DFz1U",
+    "issueDate": "2024-06-24 12:50",
+    "title": "[맞춤]산울림(우리동네 자회사어쩌고 저쩌고)",
+    "type": "logistics",
+    "companyName": "에스앤이컴퍼니",
+    "amount": 378420,
+    "approvalNum": "20240621-20240622-10392349",
+    "status": "완료"
+  },
+  {
+    "id": "iIDnzl7JkeSiic1DFz1U",
+    "issueDate": "2024-06-24 16:46",
+    "title": "[맞춤]산울림(우리동네 자회사어쩌고 저쩌고)",
+    "type": "otherexpenses",
+    "companyName": "한결농산",
+    "amount": 0,
+    "approvalNum": "20240621-20240622-10392349",
+    "status": "완료"
+  },
+  {
+    "id": "iIDnzl7JkeSiic1DFz1U",
+    "issueDate": "2024-05-06 00:00",
+    "title": "[맞춤]산울림(우리동네 자회사어쩌고 저쩌고)",
+    "type": "suppliers",
+    "companyName": "딸기농장",
+    "amount": 16000,
+    "approvalNum": "20240621-20240622-10392349",
+    "status": "완료"
+  },
+  {
+    "id": "iIDnzl7JkeSiic1DFz1U",
+    "issueDate": null,
+    "title": "[맞춤]산울림(우리동네 자회사어쩌고 저쩌고)",
+    "type": "suborders",
+    "companyName": "으네마켓",
+    "amount": 18800000,
+    "approvalNum": "",
+    "status": "예정"
+  },
+  {
+    "id": "kSg8NoujmzEZcnSPFnxy",
+    "issueDate": null,
+    "title": "[맞춤]산울림(우리동네 자회사어쩌고 저쩌고)",
+    "type": "logistics",
+    "companyName": "비굿",
+    "amount": 275000,
+    "approvalNum": "20240621-20240622-10392349",
+    "status": "완료"
+  },
+  {
+    "id": "kSg8NoujmzEZcnSPFnxy",
+    "issueDate": "2024-06-24 12:50",
+    "title": "[맞춤]산울림(우리동네 자회사어쩌고 저쩌고)",
+    "type": "otherexpenses",
+    "companyName": "지엘물류",
+    "amount": -4600,
+    "approvalNum": "20240621-20240622-10392349",
+    "status": "완료"
+  },
+  {
+    "id": "kSg8NoujmzEZcnSPFnxy",
+    "issueDate": "2024-06-24 12:50",
+    "title": "[맞춤]산울림(우리동네 자회사어쩌고 저쩌고)",
+    "type": "suppliers",
+    "companyName": "비굿",
+    "amount": 2000,
+    "approvalNum": "",
+    "status": "예정"
+  },
+  {
+    "id": "kSg8NoujmzEZcnSPFnxy",
+    "issueDate": "2024-06-24 12:50",
+    "title": "[맞춤]산울림(우리동네 자회사어쩌고 저쩌고)",
+    "type": "suppliers",
+    "companyName": "비굿",
+    "amount": 400,
+    "approvalNum": "20240621-20240622-10392349",
+    "status": "완료"
+  },
+  {
+    "id": "kSg8NoujmzEZcnSPFnxy",
+    "issueDate": "2024-06-24 12:50",
+    "title": "[맞춤]산울림(우리동네 자회사어쩌고 저쩌고)",
+    "type": "suborders",
+    "companyName": "깐깐한깐마늘",
+    "amount": 5000,
+    "approvalNum": "20240621-20240622-10392349",
+    "status": "완료"
+  }
+];
+
 class TaxBillList extends StatefulWidget {
   const TaxBillList({super.key});
 
@@ -114,24 +229,44 @@ class TaxBillList extends StatefulWidget {
 class _TaxBillListState extends State<TaxBillList> {
   int _rowsPerPage = 10;
   int _pageIndex = 0;
-  late List<Map<String, dynamic>> _filteredData;
-  late TextEditingController StartDateController;
-  late TextEditingController EndDateController;
-  late TextEditingController SearchController;
+  // late List<Map<String, dynamic>> _filteredData;
+  late TextEditingController startDateController;
+  late TextEditingController endDateController;
+  late TextEditingController searchController;
+  late List<TextEditingController> taxControllers;
   late List<bool> isSelected;
-  bool _allChecked = false; // 체크박스 전체 선택
+  bool _allChecked = false;
+  late List<bool> _checked;
 
   late DateTime selectedDate;
 
   @override
   void initState() {
     super.initState();
-    _filteredData = _data;
-    StartDateController = TextEditingController();
-    EndDateController = TextEditingController();
-    SearchController = TextEditingController();
+    // _filteredData = _data;
+    startDateController = TextEditingController();
+    endDateController = TextEditingController();
+    searchController = TextEditingController();
+    taxControllers = List.generate(_data.length,
+        (index) => TextEditingController(text: _data[index]['approvalNum']));
     selectedDate = DateTime.now();
     isSelected = [false, false, false, false, true];
+    _checked = List.generate(_data.length, (index) => false);
+
+    for (int i = 0; i < _data.length; i++) {
+      taxControllers[i].text = _data[i]['approvalNum'];
+    }
+  }
+
+  void _saveApprovalNumbers() {
+    setState(() {
+      for (int i = 0; i < _data.length; i++) {
+        _data[i]['approvalNum'] = taxControllers[i].text;
+      }
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('승인번호가 저장되었습니다.')),
+    );
   }
 
   Future<void> _selectDate(
@@ -150,185 +285,38 @@ class _TaxBillListState extends State<TaxBillList> {
     }
   }
 
-  final List<Map<String, dynamic>> _data = [
-    {
-      '발행일자': null,
-      '거래명': '[선도]산울림(우리동네 씨없는수박이 최고)',
-      '구분': '공급처',
-      '업체명': '넉넉한사람들',
-      '금액': '2500000',
-      '승인번호': '',
-      '상태': '발행예정',
-    },
-    {
-      '발행일자': null,
-      '거래명': '[선도]산울림(우리동네 씨없는수박이 최고)',
-      '구분': '공급처',
-      '업체명': '넉넉한사람들',
-      '금액': '12500000',
-      '승인번호': '',
-      '상태': '발행예정',
-    },
-    {
-      '발행일자': '2024-04-24',
-      '거래명': '[선도]토마토(우리동네 씨없는수박이 최고)',
-      '구분': '물류',
-      '업체명': '지엘물류',
-      '금액': '200000',
-      '승인번호': '20240422-10240422-24855829',
-      '상태': '발행완료',
-    },
-    {
-      '발행일자': null,
-      '거래명': '[선도]수박(우리동네 씨없는수박이 최고)',
-      '구분': '공급처',
-      '업체명': '자연진리',
-      '금액': '2800000',
-      '승인번호': '',
-      '상태': '발행예정',
-    },
-    {
-      '발행일자': '2024-04-20',
-      '거래명': '[선도]포도(우리동네 씨없는수박이 최고)',
-      '구분': '수요처',
-      '업체명': '한결농산',
-      '금액': '3400000',
-      '승인번호': '20240422-10240422-24855829',
-      '상태': '발행완료',
-    },
-    {
-      '발행일자': null,
-      '거래명': '[선도]천혜향(우리동네 씨없는수박이 최고)',
-      '구분': '공급처',
-      '업체명': '넉넉한사람들',
-      '금액': '112500000',
-      '승인번호': '',
-      '상태': '발행예정',
-    },
-    
-  ];
-  final List<Map<String, dynamic>> _data2 = [
-    {
-      '주문번호': '24052300123',
-      '상품명': '유기농 가지 5kg',
-      '주문일': '2024-05-23',
-      '주문금액': '13,500원',
-      '결제수단': '카드결제',
-      '상태': '확인중',
-    },
-    {
-      '주문번호': '24062800234',
-      '상품명': '유기농 콩나물 1kg',
-      '주문일': '2024-06-28',
-      '주문금액': '4,500원',
-      '결제수단': '무통장입금',
-      '상태': '확인중',
-    },
-    {
-      '주문번호': '24073100345',
-      '상품명': '유기농 고추 2kg',
-      '주문일': '2024-07-31',
-      '주문금액': '12,000원',
-      '결제수단': '무통장입금',
-      '상태': '확인중',
-    },
-    {
-      '주문번호': '24081500456',
-      '상품명': '유기농 마늘 3kg',
-      '주문일': '2024-08-15',
-      '주문금액': '18,000원',
-      '결제수단': '카드결제',
-      '상태': '확인중',
-    },
-    {
-      '주문번호': '24092100567',
-      '상품명': '유기농 상추 2kg',
-      '주문일': '2024-09-21',
-      '주문금액': '6,000원',
-      '결제수단': '계좌이체',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24021600253',
-      '상품명': '동결건조 오징어 1kg',
-      '주문일': '2024-02-16',
-      '주문금액': '42,550원',
-      '결제수단': '카드결제',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24042800042',
-      '상품명': '설향딸기 4kg',
-      '주문일': '2024-04-28',
-      '주문금액': '17,350원',
-      '결제수단': '무통장입금',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24041700123',
-      '상품명': '유기농 배추 3kg',
-      '주문일': '2024-04-17',
-      '주문금액': '12,000원',
-      '결제수단': '무통장입금',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24062800234',
-      '상품명': '유기농 콩나물 1kg',
-      '주문일': '2024-06-28',
-      '주문금액': '4,500원',
-      '결제수단': '무통장입금',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24062800234',
-      '상품명': '유기농 콩나물 1kg',
-      '주문일': '2024-06-28',
-      '주문금액': '4,500원',
-      '결제수단': '무통장입금',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24062800234',
-      '상품명': '유기농 콩나물 1kg',
-      '주문일': '2024-06-28',
-      '주문금액': '4,500원',
-      '결제수단': '무통장입금',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24062800234',
-      '상품명': '유기농 콩나물 1kg',
-      '주문일': '2024-06-28',
-      '주문금액': '4,500원',
-      '결제수단': '무통장입금',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24062800234',
-      '상품명': '유기농 콩나물 1kg',
-      '주문일': '2024-06-28',
-      '주문금액': '4,500원',
-      '결제수단': '무통장입금',
-      '상태': '완료',
-    },
-  ];
-
   void _updateCheckedStatus(bool? value, int index) {
     setState(() {
-      _filteredData[index]['checked'] = value!;
+      // _data[index]['checked'] = value!;
+      _checked[index] = value!;
     });
   }
 
   void _toggleAllCheckboxes(bool? value) {
     setState(() {
       _allChecked = value!;
-      for (var item in _filteredData) {
-        item['checked'] = _allChecked;
+      for (int i = 0; i < _checked.length; i++) {
+        _checked[i] = _allChecked;
       }
     });
   }
 
+  String getTypeDisplayName(String type) {
+    switch (type) {
+      case 'suppliers':
+        return '공급처';
+      case 'suborders':
+        return '수요처';
+      case 'logistics':
+        return '물류';
+      case 'otherexpenses':
+        return '기타';
+      default:
+        return type;
+    }
+  }
+
+  // 날짜 토글 옵션
   void _setDateRange(int index) {
     DateTime now = DateTime.now();
     DateTime startDate = now;
@@ -358,8 +346,8 @@ class _TaxBillListState extends State<TaxBillList> {
     }
 
     setState(() {
-      StartDateController.text = DateFormat('yyyy-MM-dd').format(startDate);
-      EndDateController.text = DateFormat('yyyy-MM-dd').format(endDate);
+      startDateController.text = DateFormat('yyyy-MM-dd').format(startDate);
+      endDateController.text = DateFormat('yyyy-MM-dd').format(endDate);
     });
   }
 
@@ -398,7 +386,7 @@ class _TaxBillListState extends State<TaxBillList> {
                   children: [
                     Row(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 120,
                           child: Text(
                             '• 기간',
@@ -410,20 +398,20 @@ class _TaxBillListState extends State<TaxBillList> {
                           ),
                         ),
                         CustomDatePickerField(
-                          controller: StartDateController,
+                          controller: startDateController,
                           onDateTap: _selectDate,
                         ),
-                        Text(
+                        const Text(
                           '  -  ',
                           style: TextStyle(
                             fontSize: 16,
                           ),
                         ),
                         CustomDatePickerField(
-                          controller: EndDateController,
+                          controller: endDateController,
                           onDateTap: _selectDate,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         ConstrainedBox(
@@ -454,12 +442,12 @@ class _TaxBillListState extends State<TaxBillList> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 120,
                           child: Text(
                             '• 상태',
@@ -472,7 +460,7 @@ class _TaxBillListState extends State<TaxBillList> {
                         ),
                         SelectBoxExample(
                           initialValue: '전체',
-                          options: [
+                          options: const [
                             '전체',
                             '카드결제',
                             '무통장입금',
@@ -483,7 +471,7 @@ class _TaxBillListState extends State<TaxBillList> {
                           custom_width: 220.0,
                         ),
                         SizedBox(width: 220),
-                        SizedBox(
+                        const SizedBox(
                           width: 120,
                           child: Text(
                             '• 검색',
@@ -496,7 +484,7 @@ class _TaxBillListState extends State<TaxBillList> {
                         ),
                         SelectBoxExample(
                           initialValue: '전체',
-                          options: [
+                          options: const [
                             '전체',
                             '확인중',
                             '입금완료',
@@ -509,15 +497,15 @@ class _TaxBillListState extends State<TaxBillList> {
                           },
                           custom_width: 220.0,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Container(
                           width: 350,
                           height: 45,
                           child: TextFormField(
-                            controller: SearchController,
-                            decoration: InputDecoration(
+                            controller: searchController,
+                            decoration: const InputDecoration(
                               hintText: '검색어를 입력하세요',
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -534,7 +522,7 @@ class _TaxBillListState extends State<TaxBillList> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Row(
@@ -545,7 +533,7 @@ class _TaxBillListState extends State<TaxBillList> {
                           text: '검색',
                           onPressed: () {},
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         CustomElevatedButton2(
@@ -562,14 +550,14 @@ class _TaxBillListState extends State<TaxBillList> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
 
           // 표 상단 영역
           Row(
             children: [
-              Text(
+              const Text(
                 ' 총 n개',
                 style: TextStyle(
                   fontSize: 16.0,
@@ -579,13 +567,22 @@ class _TaxBillListState extends State<TaxBillList> {
               CustomElevatedButton1(
                 backgroundColor: Color(0xFF5D75BF),
                 text: '승인번호 저장',
-                onPressed: () {},
+                onPressed: _saveApprovalNumbers,
               ),
-              SizedBox(width: 10,),
+              const SizedBox(
+                width: 10,
+              ),
               CustomElevatedButton1(
                 backgroundColor: Color(0xFF5D75BF),
                 text: '일괄변경',
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return _changeStatus(context);
+                    },
+                  );
+                },
               ),
             ],
           ),
@@ -611,78 +608,153 @@ class _TaxBillListState extends State<TaxBillList> {
                         width: MediaQuery.of(context).size.width * 0.75,
                         child: DataTable(
                           columns: [
-                            DataColumn(
+                            const DataColumn(
                               label: Text(
                                 '발행일자',
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
-                            DataColumn(
+                            const DataColumn(
                               label: Text(
                                 '거래명',
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
-                            DataColumn(
+                            const DataColumn(
                               label: Text(
                                 '구분',
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
-                            DataColumn(
+                            const DataColumn(
                               label: Text(
                                 '업체명',
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
-                            DataColumn(
+                            const DataColumn(
                               label: Text(
                                 '금액',
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
-                            DataColumn(
+                            const DataColumn(
                               label: Text(
                                 '승인번호',
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
                             DataColumn(
-                              label: Text(
-                                '상태',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                              label: Row(
+                                children: [
+                                  const Text(
+                                    '상태',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Checkbox(
+                                    value: _allChecked,
+                                    onChanged: _toggleAllCheckboxes,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(3),
+                                    ),
+                                    side: const BorderSide(
+                                        color: Color(0xFF5D75BF), width: 1.2),
+                                    activeColor: Color(0xFF5D75BF),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
-                          rows: _filteredData
+                          rows: _data
                               .skip(firstRowIndex)
                               .take(_rowsPerPage)
                               .map((item) {
-                            int itemIndex = _filteredData.indexOf(item);
+                            int itemIndex = _data.indexOf(item);
                             return DataRow(cells: [
-                              DataCell(Text(item['발행일자'] == null ? '' : item['발행일자'])),
+                              DataCell(Text(item['issueDate'] == null
+                                  ? ''
+                                  : item['issueDate'])),
                               DataCell(
                                 GestureDetector(
                                   onTap: () {
                                     // context.go('/order-detail');
                                   },
                                   child: Text(
-                                    item['거래명']!.length > 12
-                                        ? item['거래명']!.substring(0, 12) +
+                                    item['title']!.length > 12
+                                        ? item['title']!.substring(0, 12) +
                                             '... >'
-                                        : item['거래명']! + ' >',
-                                    style: TextStyle(
+                                        : item['title']! + ' >',
+                                    style: const TextStyle(
                                       color: Color(0xFF4470F6),
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
                               ),
-                              DataCell(Text(item['구분']!)),
-                              DataCell(Text(item['업체명']!)),
-                              DataCell(Text(item['금액']!)),
-                              DataCell(Text(item['승인번호']!)),
-                              DataCell(Text(item['상태']!)),
+                              DataCell(Text(getTypeDisplayName(item['type']))),
+                              DataCell(Text(item['companyName']!)),
+                              DataCell(Text(
+                                  currencyFormat.format(item['amount']) + '원')),
+                              DataCell(
+                                Container(
+                                  width: 280,
+                                  height: 40,
+                                  child: TextFormField(
+                                    controller: taxControllers[itemIndex],
+                                    decoration: const InputDecoration(
+                                      contentPadding:
+                                          EdgeInsets.symmetric(horizontal: 10),
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0xFFD1D1D1),
+                                        ),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0xFFD1D1D1),
+                                        ),
+                                      ),
+                                    ),
+                                    maxLines: 1,
+                                    minLines: 1,
+                                    scrollPhysics: ClampingScrollPhysics(),
+                                    style: const TextStyle(
+                                        fontSize: 15,
+                                        overflow: TextOverflow.visible),
+                                  ),
+                                ),
+                              ),
+                              DataCell(Row(
+                                children: [
+                                  Text(
+                                    item['status'],
+                                    style: TextStyle(
+                                        color: item['status'] == '예정'
+                                            ? Color(0xFFFF5F5F)
+                                            : Color(0xFF4470F6),
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Checkbox(
+                                    value: _checked[itemIndex],
+                                    onChanged: (bool? value) {
+                                      _updateCheckedStatus(value, itemIndex);
+                                    },
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(3),
+                                    ),
+                                    side: const BorderSide(
+                                        color: Color(0xFF5D75BF), width: 1.2),
+                                    activeColor: Color(0xFF5D75BF),
+                                  ),
+                                ],
+                              )),
                             ]);
                           }).toList(),
                         ),
@@ -708,7 +780,7 @@ class _TaxBillListState extends State<TaxBillList> {
                     Text('${_pageIndex + 1}'),
                     IconButton(
                       icon: Icon(Icons.arrow_forward),
-                      onPressed: (lastRowIndex < _filteredData.length)
+                      onPressed: (lastRowIndex < _data.length)
                           ? () {
                               setState(() {
                                 _pageIndex++;
@@ -723,6 +795,65 @@ class _TaxBillListState extends State<TaxBillList> {
           ),
         ],
       ),
+    );
+  }
+
+  // 상태변경 팝업창
+  Widget _changeStatus(BuildContext context) {
+    String dropdownValue = '예정';
+    return Dialog(
+      child: Container(
+        width: 350,
+        padding: EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('상태 변경',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            SizedBox(height: 20),
+            SelectBoxExample(
+              initialValue: '예정',
+              options: const [
+                '예정',
+                '완료',
+                '취소',
+              ],
+              onChanged: (String? newValue) {
+                setState(() {});
+              },
+              custom_width: 220.0,
+            ),
+            SizedBox(height: 20,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomElevatedButton2(
+                  text: '취소',
+                  backgroundColor: Colors.white,
+                  textColor: Color(0xFF9A9A9A),
+                  borderColor: Color(0xFFD6D6D6),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                SizedBox(width: 10),
+                CustomElevatedButton1(
+                  backgroundColor: Color(0xFF5D75BF),
+                  text: '등록',
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      
     );
   }
 }

@@ -73,7 +73,7 @@ class _MemberManagementPageState extends State<MemberManagementPage> {
                     ],
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -276,7 +276,7 @@ class _MemberListState extends State<MemberList> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -286,7 +286,7 @@ class _MemberListState extends State<MemberList> {
                           controller: StartDateController,
                           onDateTap: _selectDate,
                         ),
-                        Text(
+                        const Text(
                           '  -  ',
                           style: TextStyle(
                             fontSize: 16,
@@ -296,7 +296,7 @@ class _MemberListState extends State<MemberList> {
                           controller: EndDateController,
                           onDateTap: _selectDate,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         ConstrainedBox(
@@ -326,7 +326,7 @@ class _MemberListState extends State<MemberList> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -340,7 +340,7 @@ class _MemberListState extends State<MemberList> {
                           },
                           custom_width: 220.0,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Container(
@@ -348,7 +348,7 @@ class _MemberListState extends State<MemberList> {
                           height: 45,
                           child: TextFormField(
                             controller: SearchController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: '검색어를 입력하세요',
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -365,7 +365,7 @@ class _MemberListState extends State<MemberList> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -376,7 +376,7 @@ class _MemberListState extends State<MemberList> {
                           text: '검색',
                           onPressed: () {},
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         CustomElevatedButton2(
@@ -393,7 +393,7 @@ class _MemberListState extends State<MemberList> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
 
@@ -409,10 +409,12 @@ class _MemberListState extends State<MemberList> {
               Spacer(),
               CustomElevatedButton1(
                 backgroundColor: Color(0xFF5D75BF),
-                text: '회원가입',
-                onPressed: () {},
+                text: '회원등록',
+                onPressed: () {
+                  context.go('/member-reg');
+                },
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               SelectBoxExample(
@@ -427,7 +429,7 @@ class _MemberListState extends State<MemberList> {
               ),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
 
           // 테이블
           Container(
