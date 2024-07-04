@@ -103,7 +103,7 @@ class _OrderDetailState extends State<OrderDetail> {
                     ],
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -122,17 +122,28 @@ class _OrderDetailState extends State<OrderDetail> {
   }
 }
 
-class OrderDetailView extends StatefulWidget {
-  const OrderDetailView({super.key});
+final Map<String, dynamic> marketInfo = {
+  "orderInfo": {
+    "mainCategory": "농산물",
+    "subCategory": "기타",
+    "productName": "제품명수정수정",
+    "supplierName": "과일회사",
+    "quantity": 1,
+    "orderDate": "2024-06-19T10:47:53.523000+00:00",
+    "orderer": "에스앤이컴퍼니",
+    "contact": "",
+    "address": "서울 서초구 매헌로8길 39 다동"
+  },
+  "paymentInfo": {
+    "goodsPrice": 28000,
+    "deliveryCost": "보류",
+    "totalCost": 28000,
+    "payment": "결제방식",
+    "status": "취소"
+  }
+};
 
-  @override
-  State<OrderDetailView> createState() => _OrderDetailViewState();
-}
-
-class _OrderDetailViewState extends State<OrderDetailView> {
-  @override
-  Widget build(BuildContext context) {
-    // 주문정보 
+// 주문정보 
     final Map<String, String> orderInfo = {
       '카테고리': '전체상품 > 가공식품 > 식혜',
       '상품명': '달보드레 전통 음료',
@@ -153,6 +164,16 @@ class _OrderDetailViewState extends State<OrderDetailView> {
       '상태': '결제완료(2024-05-20)',
     };
 
+class OrderDetailView extends StatefulWidget {
+  const OrderDetailView({super.key});
+
+  @override
+  State<OrderDetailView> createState() => _OrderDetailViewState();
+}
+
+class _OrderDetailViewState extends State<OrderDetailView> {
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
@@ -163,7 +184,7 @@ class _OrderDetailViewState extends State<OrderDetailView> {
               // 디테일 페이지 상단 영역
               Row(
                 children: [
-                  Text(
+                  const Text(
                     '{주문명}',
                     style: TextStyle(
                       fontSize: 18.0,
@@ -176,7 +197,7 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                     text: '수정',
                     onPressed: () {},
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   CustomElevatedButton2(
@@ -212,7 +233,7 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                                 width: double.infinity,
                                 height: 500,
                                 child: Table(
-                                  border: TableBorder(
+                                  border: const TableBorder(
                                     top: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                     bottom: BorderSide(
@@ -222,7 +243,7 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                                     horizontalInside: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                   ),
-                                  columnWidths: {
+                                  columnWidths: const {
                                     0: FractionColumnWidth(0.3),
                                     1: FractionColumnWidth(0.7),
                                   },
@@ -234,7 +255,7 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                                               vertical: 12.0, horizontal: 20),
                                           child: Text(
                                             entry.key,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Color(0xFF323232),
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600,
@@ -246,7 +267,7 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                                               vertical: 12.0, horizontal: 20),
                                           child: Text(
                                                   entry.value,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     color: Color(0xFF323232),
                                                     fontSize: 14,
                                                   ),
@@ -260,7 +281,7 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 40,
                         ),
                         Expanded(
@@ -271,7 +292,7 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 90,
                                     child: Text(
                                       '상태 변경',
@@ -284,11 +305,9 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                                   ),
                                   SelectBoxExample(
                                     initialValue: '확인중',
-                                    options: [
+                                    options: const [
                                       '확인중',
                                       '결제완료',
-                                      '배송예정',
-                                      '완료',
                                       '취소',
                                     ],
                                     onChanged: (String? newValue) {
@@ -296,7 +315,7 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                                     },
                                     custom_width: 220.0,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 20,
                                   ),
                                   CustomElevatedButton1(
@@ -307,7 +326,7 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                                 ],
                               ),
 
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
 
@@ -317,7 +336,7 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                                 width: double.infinity,
                                 height: 350,
                                 child: Table(
-                                  border: TableBorder(
+                                  border: const TableBorder(
                                     top: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                     bottom: BorderSide(
@@ -327,7 +346,7 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                                     horizontalInside: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                   ),
-                                  columnWidths: {
+                                  columnWidths: const {
                                     0: FractionColumnWidth(0.3),
                                     1: FractionColumnWidth(0.7),
                                   },
@@ -339,7 +358,7 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                                               vertical: 12.0, horizontal: 20),
                                           child: Text(
                                             entry.key,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Color(0xFF323232),
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600,
@@ -351,7 +370,7 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                                               vertical: 12.0, horizontal: 20),
                                           child: Text(
                                             entry.value,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Color(0xFF323232),
                                               fontSize: 14,
                                             ),
@@ -370,7 +389,7 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
             ],

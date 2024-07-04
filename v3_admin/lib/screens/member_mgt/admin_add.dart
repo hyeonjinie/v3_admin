@@ -71,7 +71,7 @@ class _AdminAddState extends State<AdminAdd> {
                     ],
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -113,7 +113,8 @@ class _RegistrationState extends State<Registration> {
     selectedDate = DateTime.now();
   }
 
-  Future<void> _selectDate(BuildContext context, TextEditingController controller) async {
+  Future<void> _selectDate(
+      BuildContext context, TextEditingController controller) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
@@ -140,7 +141,7 @@ class _RegistrationState extends State<Registration> {
               // 디테일 페이지 상단 영역
               Row(
                 children: [
-                  Text(
+                  const Text(
                     '운영자 등록',
                     style: TextStyle(
                       fontSize: 18.0,
@@ -155,7 +156,7 @@ class _RegistrationState extends State<Registration> {
                       context.go('/admin-detail'); // 현재 직원 detail로 이동 필요
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   CustomElevatedButton2(
@@ -190,7 +191,7 @@ class _RegistrationState extends State<Registration> {
                                 width: double.infinity,
                                 height: 300,
                                 child: Table(
-                                  border: TableBorder(
+                                  border: const TableBorder(
                                     top: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                     bottom: BorderSide(
@@ -200,7 +201,7 @@ class _RegistrationState extends State<Registration> {
                                     horizontalInside: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                   ),
-                                  columnWidths: {
+                                  columnWidths: const {
                                     0: FractionColumnWidth(0.3),
                                     1: FractionColumnWidth(0.7),
                                   },
@@ -212,13 +213,13 @@ class _RegistrationState extends State<Registration> {
                                   ],
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 40,
                         ),
                         Expanded(
@@ -231,7 +232,7 @@ class _RegistrationState extends State<Registration> {
                                 width: double.infinity,
                                 height: 180,
                                 child: Table(
-                                  border: TableBorder(
+                                  border: const TableBorder(
                                     top: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                     bottom: BorderSide(
@@ -241,7 +242,7 @@ class _RegistrationState extends State<Registration> {
                                     horizontalInside: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                   ),
-                                  columnWidths: {
+                                  columnWidths: const {
                                     0: FractionColumnWidth(0.3),
                                     1: FractionColumnWidth(0.7),
                                   },
@@ -254,7 +255,7 @@ class _RegistrationState extends State<Registration> {
                                           child: Container(
                                             height: 45,
                                             alignment: Alignment.centerLeft,
-                                            child: Text(
+                                            child: const Text(
                                               '재직여부',
                                               style: TextStyle(
                                                 color: Color(0xFF323232),
@@ -325,7 +326,7 @@ class _RegistrationState extends State<Registration> {
                                           child: Container(
                                             height: 45,
                                             alignment: Alignment.centerLeft,
-                                            child: Text(
+                                            child: const Text(
                                               '부서',
                                               style: TextStyle(
                                                 color: Color(0xFF323232),
@@ -340,7 +341,7 @@ class _RegistrationState extends State<Registration> {
                                               vertical: 10.0, horizontal: 20),
                                           child: SelectBoxExample(
                                             initialValue: '경영기획본부',
-                                            options: [
+                                            options: const [
                                               '경영기획본부',
                                               '마케팅본부',
                                               '기업부설연구소'
@@ -361,7 +362,7 @@ class _RegistrationState extends State<Registration> {
                                           child: Container(
                                             height: 45,
                                             alignment: Alignment.centerLeft,
-                                            child: Text(
+                                            child: const Text(
                                               '입사일',
                                               style: TextStyle(
                                                 color: Color(0xFF323232),

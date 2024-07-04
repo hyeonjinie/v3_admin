@@ -15,8 +15,8 @@ class MemberDetail extends StatefulWidget {
 
 class _MemberDetailState extends State<MemberDetail> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  int _selectIndex = 1;
-  int selectedMenu = 1;
+  int _selectIndex = 1; // GNB : 회원관리
+  int selectedMenu = 1;  // SUB : 일반회원
 
   void _updateIndex(int index) {
     setState(() {
@@ -71,7 +71,7 @@ class _MemberDetailState extends State<MemberDetail> {
                     ],
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,

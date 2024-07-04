@@ -5,6 +5,8 @@ import 'package:v3_admin/common_widget/layout.dart';
 import 'package:v3_admin/common_widget/naviagtion_helper.dart';
 import 'package:intl/intl.dart';
 
+final NumberFormat currencyFormat = NumberFormat('#,##0', 'en_US');
+
 class SettleMarket extends StatefulWidget {
   const SettleMarket({super.key});
 
@@ -104,6 +106,306 @@ class _SettleMarketState extends State<SettleMarket> {
   }
 }
 
+final List<Map<String, dynamic>> _data = [
+  {
+    "id": "6fLU2Wzd3JHqKTVJvqn2",
+    "order_id": "24021600253",
+    "product_name": "비굿 한우 등심(냉장) 1kg",
+    "date": "2024-06-19 20:00",
+    "order_sales": 84000,
+    "payment": "카드결제",
+    "status": "결제완료"
+  },
+  {
+    "id": "7LgAP2teoubV6msrkwjz",
+    "order_id": "24021600252",
+    "product_name": "간장고추 1kg",
+    "date": "2024-06-19 20:00",
+    "order_sales": 4900,
+    "payment": "카드결제",
+    "status": "결제완료"
+  },
+  {
+    "id": "8Dj1Mmigt9k0NL6n1i6Z",
+    "order_id": "24021600253",
+    "product_name": "비굿 파프리카(노랑) 5KG",
+    "date": "2024-06-24 20:00",
+    "order_sales": 10725,
+    "payment": "무통장입금",
+    "status": "확인중"
+  },
+  {
+    "id": "8SuZFkwywCWJm0z4971g",
+    "order_id": "24021600253",
+    "product_name": "비굿 한우 등심(냉장) 1kg",
+    "date": "2024-06-13 20:00",
+    "order_sales": 28000,
+    "payment": "무통장입금",
+    "status": "결제완료"
+  },
+  {
+    "id": "DPQBADjBYzxsqXAQ71Vm",
+    "order_id": "24021600253",
+    "product_name": "비굿 파프리카(노랑) 5KG",
+    "date": "2024-06-24 20:00",
+    "order_sales": 10725,
+    "payment": "무통장입금",
+    "status": "취소"
+  },
+  {
+    "id": "DgIhzGGBNbTcntBprzfg",
+    "order_id": "24021600253",
+    "product_name": "비굿 한우 등심(냉장) 1kg",
+    "date": "2024-06-19 20:00",
+    "order_sales": 28000,
+    "payment": "무통장입금",
+    "status": "확인중"
+  },
+  {
+    "id": "EB1MkQRoqdGUFSej1I7J",
+    "order_id": "24021600253",
+    "product_name": "비굿 파프리카(노랑) 5KG",
+    "date": "2024-06-20 20:00",
+    "order_sales": 10725,
+    "payment": "무통장입금",
+    "status": "결제완료"
+  },
+  {
+    "id": "FkJImEM5Su79WWwNNJ08",
+    "order_id": "24021600253",
+    "product_name": "비굿 한우 등심(냉장) 1kg",
+    "date": "2024-06-10 20:00",
+    "order_sales": 28000,
+    "payment": "카드결제",
+    "status": "결제완료"
+  },
+  {
+    "id": "GDnD8fQ0ekYCc2YLNc9G",
+    "order_id": "24021600253",
+    "product_name": "콩조림 1kg",
+    "date": "2024-06-21 20:00",
+    "order_sales": 2100,
+    "payment": "카드결제",
+    "status": "결제완료"
+  },
+  {
+    "id": "GDp9PGfM8EbjEqwRUGEj",
+    "order_id": "24021600253",
+    "product_name": "간장고추 1kg",
+    "date": "2024-06-24 20:00",
+    "order_sales": 4900,
+    "payment": "무통장입금",
+    "status": "확인중"
+  },
+  {
+    "id": "GOJeu7riID0s5aTJq8Se",
+    "order_id": "24021600253",
+    "product_name": "감자",
+    "date": "2024-05-25 20:00",
+    "order_sales": 140000,
+    "payment": "무통장입금",
+    "status": "확인중"
+  },
+  {
+    "id": "H40qd9p6SCzpSp1Ypxl5",
+    "order_id": "24021600253",
+    "product_name": "감자",
+    "date": "2024-05-27 20:00",
+    "order_sales": 35000,
+    "payment": "무통장입금",
+    "status": "확인중"
+  },
+  {
+    "id": "HNEko5bysyrShUozuJmp",
+    "order_id": "24021600253",
+    "product_name": "성주 가정용 참외 5kg",
+    "date": "2024-05-31 20:00",
+    "order_sales": 113850,
+    "payment": "무통장입금",
+    "status": "확인중"
+  },
+  {
+    "id": "I1JsgFOmDUVdKr3elV7B",
+    "order_id": "24021600253",
+    "product_name": "비굿 금실 딸기 2KG",
+    "date": "2024-06-30 20:00",
+    "order_sales": 27000,
+    "payment": "무통장입금",
+    "status": "확인중"
+  },
+  {
+    "id": "IQANFAo3nGfK3U9rv7vE",
+    "order_id": "24021600253",
+    "product_name": "콩조림 1kg",
+    "date": "2024-06-19 20:00",
+    "order_sales": 2100,
+    "payment": "카드결제",
+    "status": "결제완료"
+  },
+  {
+    "id": "JwchutqEvhvQId8bEI6a",
+    "order_id": "24021600253",
+    "product_name": "성주 가정용 참외 5kg",
+    "date": "2024-06-19 20:00",
+    "order_sales": 37950,
+    "payment": "카드결제",
+    "status": "결제완료"
+  },
+  {
+    "id": "OPfEYbHBYPZKrSXWNXY8",
+    "order_id": "24021600253",
+    "product_name": "비굿 한우 육회용 1kg",
+    "date": "2024-06-13 20:00",
+    "order_sales": 28000,
+    "payment": "카드결제",
+    "status": "결제완료"
+  },
+  {
+    "id": "SHaluaSsCFFDBPcxCiwe",
+    "order_id": "24021600253",
+    "product_name": "비굿 한우 등심(냉장) 1kg",
+    "date": "2024-06-26 20:00",
+    "order_sales": 119150,
+    "payment": "무통장입금",
+    "status": "확인중"
+  },
+  {
+    "id": "TWzVmQYZcqI8Z7yxr9Ha",
+    "order_id": "24021600253",
+    "product_name": "특 토마토(10KG)",
+    "date": "2024-06-30 20:00",
+    "order_sales": 18480,
+    "payment": "무통장입금",
+    "status": "확인중"
+  },
+  {
+    "id": "UzHio8QphWWZNDkJd9JK",
+    "order_id": "24021600253",
+    "product_name": "비굿 한우 등심(냉장) 1kg",
+    "date": "2024-06-19 20:00",
+    "order_sales": 140000,
+    "payment": "무통장입금",
+    "status": "확인중"
+  },
+  {
+    "id": "WUwVOpuJteqZcSU3mFpM",
+    "order_id": "24021600253",
+    "product_name": "성주 가정용 참외 5kg",
+    "date": "2024-07-01 20:00",
+    "order_sales": 37950,
+    "payment": "무통장입금",
+    "status": "확인중"
+  },
+  {
+    "id": "YYjYxJH5FdygIbADvTfM",
+    "order_id": "24021600253",
+    "product_name": "바사삭 오징어스낵 300g",
+    "date": "2024-06-26 20:00",
+    "order_sales": 17500,
+    "payment": "무통장입금",
+    "status": "결제완료"
+  },
+  {
+    "id": "Yx1r7bS9Uftebp4i1bQ3",
+    "order_id": "24021600253",
+    "product_name": "비굿 한우 등심(냉장) 1kg",
+    "date": "2024-06-24 20:00",
+    "order_sales": 28000,
+    "payment": "카드결제",
+    "status": "결제완료"
+  },
+  {
+    "id": "aDmkdZjkp9Rfq4UCiIcb",
+    "order_id": "24021600253",
+    "product_name": "비굿 한우 등심(냉장) 1kg",
+    "date": "2024-06-19 20:00",
+    "order_sales": 28000,
+    "payment": "무통장입금",
+    "status": "결제완료"
+  },
+  {
+    "id": "aO1SdSgOYeeEMklnp2Xn",
+    "order_id": "24021600253",
+    "product_name": "비굿 한우 등심(냉장) 1kg",
+    "date": "2024-06-24 20:00",
+    "order_sales": 28000,
+    "payment": "무통장입금",
+    "status": "취소"
+  },
+  {
+    "id": "aSfzTUL3kzdXn5pD5x8K",
+    "order_id": "24021600253",
+    "product_name": "성주 가정용 참외 5kg",
+    "date": "2024-05-31 20:00",
+    "order_sales": 113850,
+    "payment": "무통장입금",
+    "status": "결제완료"
+  },
+  {
+    "id": "arBd9bp6RJDC3MFEKE6N",
+    "order_id": "24021600253",
+    "product_name": "비굿 한우 등심(냉장) 1kg",
+    "date": "2024-06-19 20:00",
+    "order_sales": 28000,
+    "payment": "카드결제",
+    "status": "결제완료"
+  },
+  {
+    "id": "bOXfHfbfkJDIKoO1xOrq",
+    "order_id": "24021600253",
+    "product_name": "비굿 한우 등심(냉장) 1kg",
+    "date": "2024-06-19 20:00",
+    "order_sales": 28000,
+    "payment": "카드결제",
+    "status": "결제완료"
+  },
+  {
+    "id": "c4QPsGxgvNjHMNh1jFub",
+    "order_id": "24021600253",
+    "product_name": "비굿 한우 등심(냉장) 1kg",
+    "date": "2024-06-13 20:00",
+    "order_sales": 28000,
+    "payment": "카드결제",
+    "status": "결제완료"
+  },
+  {
+    "id": "dbI1R4cr4WcRyRTpP4xd",
+    "order_id": "24021600253",
+    "product_name": "냉동 순살닭꼬치 110g x 130ea",
+    "date": "2024-06-13 20:00",
+    "order_sales": 134500,
+    "payment": "무통장입금",
+    "status": "결제완료"
+  },
+  {
+    "id": "e4sbwef26agO3Cjl1TeG",
+    "order_id": "24021600253",
+    "product_name": "비굿 설향 딸기 2KG",
+    "date": "2024-06-13 20:00",
+    "order_sales": 22500,
+    "payment": "카드결제",
+    "status": "결제완료"
+  },
+  {
+    "id": "eK7k6uqczN1FItIYFlpS",
+    "order_id": "24021600253",
+    "product_name": "감자",
+    "date": "2024-06-13 20:00",
+    "order_sales": 105000,
+    "payment": "무통장입금",
+    "status": "결제완료"
+  },
+  {
+    "id": "juZgtOJPidph8vclOUJc",
+    "order_id": "24021600253",
+    "product_name": "비굿 한우 육회용 1kg",
+    "date": "2024-06-13 20:00",
+    "order_sales": 28000,
+    "payment": "카드결제",
+    "status": "결제완료"
+  },
+];
+
 class SettleMarketList extends StatefulWidget {
   const SettleMarketList({super.key});
 
@@ -114,27 +416,30 @@ class SettleMarketList extends StatefulWidget {
 class _SettleMarketListState extends State<SettleMarketList> {
   int _rowsPerPage = 10;
   int _pageIndex = 0;
-  late List<Map<String, dynamic>> _filteredData;
-  late TextEditingController StartDateController;
-  late TextEditingController EndDateController;
-  late TextEditingController SearchController;
+  // late List<Map<String, dynamic>> _filteredData;
+  late TextEditingController startDateController;
+  late TextEditingController endDateController;
+  late TextEditingController searchController;
   late List<bool> isSelected;
-  bool _allChecked = false; // 체크박스 전체 선택
+  bool _allChecked = false;
+  late List<bool> _checked;
 
   late DateTime selectedDate;
 
   @override
   void initState() {
     super.initState();
-    _filteredData = _data;
-    StartDateController = TextEditingController();
-    EndDateController = TextEditingController();
-    SearchController = TextEditingController();
+    // _filteredData = _data;
+    startDateController = TextEditingController();
+    endDateController = TextEditingController();
+    searchController = TextEditingController();
     selectedDate = DateTime.now();
     isSelected = [false, false, false, false, true];
+    _checked = List.generate(_data.length, (index) => false);
   }
 
-  Future<void> _selectDate(BuildContext context, TextEditingController controller) async {
+  Future<void> _selectDate(
+      BuildContext context, TextEditingController controller) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
@@ -149,231 +454,17 @@ class _SettleMarketListState extends State<SettleMarketList> {
     }
   }
 
-  final List<Map<String, dynamic>> _data = [
-    {
-      '주문번호': '24052300123',
-      '상품명': '유기농 가지 5kg',
-      '주문일': '2024-05-23',
-      '주문금액': '13,500원',
-      '결제수단': '카드결제',
-      '상태': '확인중',
-    },
-    {
-      '주문번호': '24062800234',
-      '상품명': '유기농 콩나물 1kg',
-      '주문일': '2024-06-28',
-      '주문금액': '4,500원',
-      '결제수단': '무통장입금',
-      '상태': '확인중',
-    },
-    {
-      '주문번호': '24073100345',
-      '상품명': '유기농 고추 2kg',
-      '주문일': '2024-07-31',
-      '주문금액': '12,000원',
-      '결제수단': '무통장입금',
-      '상태': '확인중',
-    },
-    {
-      '주문번호': '24081500456',
-      '상품명': '유기농 마늘 3kg',
-      '주문일': '2024-08-15',
-      '주문금액': '18,000원',
-      '결제수단': '카드결제',
-      '상태': '확인중',
-    },
-    {
-      '주문번호': '24092100567',
-      '상품명': '유기농 상추 2kg',
-      '주문일': '2024-09-21',
-      '주문금액': '6,000원',
-      '결제수단': '계좌이체',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24021600253',
-      '상품명': '동결건조 오징어 1kg',
-      '주문일': '2024-02-16',
-      '주문금액': '42,550원',
-      '결제수단': '카드결제',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24042800042',
-      '상품명': '설향딸기 4kg',
-      '주문일': '2024-04-28',
-      '주문금액': '17,350원',
-      '결제수단': '무통장입금',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24041700123',
-      '상품명': '유기농 배추 3kg',
-      '주문일': '2024-04-17',
-      '주문금액': '12,000원',
-      '결제수단': '무통장입금',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24062800234',
-      '상품명': '유기농 콩나물 1kg',
-      '주문일': '2024-06-28',
-      '주문금액': '4,500원',
-      '결제수단': '무통장입금',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24062800234',
-      '상품명': '유기농 콩나물 1kg',
-      '주문일': '2024-06-28',
-      '주문금액': '4,500원',
-      '결제수단': '무통장입금',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24062800234',
-      '상품명': '유기농 콩나물 1kg',
-      '주문일': '2024-06-28',
-      '주문금액': '4,500원',
-      '결제수단': '무통장입금',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24062800234',
-      '상품명': '유기농 콩나물 1kg',
-      '주문일': '2024-06-28',
-      '주문금액': '4,500원',
-      '결제수단': '무통장입금',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24062800234',
-      '상품명': '유기농 콩나물 1kg',
-      '주문일': '2024-06-28',
-      '주문금액': '4,500원',
-      '결제수단': '무통장입금',
-      '상태': '완료',
-    },
-  ];
-
-  final List<Map<String, dynamic>> _data2 = [
-    {
-      '주문번호': '24052300123',
-      '상품명': '유기농 가지 5kg',
-      '주문일': '2024-05-23',
-      '주문금액': '13,500원',
-      '결제수단': '카드결제',
-      '상태': '확인중',
-    },
-    {
-      '주문번호': '24062800234',
-      '상품명': '유기농 콩나물 1kg',
-      '주문일': '2024-06-28',
-      '주문금액': '4,500원',
-      '결제수단': '무통장입금',
-      '상태': '확인중',
-    },
-    {
-      '주문번호': '24073100345',
-      '상품명': '유기농 고추 2kg',
-      '주문일': '2024-07-31',
-      '주문금액': '12,000원',
-      '결제수단': '무통장입금',
-      '상태': '확인중',
-    },
-    {
-      '주문번호': '24081500456',
-      '상품명': '유기농 마늘 3kg',
-      '주문일': '2024-08-15',
-      '주문금액': '18,000원',
-      '결제수단': '카드결제',
-      '상태': '확인중',
-    },
-    {
-      '주문번호': '24092100567',
-      '상품명': '유기농 상추 2kg',
-      '주문일': '2024-09-21',
-      '주문금액': '6,000원',
-      '결제수단': '계좌이체',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24021600253',
-      '상품명': '동결건조 오징어 1kg',
-      '주문일': '2024-02-16',
-      '주문금액': '42,550원',
-      '결제수단': '카드결제',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24042800042',
-      '상품명': '설향딸기 4kg',
-      '주문일': '2024-04-28',
-      '주문금액': '17,350원',
-      '결제수단': '무통장입금',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24041700123',
-      '상품명': '유기농 배추 3kg',
-      '주문일': '2024-04-17',
-      '주문금액': '12,000원',
-      '결제수단': '무통장입금',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24062800234',
-      '상품명': '유기농 콩나물 1kg',
-      '주문일': '2024-06-28',
-      '주문금액': '4,500원',
-      '결제수단': '무통장입금',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24062800234',
-      '상품명': '유기농 콩나물 1kg',
-      '주문일': '2024-06-28',
-      '주문금액': '4,500원',
-      '결제수단': '무통장입금',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24062800234',
-      '상품명': '유기농 콩나물 1kg',
-      '주문일': '2024-06-28',
-      '주문금액': '4,500원',
-      '결제수단': '무통장입금',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24062800234',
-      '상품명': '유기농 콩나물 1kg',
-      '주문일': '2024-06-28',
-      '주문금액': '4,500원',
-      '결제수단': '무통장입금',
-      '상태': '완료',
-    },
-    {
-      '주문번호': '24062800234',
-      '상품명': '유기농 콩나물 1kg',
-      '주문일': '2024-06-28',
-      '주문금액': '4,500원',
-      '결제수단': '무통장입금',
-      '상태': '완료',
-    },
-  ];
-
   void _updateCheckedStatus(bool? value, int index) {
     setState(() {
-      _filteredData[index]['checked'] = value!;
+      _checked[index] = value!;
     });
   }
 
   void _toggleAllCheckboxes(bool? value) {
     setState(() {
       _allChecked = value!;
-      for (var item in _filteredData) {
-        item['checked'] = _allChecked;
+      for (int i = 0; i < _checked.length; i++) {
+        _checked[i] = _allChecked;
       }
     });
   }
@@ -407,8 +498,8 @@ class _SettleMarketListState extends State<SettleMarketList> {
     }
 
     setState(() {
-      StartDateController.text = DateFormat('yyyy-MM-dd').format(startDate);
-      EndDateController.text = DateFormat('yyyy-MM-dd').format(endDate);
+      startDateController.text = DateFormat('yyyy-MM-dd').format(startDate);
+      endDateController.text = DateFormat('yyyy-MM-dd').format(endDate);
     });
   }
 
@@ -470,9 +561,11 @@ class _SettleMarketListState extends State<SettleMarketList> {
                           },
                           custom_width: 220.0,
                         ),
-                        SizedBox(width: 10,),
+                        SizedBox(
+                          width: 10,
+                        ),
                         CustomDatePickerField(
-                          controller: StartDateController,
+                          controller: startDateController,
                           onDateTap: _selectDate,
                         ),
                         Text(
@@ -482,7 +575,7 @@ class _SettleMarketListState extends State<SettleMarketList> {
                           ),
                         ),
                         CustomDatePickerField(
-                          controller: EndDateController,
+                          controller: endDateController,
                           onDateTap: _selectDate,
                         ),
                         SizedBox(
@@ -578,7 +671,7 @@ class _SettleMarketListState extends State<SettleMarketList> {
                           width: 350,
                           height: 45,
                           child: TextFormField(
-                            controller: SearchController,
+                            controller: searchController,
                             decoration: InputDecoration(
                               hintText: '검색어를 입력하세요',
                               border: OutlineInputBorder(
@@ -640,8 +733,15 @@ class _SettleMarketListState extends State<SettleMarketList> {
               Spacer(),
               CustomElevatedButton1(
                 backgroundColor: Color(0xFF5D75BF),
-                text: '편집',
-                onPressed: () {},
+                text: '일괄변경',
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return _changeStatus(context);
+                    },
+                  );
+                },
               ),
             ],
           ),
@@ -667,54 +767,66 @@ class _SettleMarketListState extends State<SettleMarketList> {
                         width: MediaQuery.of(context).size.width * 0.75,
                         child: DataTable(
                           columns: [
-                            DataColumn(
+                            const DataColumn(
                               label: Text(
-                                '발행일자',
+                                '주문번호',
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
-                            DataColumn(
+                            const DataColumn(
                               label: Text(
-                                '거래명',
+                                '상품명',
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
-                            DataColumn(
+                            const DataColumn(
                               label: Text(
-                                '구분',
+                                '주문일시',
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
-                            DataColumn(
+                            const DataColumn(
                               label: Text(
                                 '업체명',
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
-                            DataColumn(
+                            const DataColumn(
                               label: Text(
                                 '금액',
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
                             DataColumn(
-                              label: Text(
-                                '승인번호',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            DataColumn(
-                              label: Text(
-                                '상태',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                              label: Row(
+                                children: [
+                                  const Text(
+                                    '상태',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(
+                                    width: 35,
+                                  ),
+                                  Checkbox(
+                                    value: _allChecked,
+                                    onChanged: _toggleAllCheckboxes,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(3),
+                                    ),
+                                    side: const BorderSide(
+                                        color: Color(0xFF5D75BF), width: 1.2),
+                                    activeColor: Color(0xFF5D75BF),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
-                          rows: _filteredData
+                          rows: _data
                               .skip(firstRowIndex)
                               .take(_rowsPerPage)
                               .map((item) {
-                            int itemIndex = _filteredData.indexOf(item);
+                            int itemIndex = _data.indexOf(item);
                             return DataRow(cells: [
                               DataCell(
                                 GestureDetector(
@@ -722,10 +834,10 @@ class _SettleMarketListState extends State<SettleMarketList> {
                                     // context.go('/order-detail');
                                   },
                                   child: Text(
-                                    item['주문번호']!.length > 12
-                                        ? item['주문번호']!.substring(0, 12) +
+                                    item['order_id']!.length > 12
+                                        ? item['order_id']!.substring(0, 12) +
                                             '... >'
-                                        : item['주문번호']! + ' >',
+                                        : item['order_id']! + ' >',
                                     style: TextStyle(
                                       color: Color(0xFF4470F6),
                                       fontWeight: FontWeight.bold,
@@ -733,12 +845,44 @@ class _SettleMarketListState extends State<SettleMarketList> {
                                   ),
                                 ),
                               ),
-                              DataCell(Text(item['상품명']!)),
-                              DataCell(Text(item['주문일']!)),
-                              DataCell(Text(item['주문금액']!)),
-                              DataCell(Text(item['결제수단']!)),
-                              DataCell(Text(item['결제수단']!)),
-                              DataCell(Text(item['상태']!)),
+                              DataCell(Text(item['product_name']!)),
+                              DataCell(Text(
+                                  item['date'] == null ? '' : item['date'])),
+                              DataCell(Text(
+                                  currencyFormat.format(item['order_sales']) +
+                                      '원')),
+                              DataCell(Text(item['payment']!)),
+                              DataCell(Row(
+                                children: [
+                                  Text(
+                                    item['status'],
+                                    style: TextStyle(
+                                        color: item['status'] == '확인중'
+                                            ? Color(0xFFFF5F5F)
+                                            : Color(0xFF4470F6),
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    width: item['status'] == '확인중'
+                                        ? 23
+                                        : item['status'] == '취소'
+                                            ? 37
+                                            : 10,
+                                  ),
+                                  Checkbox(
+                                    value: _checked[itemIndex],
+                                    onChanged: (bool? value) {
+                                      _updateCheckedStatus(value, itemIndex);
+                                    },
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(3),
+                                    ),
+                                    side: const BorderSide(
+                                        color: Color(0xFF5D75BF), width: 1.2),
+                                    activeColor: Color(0xFF5D75BF),
+                                  ),
+                                ],
+                              )),
                             ]);
                           }).toList(),
                         ),
@@ -764,7 +908,7 @@ class _SettleMarketListState extends State<SettleMarketList> {
                     Text('${_pageIndex + 1}'),
                     IconButton(
                       icon: Icon(Icons.arrow_forward),
-                      onPressed: (lastRowIndex < _filteredData.length)
+                      onPressed: (lastRowIndex < _data.length)
                           ? () {
                               setState(() {
                                 _pageIndex++;
@@ -778,6 +922,66 @@ class _SettleMarketListState extends State<SettleMarketList> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  // 상태변경 팝업창
+  Widget _changeStatus(BuildContext context) {
+    String dropdownValue = '예정';
+    return Dialog(
+      child: Container(
+        width: 350,
+        padding: EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('상태 변경',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            SizedBox(height: 20),
+            SelectBoxExample(
+              initialValue: '예정',
+              options: const [
+                '예정',
+                '완료',
+                '취소',
+              ],
+              onChanged: (String? newValue) {
+                setState(() {});
+              },
+              custom_width: 220.0,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomElevatedButton2(
+                  text: '취소',
+                  backgroundColor: Colors.white,
+                  textColor: Color(0xFF9A9A9A),
+                  borderColor: Color(0xFFD6D6D6),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                SizedBox(width: 10),
+                CustomElevatedButton1(
+                  backgroundColor: Color(0xFF5D75BF),
+                  text: '등록',
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

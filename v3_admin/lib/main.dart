@@ -9,6 +9,7 @@ import 'package:v3_admin/screens/main_screen.dart';
 import 'package:v3_admin/screens/member_mgt/admin_add.dart';
 import 'package:v3_admin/screens/member_mgt/admin_detail.dart';
 import 'package:v3_admin/screens/member_mgt/admin_page.dart';
+import 'package:v3_admin/screens/member_mgt/member_add.dart';
 import 'package:v3_admin/screens/member_mgt/member_detail.dart';
 import 'package:v3_admin/screens/member_mgt/member_page.dart';
 import 'package:v3_admin/screens/operation_mgt/forward_comp_detail.dart';
@@ -91,6 +92,12 @@ class WithRouter extends StatelessWidget {
           return MemberDetail();
         },
       ),
+      GoRoute( // 회원관리 > 일반회원 > 회원등록 
+        path: '/member-reg',
+        builder: (BuildContext context, GoRouterState state) {
+          return MemberAdd();
+        },
+      ),
       GoRoute( // 회원관리 > 운영자 
         path: '/admin',
         builder: (BuildContext context, GoRouterState state) {
@@ -103,7 +110,7 @@ class WithRouter extends StatelessWidget {
           return AdminDetail();
         },
       ),
-      GoRoute( // 회원관리 > 운영자 > 운영자 등록/수정 
+      GoRoute( // 회원관리 > 운영자 > 운영자 등록
         path: '/admin-reg',
         builder: (BuildContext context, GoRouterState state) {
           return AdminAdd();
