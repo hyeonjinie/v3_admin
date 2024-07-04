@@ -126,7 +126,7 @@ class _DetailViewState extends State<DetailView> {
       for (var entry in contactInfo.entries)
         entry.key: TextEditingController(text: entry.value)
     };
-    memoController = TextEditingController(text: ''); // 저장된 메모로 초기화 필요 
+    memoController = TextEditingController(text: ''); // 저장된 메모로 초기화 필요
   }
 
   @override
@@ -264,14 +264,19 @@ class _DetailViewState extends State<DetailView> {
                                               : isEditing
                                                   ? Container(
                                                       width: 350,
-                                                      height: entry.key == '주소' ? 80 : 45,
+                                                      height: entry.key == '주소'
+                                                          ? 80
+                                                          : 45,
                                                       child: TextFormField(
                                                         controller: controllers[
                                                             entry.key],
                                                         style: TextStyle(
                                                           fontSize: 14,
                                                         ),
-                                                        maxLines: entry.key == '주소' ? null : 1, 
+                                                        maxLines:
+                                                            entry.key == '주소'
+                                                                ? null
+                                                                : 1,
                                                         decoration:
                                                             InputDecoration(
                                                           hintText: entry.value,
@@ -293,7 +298,6 @@ class _DetailViewState extends State<DetailView> {
                                                           ),
                                                         ),
                                                       ),
-
                                                     )
                                                   : Text(
                                                       entry.value,
@@ -303,10 +307,7 @@ class _DetailViewState extends State<DetailView> {
                                                         fontSize: 14,
                                                       ),
                                                     ),
-
-                                                    ))
-                 
-                                        ),
+                                        )
                                       ],
                                     );
                                   }).toList(),
@@ -324,7 +325,7 @@ class _DetailViewState extends State<DetailView> {
                               TableBar(titleText: '입금 계좌 정보'),
                               Container(
                                 width: double.infinity,
-                                height: isEditing? 330 : 250,
+                                height: isEditing ? 330 : 250,
                                 child: Table(
                                   border: const TableBorder(
                                     top: BorderSide(
