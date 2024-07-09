@@ -8,6 +8,8 @@ import 'package:v3_admin/common_widget/naviagtion_helper.dart';
 import 'package:v3_admin/screens/member_mgt/member_detail.dart';
 import 'package:intl/intl.dart';
 import 'package:v3_admin/screens/operation_mgt/forward_inquiry_detail.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 final NumberFormat currencyFormat = NumberFormat('#,##0', 'en_US');
 
@@ -378,6 +380,18 @@ class DetailView extends StatefulWidget {
 }
 
 class _DetailViewState extends State<DetailView> {
+  XFile? _accountImg;
+  final ImagePicker picker = ImagePicker();
+
+  Future getAccountImage(ImageSource imageSource) async {
+    final XFile? pickedFile = await picker.pickImage(source: imageSource);
+    if (pickedFile != null) {
+      setState(() {
+        _accountImg = XFile(pickedFile.path);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -641,7 +655,11 @@ class _DetailViewState extends State<DetailView> {
                                                         .symmetric(
                                                         horizontal: 16.0),
                                                     child: OutlinedButton(
-                                                      onPressed: () {},
+                                                      onPressed: () {
+                                                        getAccountImage(
+                                                            ImageSource
+                                                                .gallery);
+                                                      },
                                                       style: OutlinedButton
                                                           .styleFrom(
                                                         side: const BorderSide(
@@ -839,7 +857,7 @@ class _OrderCardState extends State<OrderCard> {
         text: widget.order['taxInvoice']['taxIssueDate'] ?? '');
     taxApprovalNumController = TextEditingController(
         text: widget.order['taxInvoice']['taxApprovalNum'] ?? '');
-    memoController = TextEditingController(text: ''); 
+    memoController = TextEditingController(text: '');
   }
 
   Future<void> _selectDate(
@@ -3325,8 +3343,7 @@ class _AddOtherDialogState extends State<AddOtherDialog> {
                   customTextField(
                       '총 금액', '(원) 단위로 숫자만 입력', amountController, 120),
                   SizedBox(height: 10),
-                  customTextField(
-                      '내용', '', contentsController, 120),
+                  customTextField('내용', '', contentsController, 120),
                   SizedBox(height: 15),
                 ],
               ),

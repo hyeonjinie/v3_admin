@@ -16,7 +16,7 @@ class MemberDetail extends StatefulWidget {
 class _MemberDetailState extends State<MemberDetail> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectIndex = 1; // GNB : 회원관리
-  int selectedMenu = 1;  // SUB : 일반회원
+  int selectedMenu = 1; // SUB : 일반회원
 
   void _updateIndex(int index) {
     setState(() {
@@ -102,50 +102,80 @@ class _DetailViewState extends State<DetailView> {
   late Map<String, TextEditingController> controllers;
   late TextEditingController memoController;
 
-  final Map<String, String> supplierInfo = {
-    '업체명': '비굿컴퍼니',
-    '대표자명': '강현구',
-    '회원유형': '기타',
-    '사업자등록번호': '1234567890',
-    '업태': '도매',
-    '종목': '농업',
-    '사업장 주소': '서울특별시 서초구 매헌로8길 39, D동 4층 406호(양재동, 희경재단) 테스트테스트테스트테스트',
-    '사업장 연락처': '010-1234-1234',
-    '사업자등록증':
+  final Map<String, String> company_info = {
+    'name': '비굿컴퍼니',
+    'representativeName': '강현구',
+    'type': '기타',
+    'bizRegiNum': '1234567890',
+    'bizField': '도매',
+    'bizType': '농업',
+    'address': '서울특별시 서초구 매헌로8길 39, D동 4층 406호(양재동, 희경재단) 테스트테스트테스트테스트',
+    'contact': '010-1234-1234',
+    'bizRegiImg':
         'https://firebasestorage.googleapis.com/v0/b/v3mvp-b9aa4.appspot.com/o/uploads%2Fregister%2Fclient%2FIdyZUA7S6CcsbeKu7h7Gj8k9zpB2%2Fbusiness_registration_image?alt=media&token=7a17324f-6e09-4520-b4ef-6d4ddc4c29ae',
-    '통장사본':
+    'accountImg':
         'https://firebasestorage.googleapis.com/v0/b/v3mvp-b9aa4.appspot.com/o/uploads%2Fregister%2Fclient%2FIdyZUA7S6CcsbeKu7h7Gj8k9zpB2%2Fbusiness_registration_image?alt=media&token=7a17324f-6e09-4520-b4ef-6d4ddc4c29ae',
   };
-  final Map<String, String> contactInfo = {
-    '이름': '이태형',
-    '연락처': '010-1234-1234',
-    '이메일': 'thl@bgood.co.kr',
+  final Map<String, String> manager_info = {
+    'name': '이태형',
+    'contact': '010-1234-1234',
+    'email': 'thl@bgood.co.kr',
   };
-  final Map<String, String> orderInfo = {
-    '주문 건': '{n}건',
-    '취소 건': '{n}건',
-    '반품 건': '{n}건',
+  final Map<String, String> product_order_info = {
+    'ordered': '{n}건', 
+    'cancelled': '{n}건', 
+    'returned': '{n}건', 
   };
-  final Map<String, String> tradeInfo = {
-    '주문 건': '{n}건',
-    '취소 건': '{n}건',
-    '반품 건': '{n}건',
+  final Map<String, String> contract_info = {
+    'ordered': '{n}건', 
+    'inProgress': '{n}건', 
+    'completed': '{n}건', 
+    'cancelled': '{n}건', 
+  };
+
+  final Map<String, String> company_info_kr = {
+    'name': '업체명',
+    'representativeName': '대표자명',
+    'type': '회원유형',
+    'bizRegiNum': '사업자등록번호',
+    'bizField': '업태',
+    'bizType': '종목',
+    'address': '사업장 주소',
+    'contact': '사업장 번호',
+    'bizRegiImg': '사업자등록증',
+    'accountImg': '통장사본',
+  };
+  final Map<String, String> manager_info_kr = {
+    'name': '이름',
+    'contact': '연락처',
+    'email': '이메일',
+  };
+  final Map<String, String> product_order_info_kr = {
+    'ordered': '주문 건', 
+    'cancelled': '취소 건', 
+    'returned': '반품 건',
+  };
+  final Map<String, String> contract_info_kr = {
+    'ordered': '문의 건',
+    'inProgress': '진행 건', 
+    'completed': '완료 건', 
+    'cancelled': '취소 건', 
   };
 
   @override
   void initState() {
     super.initState();
     controllers = {
-      for (var entry in supplierInfo.entries)
+      for (var entry in company_info.entries)
         entry.key: TextEditingController(text: entry.value),
-      for (var entry in contactInfo.entries)
+      for (var entry in manager_info.entries)
         entry.key: TextEditingController(text: entry.value),
-      for (var entry in orderInfo.entries)
+      for (var entry in product_order_info.entries)
         entry.key: TextEditingController(text: entry.value),
-      for (var entry in tradeInfo.entries)
+      for (var entry in contract_info.entries)
         entry.key: TextEditingController(text: entry.value)
     };
-    memoController = TextEditingController(text: ''); // 저장된 메모로 초기화 필요 
+    memoController = TextEditingController(text: ''); // 저장된 메모로 초기화 필요
   }
 
   @override
@@ -168,9 +198,9 @@ class _DetailViewState extends State<DetailView> {
               // 디테일 페이지 상단 영역
               Row(
                 children: [
-                  const Text(
-                    '{에스앤이컴퍼니(공급사명)} 상세정보',
-                    style: TextStyle(
+                  Text(
+                    '${company_info["name"]} 상세정보',
+                    style: const TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w700,
                     ),
@@ -193,7 +223,9 @@ class _DetailViewState extends State<DetailView> {
                     backgroundColor: Colors.white,
                     textColor: Color(0xFF9A9A9A),
                     borderColor: Color(0xFFD6D6D6),
-                    onPressed: () {},
+                    onPressed: () {
+                      context.go('/member');
+                    },
                   ),
                 ],
               ),
@@ -203,7 +235,7 @@ class _DetailViewState extends State<DetailView> {
                 padding: const EdgeInsets.only(top: 10.0),
                 child: Container(
                   width: double.infinity,
-                  height: isEditing ? 1000 : 900,
+                  height: isEditing ? 1050 : 950,
                   decoration: commonBoxDecoration,
                   child: Padding(
                     padding: const EdgeInsets.all(40.0),
@@ -232,14 +264,14 @@ class _DetailViewState extends State<DetailView> {
                                     0: FractionColumnWidth(0.3),
                                     1: FractionColumnWidth(0.7),
                                   },
-                                  children: supplierInfo.entries.map((entry) {
+                                  children: company_info.entries.map((entry) {
                                     return TableRow(
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 12.0, horizontal: 20),
                                           child: Text(
-                                            entry.key,
+                                            company_info_kr[entry.key]!,
                                             style: const TextStyle(
                                               color: Color(0xFF323232),
                                               fontSize: 14,
@@ -250,8 +282,8 @@ class _DetailViewState extends State<DetailView> {
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 12.0, horizontal: 20),
-                                          child: entry.key == '사업자등록증' ||
-                                                  entry.key == '통장사본'
+                                          child: entry.key == 'bizRegiImg' ||
+                                                  entry.key == 'accountImg'
                                               ? (entry.value == null
                                                   ? Text('')
                                                   : Row(
@@ -270,7 +302,7 @@ class _DetailViewState extends State<DetailView> {
                                                                         10.0),
                                                             child: CustomElevatedButton1(
                                                                 backgroundColor:
-                                                                    Color(
+                                                                    const Color(
                                                                         0xFF5D75BF),
                                                                 text: '파일선택',
                                                                 onPressed:
@@ -282,17 +314,17 @@ class _DetailViewState extends State<DetailView> {
                                                   ? Container(
                                                       width: 350,
                                                       height:
-                                                          entry.key == '사업장 주소'
+                                                          entry.key == 'address'
                                                               ? 80
                                                               : 45,
                                                       child: TextFormField(
                                                         controller: controllers[
                                                             entry.key],
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                           fontSize: 14,
                                                         ),
                                                         maxLines: entry.key ==
-                                                                '사업장 주소'
+                                                                'address'
                                                             ? null
                                                             : 1,
                                                         decoration:
@@ -364,14 +396,14 @@ class _DetailViewState extends State<DetailView> {
                                     0: FractionColumnWidth(0.3),
                                     1: FractionColumnWidth(0.7),
                                   },
-                                  children: contactInfo.entries.map((entry) {
+                                  children: manager_info.entries.map((entry) {
                                     return TableRow(
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 12.0, horizontal: 20),
                                           child: Text(
-                                            entry.key,
+                                            manager_info_kr[entry.key]!,
                                             style: const TextStyle(
                                               color: Color(0xFF323232),
                                               fontSize: 14,
@@ -443,14 +475,15 @@ class _DetailViewState extends State<DetailView> {
                                     0: FractionColumnWidth(0.3),
                                     1: FractionColumnWidth(0.7),
                                   },
-                                  children: orderInfo.entries.map((entry) {
+                                  children:
+                                      product_order_info.entries.map((entry) {
                                     return TableRow(
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 12.0, horizontal: 20),
                                           child: Text(
-                                            entry.key,
+                                            product_order_info_kr[entry.key]!,
                                             style: const TextStyle(
                                               color: Color(0xFF323232),
                                               fontSize: 14,
@@ -477,7 +510,7 @@ class _DetailViewState extends State<DetailView> {
                               TableBar(titleText: '선도거래 주문 정보'),
                               Container(
                                 width: double.infinity,
-                                height: 160,
+                                height: 200,
                                 child: Table(
                                   border: const TableBorder(
                                     top: BorderSide(
@@ -493,14 +526,14 @@ class _DetailViewState extends State<DetailView> {
                                     0: FractionColumnWidth(0.3),
                                     1: FractionColumnWidth(0.7),
                                   },
-                                  children: tradeInfo.entries.map((entry) {
+                                  children: contract_info.entries.map((entry) {
                                     return TableRow(
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 12.0, horizontal: 20),
                                           child: Text(
-                                            entry.key,
+                                            contract_info_kr[entry.key]!,
                                             style: const TextStyle(
                                               color: Color(0xFF323232),
                                               fontSize: 14,

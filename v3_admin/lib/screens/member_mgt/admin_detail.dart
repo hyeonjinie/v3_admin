@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:v3_admin/common_widget/common_widgets.dart';
 import 'package:v3_admin/common_widget/layout.dart';
 import 'package:v3_admin/common_widget/naviagtion_helper.dart';
+import 'package:intl/intl.dart';
 
 class AdminDetail extends StatefulWidget {
   const AdminDetail({super.key});
@@ -97,18 +98,49 @@ class _AdminDetailViewState extends State<AdminDetailView> {
   bool isEditing = false;
   late Map<String, TextEditingController> controllers;
 
-  final Map<String, String> staffInfo = {
-    '이름': '심재윤',
-    '연락처': '010-1234-1234',
-    '이메일': 'thl@bgood.co.kr',
+  final Map<String, dynamic> staffInfo = {
+    "name": "박재성",
+    "contact": "0100000000",
+    "email": "jspark@bgood.co.kr",
+    "status": "재직",
+    "join_date": "2021-02-22",
+    "permission": "일반관리자",
+    "div": "연구소",
   };
-  final Map<String, String> companyInfo = {
-    '재직여부': '휴직',
-    '부서': '기업부설연구소',
-    '입사일': '2023-12-01',
-    '휴직일': '2024-02-01 ~ 2024-02-20',
-    '퇴사일': '-',
+
+  final Map<String, dynamic> staffInfo_kr = {
+    "name": "이름",
+    "contact": "연락처",
+    "email": "메일",
   };
+
+  final Map<String, dynamic> companyInfo_kr = {
+    "status": "재직여부",
+    "join_date": "입사일",
+    "div": "부서",
+  };
+
+  String? _selectedStatus = "재직";
+  final TextEditingController dateController = TextEditingController();
+  final List<String> divisions = ["경영기획본부", "마케팅본부", "기업부설연구소"];
+  String? selectedDivision = "경영기획본부";
+  late DateTime selectedDate;
+
+  Future<void> _selectDate(
+      BuildContext context, TextEditingController controller) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        controller.text = DateFormat('yyyy-MM-dd').format(picked);
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -117,6 +149,7 @@ class _AdminDetailViewState extends State<AdminDetailView> {
       for (var entry in staffInfo.entries)
         entry.key: TextEditingController(text: entry.value),
     };
+    selectedDate = DateTime.now();
   }
 
   @override
@@ -140,7 +173,7 @@ class _AdminDetailViewState extends State<AdminDetailView> {
               Row(
                 children: [
                   Text(
-                    '{심재윤} 상세정보',
+                    '${staffInfo["name"]} 상세정보',
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w700,
@@ -164,7 +197,9 @@ class _AdminDetailViewState extends State<AdminDetailView> {
                     backgroundColor: Colors.white,
                     textColor: Color(0xFF9A9A9A),
                     borderColor: Color(0xFFD6D6D6),
-                    onPressed: () {},
+                    onPressed: () {
+                      context.go('/admin');
+                    },
                   ),
                 ],
               ),
@@ -203,14 +238,17 @@ class _AdminDetailViewState extends State<AdminDetailView> {
                                     0: FractionColumnWidth(0.3),
                                     1: FractionColumnWidth(0.7),
                                   },
-                                  children: staffInfo.entries.map((entry) {
+                                  children: staffInfo.entries
+                                      .where((entry) =>
+                                          staffInfo_kr.containsKey(entry.key))
+                                      .map((entry) {
                                     return TableRow(
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 12.0, horizontal: 20),
                                           child: Text(
-                                            entry.key,
+                                            staffInfo_kr[entry.key]!,
                                             style: const TextStyle(
                                               color: Color(0xFF323232),
                                               fontSize: 14,
@@ -296,35 +334,131 @@ class _AdminDetailViewState extends State<AdminDetailView> {
                                     0: FractionColumnWidth(0.3),
                                     1: FractionColumnWidth(0.7),
                                   },
-                                  children: companyInfo.entries.map((entry) {
-                                    return TableRow(
+                                  children: [
+                                    TableRow(
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
-                                              vertical: 12.0, horizontal: 20),
-                                          child: Text(
-                                            entry.key,
-                                            style: TextStyle(
-                                              color: Color(0xFF323232),
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
+                                              horizontal: 20),
+                                          child: Container(
+                                            height: 45,
+                                            alignment: Alignment.centerLeft,
+                                            child: const Text(
+                                              '재직여부',
+                                              style: TextStyle(
+                                                color: Color(0xFF323232),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                              ),
                                             ),
                                           ),
                                         ),
+                                        isEditing
+                                            ? buildEditableStatusRow()
+                                            : Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 20),
+                                                child: Container(
+                                                  height: 45,
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child: Text(
+                                                    staffInfo['status'],
+                                                    style: const TextStyle(
+                                                      color: Color(0xFF323232),
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                      ],
+                                    ),
+                                    TableRow(
+                                      children: [
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
-                                              vertical: 12.0, horizontal: 20),
-                                          child: Text(
-                                            entry.value,
-                                            style: TextStyle(
-                                              color: Color(0xFF323232),
-                                              fontSize: 14,
+                                              horizontal: 20),
+                                          child: Container(
+                                            height: 45,
+                                            alignment: Alignment.centerLeft,
+                                            child: const Text(
+                                              '부서',
+                                              style: TextStyle(
+                                                color: Color(0xFF323232),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                              ),
                                             ),
                                           ),
                                         ),
+                                        isEditing
+                                            ? buildEditableDivisionRow()
+                                            : Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 20),
+                                                child: Container(
+                                                  height: 45,
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child: Text(
+                                                    staffInfo['div'],
+                                                    style: const TextStyle(
+                                                      color: Color(0xFF323232),
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
                                       ],
-                                    );
-                                  }).toList(),
+                                    ),
+                                    TableRow(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          child: Container(
+                                            height: 45,
+                                            alignment: Alignment.centerLeft,
+                                            child: const Text(
+                                              '입사일',
+                                              style: TextStyle(
+                                                color: Color(0xFF323232),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        isEditing
+                                            ? buildEditableJoinDateRow()
+                                            : Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 20),
+                                                child: Container(
+                                                  height: 45,
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child: Text(
+                                                    staffInfo['join_date'],
+                                                    style: const TextStyle(
+                                                      color: Color(0xFF323232),
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
@@ -342,6 +476,80 @@ class _AdminDetailViewState extends State<AdminDetailView> {
           ),
         ),
       ],
+    );
+  }
+
+  Padding buildEditableStatusRow() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: RadioListTile<String>(
+              title: Text('재직'),
+              value: '재직',
+              groupValue: _selectedStatus,
+              onChanged: (value) {
+                setState(() {
+                  _selectedStatus = value;
+                });
+              },
+              activeColor: Color(0xFF5D75BF),
+            ),
+          ),
+          Expanded(
+            child: RadioListTile<String>(
+              title: Text('휴직'),
+              value: '휴직',
+              groupValue: _selectedStatus,
+              onChanged: (value) {
+                setState(() {
+                  _selectedStatus = value;
+                });
+              },
+              activeColor: Color(0xFF5D75BF),
+            ),
+          ),
+          Expanded(
+            child: RadioListTile<String>(
+              title: Text('퇴사'),
+              value: '퇴사',
+              groupValue: _selectedStatus,
+              onChanged: (value) {
+                setState(() {
+                  _selectedStatus = value;
+                });
+              },
+              activeColor: Color(0xFF5D75BF),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Padding buildEditableDivisionRow() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
+      child: SelectBoxExample(
+        initialValue: '경영기획본부',
+        options: const ['경영기획본부', '마케팅본부', '기업부설연구소'],
+        onChanged: (String? newValue) {
+          setState(() {});
+        },
+        custom_width: 220.0,
+      ),
+    );
+  }
+
+  Padding buildEditableJoinDateRow() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
+      child: CustomDatePickerField(
+        controller: dateController,
+        onDateTap: _selectDate,
+      ),
     );
   }
 }

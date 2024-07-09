@@ -166,7 +166,7 @@ class _RegistrationState extends State<Registration> {
                     textColor: Color(0xFF9A9A9A),
                     borderColor: Color(0xFFD6D6D6),
                     onPressed: () {
-                      context.go('/admin-detail'); // 현재 직원 detail로 이동 필요
+                      context.go('/admin'); 
                     },
                   ),
                 ],

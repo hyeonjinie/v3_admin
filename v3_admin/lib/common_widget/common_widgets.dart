@@ -495,7 +495,7 @@ Widget buildCell(String text,
             height: 45,
             child: TextFormField(
               controller: controller,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(
                   borderSide: BorderSide(
                     color: Color(0xFFD1D1D1),
@@ -529,7 +529,7 @@ Widget tabTextBox(String text1, String text2, double w) {
         width: w,
         child: Text(
           text1,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
             color: Colors.black,

@@ -192,14 +192,7 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                     ),
                   ),
                   Spacer(),
-                  CustomElevatedButton1(
-                    backgroundColor: Color(0xFF5D75BF),
-                    text: '수정',
-                    onPressed: () {},
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
+                  
                   CustomElevatedButton2(
                     text: '목록',
                     backgroundColor: Colors.white,

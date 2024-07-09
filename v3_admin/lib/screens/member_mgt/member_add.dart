@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:v3_admin/common_widget/common_widgets.dart';
 import 'package:v3_admin/common_widget/layout.dart';
 import 'package:v3_admin/common_widget/naviagtion_helper.dart';
+import 'dart:io';
+
 
 class MemberAdd extends StatefulWidget {
   const MemberAdd({super.key});
@@ -96,6 +99,59 @@ class RegistMember extends StatefulWidget {
 }
 
 class _RegistMemberState extends State<RegistMember> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController repNameController = TextEditingController();
+  final TextEditingController typeController = TextEditingController();
+  final TextEditingController bizRegiNumController = TextEditingController();
+  final TextEditingController bizFieldController = TextEditingController();
+  final TextEditingController bizTypeController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+  final TextEditingController contactController = TextEditingController();
+  final TextEditingController mgrNameController = TextEditingController();
+  final TextEditingController mgrContactController = TextEditingController();
+  final TextEditingController mgrMailController = TextEditingController();
+  final TextEditingController memoController = TextEditingController();
+
+  XFile? _bizRegiImg;
+  XFile? _accountImg;
+  final ImagePicker picker = ImagePicker();
+
+  Future getbizImage(ImageSource imageSource) async {
+    final XFile? pickedFile = await picker.pickImage(source: imageSource);
+    if (pickedFile != null) {
+      setState(() {
+        _bizRegiImg = XFile(pickedFile.path); 
+      });
+    }
+  }
+
+  Future getAccountImage(ImageSource imageSource) async {
+    final XFile? pickedFile = await picker.pickImage(source: imageSource);
+    if (pickedFile != null) {
+      setState(() {
+        _accountImg = XFile(pickedFile.path); 
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    repNameController.dispose();
+    typeController.dispose();
+    bizRegiNumController.dispose();
+    bizFieldController.dispose();
+    bizTypeController.dispose();
+    addressController.dispose();
+    contactController.dispose();
+    mgrNameController.dispose();
+    mgrContactController.dispose();
+    mgrMailController.dispose();
+    memoController.dispose();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -120,8 +176,7 @@ class _RegistMemberState extends State<RegistMember> {
                     backgroundColor: Color(0xFF5D75BF),
                     text: '등록',
                     onPressed: () {
-                      setState(() {
-                      });
+                      setState(() {});
                     },
                   ),
                   const SizedBox(
@@ -132,7 +187,9 @@ class _RegistMemberState extends State<RegistMember> {
                     backgroundColor: Colors.white,
                     textColor: Color(0xFF9A9A9A),
                     borderColor: Color(0xFFD6D6D6),
-                    onPressed: () {},
+                    onPressed: () {
+                      context.go('/member');
+                    },
                   ),
                 ],
               ),
@@ -171,7 +228,71 @@ class _RegistMemberState extends State<RegistMember> {
                                     0: FractionColumnWidth(0.3),
                                     1: FractionColumnWidth(0.7),
                                   },
-                                  
+                                  children: [
+                                    buildRow('업체명', controller: nameController),
+                                    buildRow('대표자명',
+                                        controller: repNameController),
+                                    buildRow('회원유형',
+                                        controller: typeController),
+                                    buildRow('사업자등록번호',
+                                        controller: bizRegiNumController),
+                                    buildRow('업태',
+                                        controller: bizFieldController),
+                                    buildRow('종목',
+                                        controller: bizTypeController),
+                                    buildRow('사업장 주소',
+                                        controller: addressController),
+                                    buildRow('사업장 번호',
+                                        controller: contactController),
+                                    TableRow(children: [
+                                      buildCell('사업자등록증', isHeader: true),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 12.0, horizontal: 20),
+                                        child: Row(
+                                          children: [
+                                            // _bizRegiImg != null
+                                            //     ? Image.file(_bizRegiImg!,
+                                            //         height: 100,
+                                            //         fit: BoxFit.contain)
+                                            //     : Container(),
+                                            SizedBox(width: 10),
+                                            CustomElevatedButton1(
+                                              backgroundColor:
+                                                  Color(0xFF5D75BF),
+                                              text: '파일선택',
+                                              onPressed: (){
+                                                getbizImage(ImageSource.gallery);
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ]),
+                                    TableRow(children: [
+                                      buildCell('통장사본', isHeader: true),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 12.0, horizontal: 20),
+                                        child: Container(
+                                          // width: 350,
+                                          height: 45,
+                                          child: Row(
+                                            children: [
+                                              CustomElevatedButton1(
+                                                backgroundColor:
+                                                    Color(0xFF5D75BF),
+                                                text: '파일선택',
+                                                onPressed: () {
+                                                  print('oooo');
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ])
+                                  ],
                                 ),
                               ),
                               const SizedBox(
@@ -191,7 +312,7 @@ class _RegistMemberState extends State<RegistMember> {
                               TableBar(titleText: '기업 담당자 정보'),
                               Container(
                                 width: double.infinity,
-                                height: 160,
+                                height: 240,
                                 child: Table(
                                   border: const TableBorder(
                                     top: BorderSide(
@@ -207,54 +328,36 @@ class _RegistMemberState extends State<RegistMember> {
                                     0: FractionColumnWidth(0.3),
                                     1: FractionColumnWidth(0.7),
                                   },
-                                  
+                                  children: [
+                                    buildRow('이름',
+                                        controller: mgrNameController),
+                                    buildRow('연락처',
+                                        controller: mgrContactController),
+                                    buildRow('이메일',
+                                        controller: mgrMailController),
+                                  ],
                                 ),
                               ),
-                              TableBar(titleText: '비굿마켓 주문 정보'),
+                              TableBar(titleText: '기타 참고사항'),
                               Container(
-                                width: double.infinity,
-                                height: 160,
-                                child: Table(
-                                  border: const TableBorder(
-                                    top: BorderSide(
-                                        color: Color(0xFFD0D0D0), width: 1),
-                                    bottom: BorderSide(
-                                        color: Color(0xFFD0D0D0), width: 1),
-                                    verticalInside: BorderSide(
-                                        color: Color(0xFFD0D0D0), width: 1),
-                                    horizontalInside: BorderSide(
-                                        color: Color(0xFFD0D0D0), width: 1),
+                                  width: double.infinity,
+                                  height: 150,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Color(0xFFD6D6D6),
+                                    ),
                                   ),
-                                  columnWidths: const {
-                                    0: FractionColumnWidth(0.3),
-                                    1: FractionColumnWidth(0.7),
-                                  },
-                                
-                                ),
-                              ),
-                              TableBar(titleText: '선도거래 주문 정보'),
-                              Container(
-                                width: double.infinity,
-                                height: 160,
-                                child: Table(
-                                  border: const TableBorder(
-                                    top: BorderSide(
-                                        color: Color(0xFFD0D0D0), width: 1),
-                                    bottom: BorderSide(
-                                        color: Color(0xFFD0D0D0), width: 1),
-                                    verticalInside: BorderSide(
-                                        color: Color(0xFFD0D0D0), width: 1),
-                                    horizontalInside: BorderSide(
-                                        color: Color(0xFFD0D0D0), width: 1),
-                                  ),
-                                  columnWidths: const {
-                                    0: FractionColumnWidth(0.3),
-                                    1: FractionColumnWidth(0.7),
-                                  },
-                                
-                                ),
-                              ),
-                            
+                                  child: TextField(
+                                    controller: memoController,
+                                    keyboardType: TextInputType.multiline,
+                                    maxLines: null,
+                                    expands: true,
+                                    decoration: const InputDecoration(
+                                      contentPadding: EdgeInsets.all(8.0),
+                                      border: InputBorder.none,
+                                      hintText: '내용을 입력하세요',
+                                    ),
+                                  )),
                             ],
                           ),
                         ),

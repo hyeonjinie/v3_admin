@@ -104,7 +104,7 @@ class _OperationPageState extends State<OperationPage> {
                     ],
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -319,7 +319,7 @@ class _InquiryListState extends State<InquiryList> {
                         textBox('• 날짜'),
                         SelectBoxExample(
                           initialValue: '선택',
-                          options: [
+                          options: const [
                             '선택',
                             '문의등록일',
                             '희망배송일',
@@ -329,14 +329,14 @@ class _InquiryListState extends State<InquiryList> {
                           },
                           custom_width: 220.0,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         CustomDatePickerField(
                           controller: StartDateController,
                           onDateTap: _selectDate,
                         ),
-                        Text(
+                        const Text(
                           '  -  ',
                           style: TextStyle(
                             fontSize: 16,
@@ -376,7 +376,7 @@ class _InquiryListState extends State<InquiryList> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -390,7 +390,7 @@ class _InquiryListState extends State<InquiryList> {
                           },
                           custom_width: 220.0,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Container(
@@ -398,7 +398,7 @@ class _InquiryListState extends State<InquiryList> {
                           height: 45,
                           child: TextFormField(
                             controller: SearchController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: '검색어를 입력하세요',
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -443,21 +443,21 @@ class _InquiryListState extends State<InquiryList> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
 
           // 표 상단 영역
           Row(
             children: [
-              Text(
+              const Text(
                 ' 총 n개',
                 style: TextStyle(
                   fontSize: 16.0,
                 ),
               ),
               Spacer(),
-              SizedBox(
+              const SizedBox(
                 width: 20,
               ),
               SelectBoxExample(
@@ -493,7 +493,7 @@ class _InquiryListState extends State<InquiryList> {
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.75,
                         child: DataTable(
-                          columns: [
+                          columns: const [
                             DataColumn(
                               label: Text(
                                 '거래명',

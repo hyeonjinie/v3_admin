@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:v3_admin/common_widget/common_widgets.dart';
 import 'package:v3_admin/common_widget/layout.dart';
 import 'package:v3_admin/common_widget/naviagtion_helper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class SupplierDetail extends StatefulWidget {
   const SupplierDetail({super.key});
@@ -88,6 +90,17 @@ class _DetailViewState extends State<DetailView> {
   bool isEditing = false;
   late Map<String, TextEditingController> controllers;
   late TextEditingController memoController;
+  XFile? _accountImg;
+  final ImagePicker picker = ImagePicker();
+
+  Future getAccountImage(ImageSource imageSource) async {
+    final XFile? pickedFile = await picker.pickImage(source: imageSource);
+    if (pickedFile != null) {
+      setState(() {
+        _accountImg = XFile(pickedFile.path);
+      });
+    }
+  }
 
   final Map<String, String> supplierInfo = {
     '공급사명': '농블리마켓',
@@ -249,13 +262,20 @@ class _DetailViewState extends State<DetailView> {
                                                                     .symmetric(
                                                                     horizontal:
                                                                         10.0),
-                                                            child: CustomElevatedButton1(
-                                                                backgroundColor:
-                                                                    Color(
-                                                                        0xFF5D75BF),
-                                                                text: '파일선택',
-                                                                onPressed:
-                                                                    () {}),
+                                                            child:
+                                                                CustomElevatedButton1(
+                                                                    backgroundColor:
+                                                                        Color(
+                                                                            0xFF5D75BF),
+                                                                    text:
+                                                                        '파일선택',
+                                                                    onPressed:
+                                                                        () {
+                                                                      getAccountImage(
+                                                                          ImageSource
+                                                                              .gallery);
+                                                                              print('aaa');
+                                                                    }),
                                                           ),
                                                       ],
                                                     ),

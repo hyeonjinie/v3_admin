@@ -7,6 +7,8 @@ import 'package:v3_admin/common_widget/layout.dart';
 import 'package:v3_admin/common_widget/naviagtion_helper.dart';
 import 'package:v3_admin/screens/client_mgt/supplier_detail.dart';
 import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 final NumberFormat currencyFormat = NumberFormat('#,##0', 'en_US');
 
@@ -221,6 +223,18 @@ class _DetailViewState extends State<DetailView> {
   late Map<String, TextEditingController> controllers;
   late TextEditingController memoController;
 
+  XFile? _accountImg;
+  final ImagePicker picker = ImagePicker();
+
+  Future getAccountImage(ImageSource imageSource) async {
+    final XFile? pickedFile = await picker.pickImage(source: imageSource);
+    if (pickedFile != null) {
+      setState(() {
+        _accountImg = XFile(pickedFile.path);
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -273,7 +287,7 @@ class _DetailViewState extends State<DetailView> {
                       });
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   CustomElevatedButton2(
@@ -335,7 +349,7 @@ class _DetailViewState extends State<DetailView> {
                                       child: OutlinedButton(
                                         onPressed: () {},
                                         style: OutlinedButton.styleFrom(
-                                          side: BorderSide(
+                                          side: const BorderSide(
                                               color: Color(0xFFD6D6D6)),
                                           backgroundColor: Colors.white,
                                         ),
@@ -351,7 +365,7 @@ class _DetailViewState extends State<DetailView> {
                                   ],
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
 
@@ -406,19 +420,29 @@ class _DetailViewState extends State<DetailView> {
                                                           fit: BoxFit.contain,
                                                         ),
                                                         if (isEditing)
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        10.0),
-                                                            child: CustomElevatedButton1(
-                                                                backgroundColor:
-                                                                    Color(
-                                                                        0xFF5D75BF),
-                                                                text: '파일선택',
-                                                                onPressed:
-                                                                    () {}),
+                                                          Container(
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          10.0),
+                                                              child:
+                                                                  CustomElevatedButton1(
+                                                                      backgroundColor:
+                                                                          const Color(
+                                                                              0xFF5D75BF),
+                                                                      text:
+                                                                          '파일선택',
+                                                                      onPressed:
+                                                                          () {
+                                                                        getAccountImage(
+                                                                            ImageSource
+                                                                                .gallery);
+                                                                        print(
+                                                                            'object');
+                                                                      }),
+                                                            ),
                                                           ),
                                                       ],
                                                     ),
@@ -431,7 +455,7 @@ class _DetailViewState extends State<DetailView> {
                                                       child: TextFormField(
                                                         controller: controllers[
                                                             entry.key],
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                           fontSize: 14,
                                                         ),
                                                         decoration:
@@ -473,7 +497,7 @@ class _DetailViewState extends State<DetailView> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 40,
                         ),
                         Expanded(
@@ -508,7 +532,7 @@ class _DetailViewState extends State<DetailView> {
                                     },
                                     custom_width: 220.0,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 20,
                                   ),
                                   CustomElevatedButton1(
@@ -518,7 +542,7 @@ class _DetailViewState extends State<DetailView> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               // 기업 정보
@@ -537,7 +561,7 @@ class _DetailViewState extends State<DetailView> {
                                     horizontalInside: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                   ),
-                                  columnWidths: {
+                                  columnWidths: const {
                                     0: FractionColumnWidth(0.3),
                                     1: FractionColumnWidth(0.7),
                                   },
@@ -579,7 +603,7 @@ class _DetailViewState extends State<DetailView> {
                                   isSub: false,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               // 메모
@@ -608,7 +632,7 @@ class _DetailViewState extends State<DetailView> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
                                           memoController.text,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Color(0xFF323232),
                                             fontSize: 14,
                                           ),
