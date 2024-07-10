@@ -265,7 +265,7 @@ class _DetailViewState extends State<DetailView> {
                                                             child:
                                                                 CustomElevatedButton1(
                                                                     backgroundColor:
-                                                                        Color(
+                                                                        const Color(
                                                                             0xFF5D75BF),
                                                                     text:
                                                                         '파일선택',
@@ -274,7 +274,7 @@ class _DetailViewState extends State<DetailView> {
                                                                       getAccountImage(
                                                                           ImageSource
                                                                               .gallery);
-                                                                              print('aaa');
+                                                                      print('aaa');
                                                                     }),
                                                           ),
                                                       ],
@@ -290,7 +290,7 @@ class _DetailViewState extends State<DetailView> {
                                                       child: TextFormField(
                                                         controller: controllers[
                                                             entry.key],
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                           fontSize: 14,
                                                         ),
                                                         maxLines:
@@ -400,7 +400,7 @@ class _DetailViewState extends State<DetailView> {
                                                                         10.0),
                                                             child: CustomElevatedButton1(
                                                                 backgroundColor:
-                                                                    Color(
+                                                                    const Color(
                                                                         0xFF5D75BF),
                                                                 text: '파일선택',
                                                                 onPressed:
@@ -417,7 +417,7 @@ class _DetailViewState extends State<DetailView> {
                                                       child: TextFormField(
                                                         controller: controllers[
                                                             entry.key],
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                           fontSize: 14,
                                                         ),
                                                         decoration:
@@ -503,7 +503,7 @@ class _DetailViewState extends State<DetailView> {
                                                   child: TextFormField(
                                                     controller:
                                                         controllers[entry.key],
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                       fontSize: 14,
                                                     ),
                                                     decoration: InputDecoration(
@@ -527,7 +527,7 @@ class _DetailViewState extends State<DetailView> {
                                                 )
                                               : Text(
                                                   entry.value,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     color: Color(0xFF323232),
                                                     fontSize: 14,
                                                   ),
