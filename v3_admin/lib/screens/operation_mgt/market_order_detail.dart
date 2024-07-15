@@ -3,6 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:v3_admin/common_widget/common_widgets.dart';
 import 'package:v3_admin/common_widget/layout.dart';
 import 'package:v3_admin/common_widget/naviagtion_helper.dart';
+import 'package:intl/intl.dart';
+
+final NumberFormat currencyFormat = NumberFormat('#,##0', 'en_US');
 
 class OrderDetail extends StatefulWidget {
   const OrderDetail({super.key});
@@ -124,45 +127,45 @@ class _OrderDetailState extends State<OrderDetail> {
 
 final Map<String, dynamic> marketInfo = {
   "orderInfo": {
-    "mainCategory": "농산물",
-    "subCategory": "기타",
-    "productName": "제품명수정수정",
-    "supplierName": "과일회사",
-    "quantity": 1,
+    "mainCategory": "가공식품",
+    "subCategory": "식혜",
+    "productName": "달보드레 전통 음료",
+    "supplierName": "맛있는 식품",
+    "quantity": 10,
     "orderDate": "2024-06-19T10:47:53.523000+00:00",
-    "orderer": "에스앤이컴퍼니",
-    "contact": "",
-    "address": "서울 서초구 매헌로8길 39 다동"
+    "orderer": "박재성",
+    "contact": "010-0000-0000",
+    "address": "서울특별시 서초구 매헌로8길 39, D동 4층 406호(양재동, 희경재단) 테스트테스트테스트테스트"
   },
   "paymentInfo": {
     "goodsPrice": 28000,
-    "deliveryCost": "보류",
+    "deliveryCost": "무료",
     "totalCost": 28000,
-    "payment": "결제방식",
-    "status": "취소"
+    "payment": "무통장입금",
+    "status": "결제완료"
   }
 };
 
-// 주문정보 
-    final Map<String, String> orderInfo = {
-      '카테고리': '전체상품 > 가공식품 > 식혜',
-      '상품명': '달보드레 전통 음료',
-      '공급사': '맛있는 식품',
-      '수량': '10',
-      '주문일자': '2024-05-19',
-      '주문자': '박재성',
-      '연락처': '010-0000-0000',
-      '배송지': '서울특별시 서초구 매헌로8길 39, D동 4층 406호(양재동, 희경재단) 테스트테스트테스트테스트',
-    };
+// 주문정보
+final Map<String, dynamic> orderInfo = {
+  '카테고리': '전체상품 > ${marketInfo["orderInfo"]["mainCategory"]} > ${marketInfo["orderInfo"]["subCategory"]}',
+  '상품명': marketInfo["orderInfo"]["productName"],
+  '공급사': marketInfo["orderInfo"]["supplierName"],
+  '수량': currencyFormat.format(marketInfo["orderInfo"]["quantity"]) + 'kg',
+  '주문일자': marketInfo["orderInfo"]["orderDate"].split('T')[0],
+  '주문자': marketInfo["orderInfo"]["orderer"],
+  '연락처': marketInfo["orderInfo"]["contact"],
+  '배송지': marketInfo["orderInfo"]["address"],
+};
 
-    // 결제정보 
-    final Map<String, String> paymentInfo = {
-      '상품금액': '1,800원',
-      '배송비': '무료',
-      '총 결제금액': '18,000원',
-      '결제방식': '무통장입금',
-      '상태': '결제완료(2024-05-20)',
-    };
+// 결제정보
+final Map<String, dynamic> paymentInfo = {
+  '상품금액': currencyFormat.format(marketInfo["paymentInfo"]["goodsPrice"]) + '원',
+  '배송비': marketInfo["paymentInfo"]["deliveryCost"],
+  '총 결제금액': currencyFormat.format(marketInfo["paymentInfo"]["totalCost"]) + '원',
+  '결제방식': marketInfo["paymentInfo"]["payment"],
+  '상태': marketInfo["paymentInfo"]["status"],
+};
 
 class OrderDetailView extends StatefulWidget {
   const OrderDetailView({super.key});
@@ -210,7 +213,6 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                 padding: const EdgeInsets.only(top: 10.0),
                 child: Container(
                   width: double.infinity,
-                  height: 1000,
                   decoration: commonBoxDecoration,
                   child: Padding(
                     padding: const EdgeInsets.all(40.0),
@@ -224,7 +226,6 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                               TableBar(titleText: '주문 정보'),
                               Container(
                                 width: double.infinity,
-                                height: 500,
                                 child: Table(
                                   border: const TableBorder(
                                     top: BorderSide(
@@ -327,7 +328,6 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                               TableBar(titleText: '결제 정보'),
                               Container(
                                 width: double.infinity,
-                                height: 350,
                                 child: Table(
                                   border: const TableBorder(
                                     top: BorderSide(

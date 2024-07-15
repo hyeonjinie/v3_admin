@@ -116,43 +116,43 @@ class WithRouter extends StatelessWidget {
           return AdminAdd();
         },
       ),
-      GoRoute( // 운영관리 > 선도거리 > 문의/계약 
+      GoRoute( // 운영관리 > 선도거래 > 문의/계약 
         path: '/operation',
         builder: (BuildContext context, GoRouterState state) {
           return OperationPage();
         },
       ),
-      GoRoute( // 운영관리 > 선도거리 > 문의/계약 > 상세 
+      GoRoute( // 운영관리 > 선도거래 > 문의/계약 > 상세 
         path: '/inquiry-detail',
         builder: (BuildContext context, GoRouterState state) {
           return InquiryDetail();
         },
       ),
-      GoRoute( // 운영관리 > 선도거리 > 진행 > 메인 주문서 생성 
+      GoRoute( // 운영관리 > 선도거래 > 진행 > 메인 주문서 생성 
         path: '/regist-order',
         builder: (BuildContext context, GoRouterState state) {
           return RegistMainOrder();
         },
       ),
-      GoRoute( // 운영관리 > 선도거리 > 진행
+      GoRoute( // 운영관리 > 선도거래 > 진행
         path: '/progress',
         builder: (BuildContext context, GoRouterState state) {
           return Progress();
         },
       ),
-      GoRoute( // 운영관리 > 선도거리 > 진행 > 상세 
+      GoRoute( // 운영관리 > 선도거래 > 진행 > 상세 
         path: '/progress-detail',
         builder: (BuildContext context, GoRouterState state) {
           return ProgressDetail();
         },
       ),
-      GoRoute( // 운영관리 > 선도거리 > 완료 
+      GoRoute( // 운영관리 > 선도거래 > 완료 
         path: '/completed',
         builder: (BuildContext context, GoRouterState state) {
           return Completed();
         },
       ),
-      GoRoute( // 운영관리 > 선도거리 > 완료 > 상세 
+      GoRoute( // 운영관리 > 선도거래 > 완료 > 상세 
         path: '/completed-detail',
         builder: (BuildContext context, GoRouterState state) {
           return CompletedDetail();

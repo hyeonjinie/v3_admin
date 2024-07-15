@@ -480,7 +480,7 @@ class _CompletedListState extends State<CompletedList> {
                               DataCell(
                                 GestureDetector(
                                   onTap: () {
-                                    context.go('/completed-detail');
+                                    context.go('/progress-detail');
                                   },
                                   child: Text(
                                     item['거래명']!.length > 12

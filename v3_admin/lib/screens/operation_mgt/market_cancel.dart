@@ -104,7 +104,7 @@ class _MarketCancelState extends State<MarketCancel> {
                     ],
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -134,9 +134,7 @@ class _CancleListState extends State<CancleList> {
   int _rowsPerPage = 10;
   int _pageIndex = 0;
   late List<Map<String, String>> _filteredData;
-  late TextEditingController StartDateController;
-  late TextEditingController EndDateController;
-  late TextEditingController SearchController;
+  late TextEditingController searchController;
   late List<bool> isSelected;
 
   late DateTime selectedDate;
@@ -145,9 +143,7 @@ class _CancleListState extends State<CancleList> {
   void initState() {
     super.initState();
     _filteredData = _data;
-    StartDateController = TextEditingController();
-    EndDateController = TextEditingController();
-    SearchController = TextEditingController();
+    searchController = TextEditingController();
     selectedDate = DateTime.now();
     isSelected = [false, false, false, false, true];
   }
@@ -162,7 +158,6 @@ class _CancleListState extends State<CancleList> {
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
-        StartDateController.text = DateFormat('yyyy-MM-dd').format(picked);
       });
     }
   }
@@ -425,7 +420,7 @@ class _CancleListState extends State<CancleList> {
                   children: [
                     Row(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 120,
                           child: Text(
                             '• 상태',
@@ -438,7 +433,7 @@ class _CancleListState extends State<CancleList> {
                         ),
                         SelectBoxExample(
                           initialValue: '전체',
-                          options: [
+                          options: const [
                             '전체',
                             '주문요청',
                             '배송예정',
@@ -451,12 +446,12 @@ class _CancleListState extends State<CancleList> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 120,
                           child: Text(
                             '• 검색',
@@ -469,21 +464,21 @@ class _CancleListState extends State<CancleList> {
                         ),
                         SelectBoxExample(
                           initialValue: '전체',
-                          options: ['전체', '업체명', '담당자명', '담당자 연락처', '담당자 메일'],
+                          options: const ['전체', '업체명', '담당자명', '담당자 연락처', '담당자 메일'],
                           onChanged: (String? newValue) {
                             setState(() {});
                           },
                           custom_width: 220.0,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Container(
                           width: 350,
                           height: 45,
                           child: TextFormField(
-                            controller: SearchController,
-                            decoration: InputDecoration(
+                            controller: searchController,
+                            decoration: const InputDecoration(
                               hintText: '검색어를 입력하세요',
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -500,7 +495,7 @@ class _CancleListState extends State<CancleList> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Row(
@@ -511,7 +506,7 @@ class _CancleListState extends State<CancleList> {
                           text: '검색',
                           onPressed: () {},
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         CustomElevatedButton2(
@@ -528,14 +523,14 @@ class _CancleListState extends State<CancleList> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
 
           // 표 상단 영역
           Row(
             children: [
-              Text(
+              const Text(
                 ' 총 n개',
                 style: TextStyle(
                   fontSize: 16.0,
@@ -547,12 +542,12 @@ class _CancleListState extends State<CancleList> {
                 text: '주문 생성',
                 onPressed: () {},
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               SelectBoxExample(
                 initialValue: '10개 보기',
-                options: ['10개 보기', '20개 보기', '50개 보기'],
+                options: const ['10개 보기', '20개 보기', '50개 보기'],
                 onChanged: (String? newValue) {
                   setState(() {
                     _rowsPerPage = int.parse(newValue!.split('개')[0]);
@@ -583,7 +578,7 @@ class _CancleListState extends State<CancleList> {
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.75,
                         child: DataTable(
-                          columns: [
+                          columns: const [
                             DataColumn(
                               label: Text(
                                 '주문번호',
@@ -641,11 +636,11 @@ class _CancleListState extends State<CancleList> {
                               DataCell(
                                 GestureDetector(
                                   onTap: () {
-                                    // context.go('/member-detail');
+                                    context.go('/order-detail');
                                   },
                                   child: Text(
                                     item['주문번호']! + ' >',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Color(0xFF4470F6),
                                       fontWeight: FontWeight.bold,
                                     ),

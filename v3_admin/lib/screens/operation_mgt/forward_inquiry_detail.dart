@@ -12,57 +12,57 @@ import 'dart:io';
 
 final NumberFormat currencyFormat = NumberFormat('#,##0', 'en_US');
 
-// 문의내용
-final Map<String, String> inquiryInfo = {
-  '품목': '사과',
-  '품종': '부사',
-  '등급': '상',
-  '원산지': '경상북도',
-  '단가': '1,500원',
-  '공급물량': '12,520kg',
-  '거래횟수': '',
-  '공급기간': '2024-04-24 ~ 2024-10-10',
-  '희망배송일': '2024-04-24',
-  '총 금액': '18,780,000원',
-  '담당자 연락처': '010-1234-1234',
-  '통장사본':
-      'https://firebasestorage.googleapis.com/v0/b/v3mvp-b9aa4.appspot.com/o/uploads%2Fregister%2Fclient%2FIdyZUA7S6CcsbeKu7h7Gj8k9zpB2%2Fbusiness_registration_image?alt=media&token=7a17324f-6e09-4520-b4ef-6d4ddc4c29ae'
-};
-
-// 기업정보
-final Map<String, String> memberInfo = {
-  '업체명': '비굿컴퍼니',
-  '사업자등록번호': '1234567890',
-  '업태/종목': '도매/농업',
-  '담당자명': '김현진',
-  '담당자 연락처': '010-1234-1234',
-  '이메일': 'abc@bgood.co.kr',
-  '사업장 주소': '서울특별시 서초구 매헌로8길 39, D동 4층 406호(양재동, 희경재단) 테스트테스트테스트테스트',
-};
-
-// 등록된 공급처
-final List<Map<String, dynamic>> _data = [
+final List<Map<String, dynamic>> forward_inquiry = [
   {
-    'supplierName': '한결농산',
-    "bizRegiNum": "123456789",
-    'cost': 1600,
-    'volume': 6000,
-    'totalAmount': 9600000,
+    "Inquiry": {
+      "category": "일반",
+      "itemName": "딸기",
+      "variety": "설향",
+      "grade": "상",
+      "origin": "우리집",
+      "price": 100,
+      "volume": null,
+      "hPrice": 500,
+      "hVolume": 20000,
+      "unit": "string",
+      "totalCount": null,
+      "totalVolume": 10000,
+      "hStartDate": "2024-07-10",
+      "hEndDate": "2027-07-11",
+      "hDeliveryDate": "2024-07-10",
+      "startDate": "2024-05-25",
+      "endDate": "2024-07-25",
+      "date": "2024-07-10",
+      "contact": "123123213",
+      "status": "진행",
+      "assignedAdmin": null,
+      "memo": "으아아아악"
+    }
   },
   {
-    'supplierName': '냠냠농산',
-    "bizRegiNum": "123456789",
-    'cost': 1800,
-    'volume': 2000,
-    'totalAmount': 3600000,
+    "Client": {
+      "companyName": "에스앤이컴퍼니",
+      "bizRegiNum": "12345611",
+      "bizField": "업종",
+      "bizType": "업태",
+      "manager": "강현구",
+      "contact": "1231424",
+      "email": "hgkang@bgood.co.kr",
+      "address": "서울",
+      "bankImg": null
+    }
   },
   {
-    'supplierName': '꿀꿀농산',
-    "bizRegiNum": "123456789",
-    'cost': 1800,
-    'volume': 2000,
-    'totalAmount': 3600000,
-  },
+    "Supplier": [
+      {
+        "supplier_id": "I5winMNcKwNVGHkC4O8H",
+        "name": "채소회사",
+        "cost": 1000,
+        "volume": 18000,
+        "totalAmount": 18000000
+      }
+    ]
+  }
 ];
 
 // 공급처 목록
@@ -90,6 +90,31 @@ final List<Map<String, dynamic>> suppliersList = [
   {
     'supplierName': 'f',
     "bizRegiNum": "123456789",
+  },
+];
+
+// 등록된 공급처
+List<Map<String, dynamic>> supplierInfo = [
+  {
+    'supplierName': '한결농산',
+    "bizRegiNum": "123456789",
+    'cost': 1600,
+    'volume': 6000,
+    'totalAmount': 9600000,
+  },
+  {
+    'supplierName': '냠냠농산',
+    "bizRegiNum": "123456789",
+    'cost': 1800,
+    'volume': 2000,
+    'totalAmount': 3600000,
+  },
+  {
+    'supplierName': '꿀꿀농산',
+    "bizRegiNum": "123456789",
+    'cost': 1800,
+    'volume': 2000,
+    'totalAmount': 3600000,
   },
 ];
 
@@ -221,6 +246,8 @@ class DetailView extends StatefulWidget {
 class _DetailViewState extends State<DetailView> {
   bool isEditing = false;
   late Map<String, TextEditingController> controllers;
+  late TextEditingController startDateController;
+  late TextEditingController endDateController;
   late TextEditingController memoController;
 
   XFile? _accountImg;
@@ -235,14 +262,85 @@ class _DetailViewState extends State<DetailView> {
     }
   }
 
+  late Map<String, dynamic> inquiryInfo;
+  late Map<String, dynamic> memberInfo;
+
   @override
   void initState() {
     super.initState();
+
+    dynamic inquiry = forward_inquiry
+        .firstWhere((element) => element.containsKey('Inquiry'))['Inquiry'];
+    dynamic client = forward_inquiry
+        .firstWhere((element) => element.containsKey('Client'))['Client'];
+
+    String itemName = inquiry['itemName'] ?? '';
+    String variety = inquiry['variety'] ?? '';
+    String grade = inquiry['grade'] ?? '';
+    String origin = inquiry['origin'] ?? '';
+    int price = inquiry['status'] != '대기'
+        ? (inquiry['price'] ?? 0)
+        : (inquiry['hPrice'] ?? 0);
+    int volume = inquiry['status'] != '대기'
+        ? (inquiry['volume'] ?? 0)
+        : (inquiry['hVolume'] ?? 0);
+    int totalCount = inquiry['totalCount'] ?? 0;
+    String startDate = inquiry['status'] != '대기'
+        ? (inquiry['startDate'] ?? '')
+        : (inquiry['hStartDate'] ?? '');
+    String endDate = inquiry['status'] != '대기'
+        ? (inquiry['endDate'] ?? '')
+        : (inquiry['hEndDate'] ?? '');
+    String hDeliveryDate = inquiry['hDeliveryDate'] ?? '';
+    int totalAmount = inquiry['status'] != '대기'
+        ? (inquiry['totalAmount'] ?? 0)
+        : (inquiry['hTotalAmount'] ?? 0);
+    String contact = inquiry['contact'] ?? '';
+    String memo = inquiry['memo'] ?? '';
+    String companyName = client['companyName'] ?? '';
+    String bizRegiNum = client['bizRegiNum'] ?? '';
+    String bizField = client['bizField'] ?? '';
+    String bizType = client['bizType'] ?? '';
+    String manager = client['manager'] ?? '';
+    String mgrContact = client['contact'] ?? '';
+    String email = client['email'] ?? '';
+    String address = client['address'] ?? '';
+
+    // 문의내용
+    inquiryInfo = {
+      '품목': itemName,
+      '품종': variety,
+      '등급': grade,
+      '원산지': origin,
+      '단가': price.toString(),
+      '공급물량': volume.toString(),
+      '거래횟수': totalCount.toString(),
+      '공급기간': startDate + ' ~ ' + endDate,
+      '희망배송일': hDeliveryDate,
+      '총 금액': totalAmount.toString(),
+      '담당자 연락처': contact,
+      '통장사본':
+          'https://firebasestorage.googleapis.com/v0/b/v3mvp-b9aa4.appspot.com/o/uploads%2Fregister%2Fclient%2FIdyZUA7S6CcsbeKu7h7Gj8k9zpB2%2Fbusiness_registration_image?alt=media&token=7a17324f-6e09-4520-b4ef-6d4ddc4c29ae'
+    };
+
+    // 기업정보
+    memberInfo = {
+      '업체명': companyName,
+      '사업자등록번호': bizRegiNum,
+      '업태/종목': bizField + ' / ' + bizType,
+      '담당자명': manager,
+      '담당자 연락처': mgrContact,
+      '이메일': email,
+      '사업장 주소': address,
+    };
+
     controllers = {
       for (var entry in inquiryInfo.entries)
         entry.key: TextEditingController(text: entry.value)
     };
-    memoController = TextEditingController();
+    startDateController = TextEditingController(text: startDate);
+    endDateController = TextEditingController(text: endDate);
+    memoController = TextEditingController(text: memo);
   }
 
   @override
@@ -250,8 +348,39 @@ class _DetailViewState extends State<DetailView> {
     for (var controller in controllers.values) {
       controller.dispose();
     }
+    startDateController.dispose();
+    endDateController.dispose();
     memoController.dispose();
     super.dispose();
+  }
+
+  Future<void> _selectDate(
+      BuildContext context, TextEditingController controller) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (pickedDate != null) {
+      setState(() {
+        controller.text = "${pickedDate.toLocal()}".split(' ')[0];
+      });
+    }
+  }
+
+  String getDisplayValue(String key, String value) {
+    switch (key) {
+      case '단가':
+      case '총 금액':
+        return value + '원';
+      case '공급물량':
+        return value + 'kg';
+      case '거래횟수':
+        return value + '회';
+      default:
+        return value;
+    }
   }
 
   @override
@@ -280,9 +409,14 @@ class _DetailViewState extends State<DetailView> {
                     onPressed: () {
                       setState(() {
                         if (isEditing) {
-                          inquiryInfo.updateAll(
-                              (key, value) => controllers[key]!.text);
+                          inquiryInfo.updateAll((key, value) {
+                            return controllers[key]!.text;
+                          });
+                          inquiryInfo['공급기간'] = startDateController.text +
+                              ' ~ ' +
+                              endDateController.text;
                         }
+
                         isEditing = !isEditing;
                       });
                     },
@@ -307,7 +441,6 @@ class _DetailViewState extends State<DetailView> {
                 padding: const EdgeInsets.only(top: 10.0),
                 child: Container(
                   width: double.infinity,
-                  height: isEditing ? 1100 : 1000,
                   decoration: commonBoxDecoration,
                   child: Padding(
                     padding: const EdgeInsets.all(40.0),
@@ -373,7 +506,6 @@ class _DetailViewState extends State<DetailView> {
                               TableBar(titleText: '문의내용'),
                               Container(
                                 width: double.infinity,
-                                height: 500,
                                 child: Table(
                                   border: const TableBorder(
                                     top: BorderSide(
@@ -437,8 +569,7 @@ class _DetailViewState extends State<DetailView> {
                                                                       onPressed:
                                                                           () {
                                                                         getAccountImage(
-                                                                            ImageSource
-                                                                                .gallery);
+                                                                            ImageSource.gallery);
                                                                         print(
                                                                             'object');
                                                                       }),
@@ -449,39 +580,79 @@ class _DetailViewState extends State<DetailView> {
                                                   ],
                                                 )
                                               : isEditing
-                                                  ? Container(
-                                                      width: 350,
-                                                      height: 45,
-                                                      child: TextFormField(
-                                                        controller: controllers[
-                                                            entry.key],
-                                                        style: const TextStyle(
-                                                          fontSize: 14,
-                                                        ),
-                                                        decoration:
-                                                            InputDecoration(
-                                                          hintText: entry.value,
-                                                          border:
-                                                              const OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: Color(
-                                                                  0xFFD1D1D1),
+                                                  ? entry.key == '공급기간'
+                                                      ? Row(
+                                                          children: [
+                                                            Container(
+                                                              width: 180,
+                                                              height: 45,
+                                                              child:
+                                                                  CustomDatePickerField(
+                                                                controller:
+                                                                    startDateController,
+                                                                onDateTap:
+                                                                    _selectDate,
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                                width: 10),
+                                                            const Text('~'),
+                                                            const SizedBox(
+                                                                width: 10),
+                                                            Container(
+                                                              width: 180,
+                                                              height: 45,
+                                                              child:
+                                                                  CustomDatePickerField(
+                                                                controller:
+                                                                    endDateController,
+                                                                onDateTap:
+                                                                    _selectDate,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        )
+                                                      : Container(
+                                                          width: 350,
+                                                          height: 45,
+                                                          child: TextFormField(
+                                                            controller:
+                                                                controllers[
+                                                                    entry.key],
+                                                            style:
+                                                                const TextStyle(
+                                                              fontSize: 14,
+                                                            ),
+                                                            decoration:
+                                                                InputDecoration(
+                                                              hintText: entry
+                                                                  .value
+                                                                  .replaceAll(
+                                                                      RegExp(
+                                                                          r'[^\d.]'),
+                                                                      ''),
+                                                              border:
+                                                                  const OutlineInputBorder(
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                  color: Color(
+                                                                      0xFFD1D1D1),
+                                                                ),
+                                                              ),
+                                                              enabledBorder:
+                                                                  const OutlineInputBorder(
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                  color: Color(
+                                                                      0xFFD1D1D1),
+                                                                ),
+                                                              ),
                                                             ),
                                                           ),
-                                                          enabledBorder:
-                                                              const OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: Color(
-                                                                  0xFFD1D1D1),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    )
+                                                        )
                                                   : Text(
-                                                      entry.value,
+                                                      getDisplayValue(entry.key,
+                                                          entry.value),
                                                       style: const TextStyle(
                                                         color:
                                                             Color(0xFF323232),
@@ -549,7 +720,6 @@ class _DetailViewState extends State<DetailView> {
                               TableBar(titleText: '기업 정보'),
                               Container(
                                 width: double.infinity,
-                                height: 350,
                                 child: Table(
                                   border: const TableBorder(
                                     top: BorderSide(
@@ -596,9 +766,12 @@ class _DetailViewState extends State<DetailView> {
                                   }).toList(),
                                 ),
                               ),
+                              const SizedBox(
+                                height: 20,
+                              ),
                               Container(
                                 child: SuppliersButtons(
-                                  suppliers: _data,
+                                  suppliers: supplierInfo,
                                   isAdd: isEditing ? true : false,
                                   isSub: false,
                                 ),
@@ -647,7 +820,7 @@ class _DetailViewState extends State<DetailView> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
             ],
@@ -694,7 +867,7 @@ class _SuppliersButtonsState extends State<SuppliersButtons> {
         return AddSupplierDialog(
           onSupplierSelected: (selectedSupplier, cost, volume, totalAmount) {
             setState(() {
-              _data.add({
+              supplierInfo.add({
                 'supplierName': selectedSupplier['supplierName'],
                 'bizRegiNum': selectedSupplier['bizRegiNum'],
                 'cost': cost,
@@ -878,7 +1051,7 @@ class _EditDialogState extends State<EditDialog> {
       child: Container(
         width: 570,
         padding: EdgeInsets.all(20.0),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(8)),
         ),
@@ -886,7 +1059,7 @@ class _EditDialogState extends State<EditDialog> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               '공급처 정보 편집',
               style: TextStyle(
                 fontSize: 18,
@@ -906,7 +1079,7 @@ class _EditDialogState extends State<EditDialog> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           IconButton(
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.delete,
                               color: Color(0xFF5D75BF),
                             ),
@@ -1034,7 +1207,7 @@ class _AddSupplierDialogState extends State<AddSupplierDialog> {
       child: Container(
         width: 570,
         padding: EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(8)),
         ),
@@ -1042,7 +1215,7 @@ class _AddSupplierDialogState extends State<AddSupplierDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(height: 10),
-            Text(
+            const Text(
               '공급처 추가',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
