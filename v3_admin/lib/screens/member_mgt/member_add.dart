@@ -5,6 +5,9 @@ import 'package:v3_admin/common_widget/common_widgets.dart';
 import 'package:v3_admin/common_widget/layout.dart';
 import 'package:v3_admin/common_widget/naviagtion_helper.dart';
 import 'dart:io';
+import 'package:intl/intl.dart';
+import 'package:file_picker/file_picker.dart';
+import 'dart:typed_data';
 
 
 class MemberAdd extends StatefulWidget {
@@ -112,27 +115,57 @@ class _RegistMemberState extends State<RegistMember> {
   final TextEditingController mgrMailController = TextEditingController();
   final TextEditingController memoController = TextEditingController();
 
-  XFile? _bizRegiImg;
-  XFile? _accountImg;
-  final ImagePicker picker = ImagePicker();
+  // XFile? _bizRegiImg;
+  // XFile? _accountImg;
+  // final ImagePicker picker = ImagePicker();
 
-  Future getbizImage(ImageSource imageSource) async {
-    final XFile? pickedFile = await picker.pickImage(source: imageSource);
-    if (pickedFile != null) {
+  // Future getbizImage(ImageSource imageSource) async {
+  //   final XFile? pickedFile = await picker.pickImage(source: imageSource);
+  //   if (pickedFile != null) {
+  //     setState(() {
+  //       _bizRegiImg = XFile(pickedFile.path); 
+  //     });
+  //   }
+  // }
+
+  // Future getAccountImage(ImageSource imageSource) async {
+  //   final XFile? pickedFile = await picker.pickImage(source: imageSource);
+  //   if (pickedFile != null) {
+  //     setState(() {
+  //       _accountImg = XFile(pickedFile.path); 
+  //     });
+  //   }
+  // }
+
+    Uint8List? _bizImgData;
+    Uint8List? _accountImgData;
+
+    Future<void> getAccountImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+
+    if (result != null) {
+      PlatformFile file = result.files.first;
       setState(() {
-        _bizRegiImg = XFile(pickedFile.path); 
+        _accountImgData = file.bytes;
       });
     }
   }
 
-  Future getAccountImage(ImageSource imageSource) async {
-    final XFile? pickedFile = await picker.pickImage(source: imageSource);
-    if (pickedFile != null) {
+    Future<void> getBizImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+
+    if (result != null) {
+      PlatformFile file = result.files.first;
       setState(() {
-        _accountImg = XFile(pickedFile.path); 
+        _bizImgData = file.bytes;
       });
     }
   }
+
 
   @override
   void dispose() {
@@ -212,7 +245,6 @@ class _RegistMemberState extends State<RegistMember> {
                               TableBar(titleText: '기업 정보'),
                               Container(
                                 width: double.infinity,
-                                height: 500,
                                 child: Table(
                                   border: const TableBorder(
                                     top: BorderSide(
@@ -251,20 +283,23 @@ class _RegistMemberState extends State<RegistMember> {
                                             vertical: 12.0, horizontal: 20),
                                         child: Row(
                                           children: [
-                                            // _bizRegiImg != null
-                                            //     ? Image.file(_bizRegiImg!,
-                                            //         height: 100,
-                                            //         fit: BoxFit.contain)
-                                            //     : Container(),
-                                            SizedBox(width: 10),
-                                            CustomElevatedButton1(
-                                              backgroundColor:
-                                                  Color(0xFF5D75BF),
-                                              text: '파일선택',
-                                              onPressed: (){
-                                                getbizImage(ImageSource.gallery);
-                                              },
-                                            ),
+                                            if (_bizImgData != null)
+                                                Image.memory(
+                                                  _bizImgData!,
+                                                  height: 100,
+                                                  fit: BoxFit.contain,
+                                                )
+                                              else
+                                                Text(''),
+                                              SizedBox(width: 15,),
+                                              CustomElevatedButton1(
+                                                backgroundColor:
+                                                    Color(0xFF5D75BF),
+                                                text: '파일선택',
+                                                onPressed: () {
+                                                  getBizImage();
+                                                },
+                                              ),
                                           ],
                                         ),
                                       ),
@@ -279,12 +314,21 @@ class _RegistMemberState extends State<RegistMember> {
                                           height: 45,
                                           child: Row(
                                             children: [
+                                              if (_accountImgData != null)
+                                                Image.memory(
+                                                  _accountImgData!,
+                                                  height: 100,
+                                                  fit: BoxFit.contain,
+                                                )
+                                              else
+                                                Text(''),
+                                              SizedBox(width: 15,),
                                               CustomElevatedButton1(
                                                 backgroundColor:
                                                     Color(0xFF5D75BF),
                                                 text: '파일선택',
                                                 onPressed: () {
-                                                  print('oooo');
+                                                  getAccountImage();
                                                 },
                                               ),
                                             ],

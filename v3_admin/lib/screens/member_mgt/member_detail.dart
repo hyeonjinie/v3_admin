@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:v3_admin/common_widget/common_widgets.dart';
 import 'package:v3_admin/common_widget/layout.dart';
 import 'package:v3_admin/common_widget/naviagtion_helper.dart';
+import 'package:file_picker/file_picker.dart';
+import 'dart:typed_data';
 
 class MemberDetail extends StatefulWidget {
   const MemberDetail({super.key});
@@ -102,6 +104,35 @@ class _DetailViewState extends State<DetailView> {
   late Map<String, TextEditingController> controllers;
   late TextEditingController memoController;
 
+  Uint8List? _accountImgData;
+  Uint8List? _bizRegiImgData;
+
+  Future<void> getAccountImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+
+    if (result != null) {
+      PlatformFile file = result.files.first;
+      setState(() {
+        _accountImgData = file.bytes;
+      });
+    }
+  }
+
+  Future<void> getBizRegiImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+
+    if (result != null) {
+      PlatformFile file = result.files.first;
+      setState(() {
+        _bizRegiImgData = file.bytes;
+      });
+    }
+  }
+
   final Map<String, String> company_info = {
     'name': '비굿컴퍼니',
     'representativeName': '강현구',
@@ -122,15 +153,15 @@ class _DetailViewState extends State<DetailView> {
     'email': 'thl@bgood.co.kr',
   };
   final Map<String, String> product_order_info = {
-    'ordered': '{n}건', 
-    'cancelled': '{n}건', 
-    'returned': '{n}건', 
+    'ordered': '{n}건',
+    'cancelled': '{n}건',
+    'returned': '{n}건',
   };
   final Map<String, String> contract_info = {
-    'ordered': '{n}건', 
-    'inProgress': '{n}건', 
-    'completed': '{n}건', 
-    'cancelled': '{n}건', 
+    'ordered': '{n}건',
+    'inProgress': '{n}건',
+    'completed': '{n}건',
+    'cancelled': '{n}건',
   };
 
   final Map<String, String> company_info_kr = {
@@ -151,15 +182,15 @@ class _DetailViewState extends State<DetailView> {
     'email': '이메일',
   };
   final Map<String, String> product_order_info_kr = {
-    'ordered': '주문 건', 
-    'cancelled': '취소 건', 
+    'ordered': '주문 건',
+    'cancelled': '취소 건',
     'returned': '반품 건',
   };
   final Map<String, String> contract_info_kr = {
     'ordered': '문의 건',
-    'inProgress': '진행 건', 
-    'completed': '완료 건', 
-    'cancelled': '취소 건', 
+    'inProgress': '진행 건',
+    'completed': '완료 건',
+    'cancelled': '취소 건',
   };
 
   @override
@@ -235,7 +266,6 @@ class _DetailViewState extends State<DetailView> {
                 padding: const EdgeInsets.only(top: 10.0),
                 child: Container(
                   width: double.infinity,
-                  height: isEditing ? 1050 : 950,
                   decoration: commonBoxDecoration,
                   child: Padding(
                     padding: const EdgeInsets.all(40.0),
@@ -248,7 +278,6 @@ class _DetailViewState extends State<DetailView> {
                               TableBar(titleText: '기업 정보'),
                               Container(
                                 width: double.infinity,
-                                height: 500,
                                 child: Table(
                                   border: const TableBorder(
                                     top: BorderSide(
@@ -288,11 +317,9 @@ class _DetailViewState extends State<DetailView> {
                                                   ? Text('')
                                                   : Row(
                                                       children: [
-                                                        Image.network(
-                                                          entry.value,
-                                                          height: 100,
-                                                          fit: BoxFit.contain,
-                                                        ),
+                                                        _getImageWidget(
+                                                            entry.key,
+                                                            entry.value),
                                                         if (isEditing)
                                                           Padding(
                                                             padding:
@@ -300,13 +327,23 @@ class _DetailViewState extends State<DetailView> {
                                                                     .symmetric(
                                                                     horizontal:
                                                                         10.0),
-                                                            child: CustomElevatedButton1(
-                                                                backgroundColor:
-                                                                    const Color(
-                                                                        0xFF5D75BF),
-                                                                text: '파일선택',
-                                                                onPressed:
-                                                                    () {}),
+                                                            child:
+                                                                CustomElevatedButton1(
+                                                                    backgroundColor:
+                                                                        const Color(
+                                                                            0xFF5D75BF),
+                                                                    text:
+                                                                        '파일선택',
+                                                                    onPressed:
+                                                                        () {
+                                                                      if (entry
+                                                                              .key ==
+                                                                          'bizRegiImg') {
+                                                                        getBizRegiImage();
+                                                                      } else {
+                                                                        getAccountImage();
+                                                                      }
+                                                                    }),
                                                           ),
                                                       ],
                                                     ))
@@ -380,7 +417,6 @@ class _DetailViewState extends State<DetailView> {
                               TableBar(titleText: '기업 담당자 정보'),
                               Container(
                                 width: double.infinity,
-                                height: isEditing ? 240 : 160,
                                 child: Table(
                                   border: const TableBorder(
                                     top: BorderSide(
@@ -421,7 +457,7 @@ class _DetailViewState extends State<DetailView> {
                                                   child: TextFormField(
                                                     controller:
                                                         controllers[entry.key],
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                       fontSize: 14,
                                                     ),
                                                     decoration: InputDecoration(
@@ -456,10 +492,12 @@ class _DetailViewState extends State<DetailView> {
                                   }).toList(),
                                 ),
                               ),
+                              const SizedBox(
+                                height: 20,
+                              ),
                               TableBar(titleText: '비굿마켓 주문 정보'),
                               Container(
                                 width: double.infinity,
-                                height: 160,
                                 child: Table(
                                   border: const TableBorder(
                                     top: BorderSide(
@@ -507,10 +545,12 @@ class _DetailViewState extends State<DetailView> {
                                   }).toList(),
                                 ),
                               ),
+                              const SizedBox(
+                                height: 20,
+                              ),
                               TableBar(titleText: '선도거래 주문 정보'),
                               Container(
                                 width: double.infinity,
-                                height: 200,
                                 child: Table(
                                   border: const TableBorder(
                                     top: BorderSide(
@@ -557,11 +597,14 @@ class _DetailViewState extends State<DetailView> {
                                   }).toList(),
                                 ),
                               ),
+                              const SizedBox(
+                                height: 20,
+                              ),
                               // 기타 참고사항
                               TableBar(titleText: '기타 참고사항'),
                               Container(
-                                width: double.infinity,
                                 height: 150,
+                                width: double.infinity,
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     color: Color(0xFFD6D6D6),
@@ -606,5 +649,23 @@ class _DetailViewState extends State<DetailView> {
         ),
       ],
     );
+  }
+
+  Widget _getImageWidget(String key, String url) {
+    Uint8List? imageData =
+        key == 'bizRegiImg' ? _bizRegiImgData : _accountImgData;
+    if (imageData != null) {
+      return Image.memory(
+        imageData,
+        height: 100,
+        fit: BoxFit.contain,
+      );
+    } else {
+      return Image.network(
+        url,
+        height: 100,
+        fit: BoxFit.contain,
+      );
+    }
   }
 }

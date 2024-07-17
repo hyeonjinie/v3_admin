@@ -220,7 +220,7 @@ class _EditInquiryDetailState extends State<EditInquiryDetail> {
               // 디테일 페이지 상단 영역
               Row(
                 children: [
-                  Text(
+                  const Text(
                     '선도거래 주문서 생성',
                     style: TextStyle(
                       fontSize: 18.0,
@@ -233,7 +233,7 @@ class _EditInquiryDetailState extends State<EditInquiryDetail> {
                     text: '등록',
                     onPressed: () {},
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   CustomElevatedButton2(
@@ -253,7 +253,7 @@ class _EditInquiryDetailState extends State<EditInquiryDetail> {
                 padding: const EdgeInsets.only(top: 10.0),
                 child: Container(
                   width: double.infinity,
-                  height: 1000,
+                  // height: 1000,
                   decoration: commonBoxDecoration,
                   child: Padding(
                     padding: const EdgeInsets.all(40.0),
@@ -266,9 +266,9 @@ class _EditInquiryDetailState extends State<EditInquiryDetail> {
                               TableBar(titleText: '문의내용'),
                               Container(
                                 width: double.infinity,
-                                height: 300,
+                                // height: 300,
                                 child: Table(
-                                  border: TableBorder(
+                                  border: const TableBorder(
                                     top: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                     bottom: BorderSide(
@@ -278,7 +278,7 @@ class _EditInquiryDetailState extends State<EditInquiryDetail> {
                                     horizontalInside: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                   ),
-                                  columnWidths: {
+                                  columnWidths: const {
                                     0: FractionColumnWidth(0.3),
                                     1: FractionColumnWidth(0.7),
                                   },
@@ -293,7 +293,7 @@ class _EditInquiryDetailState extends State<EditInquiryDetail> {
                                             vertical: 12.0, horizontal: 20),
                                         child: SelectBoxExample(
                                           initialValue: '특',
-                                          options: [
+                                          options: const [
                                             '특',
                                             '상',
                                             '중',

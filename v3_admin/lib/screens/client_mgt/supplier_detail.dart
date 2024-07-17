@@ -4,6 +4,7 @@ import 'package:v3_admin/common_widget/common_widgets.dart';
 import 'package:v3_admin/common_widget/layout.dart';
 import 'package:v3_admin/common_widget/naviagtion_helper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:typed_data';
 import 'dart:io';
 
 class SupplierDetail extends StatefulWidget {
@@ -90,14 +91,27 @@ class _DetailViewState extends State<DetailView> {
   bool isEditing = false;
   late Map<String, TextEditingController> controllers;
   late TextEditingController memoController;
-  XFile? _accountImg;
+
+  Uint8List? _accountImgData;
+  Uint8List? _bizImgData;
   final ImagePicker picker = ImagePicker();
 
-  Future getAccountImage(ImageSource imageSource) async {
+  Future<void> getAccountImage(ImageSource imageSource) async {
     final XFile? pickedFile = await picker.pickImage(source: imageSource);
     if (pickedFile != null) {
+      final Uint8List fileBytes = await pickedFile.readAsBytes();
       setState(() {
-        _accountImg = XFile(pickedFile.path);
+        _accountImgData = fileBytes;
+      });
+    }
+  }
+
+  Future<void> getBizImage(ImageSource imageSource) async {
+    final XFile? pickedFile = await picker.pickImage(source: imageSource);
+    if (pickedFile != null) {
+      final Uint8List fileBytes = await pickedFile.readAsBytes();
+      setState(() {
+        _bizImgData = fileBytes;
       });
     }
   }
@@ -105,7 +119,7 @@ class _DetailViewState extends State<DetailView> {
   final Map<String, String> supplierInfo = {
     '공급사명': '농블리마켓',
     '대표자명': '농블리',
-    '사업자(법인)번호': '0000000000(법인)',
+    '사업자(법인)번호': '0000000000',
     '업태': '도매',
     '종목': '농업',
     '연락처': '010-1234-1234',
@@ -197,7 +211,6 @@ class _DetailViewState extends State<DetailView> {
                 padding: const EdgeInsets.only(top: 10.0),
                 child: Container(
                   width: double.infinity,
-                  height: isEditing ? 1020 : 850,
                   decoration: commonBoxDecoration,
                   child: Padding(
                     padding: const EdgeInsets.all(40.0),
@@ -209,7 +222,6 @@ class _DetailViewState extends State<DetailView> {
                               TableBar(titleText: '공급사 정보'),
                               Container(
                                 width: double.infinity,
-                                height: 600,
                                 child: Table(
                                   border: const TableBorder(
                                     top: BorderSide(
@@ -250,11 +262,19 @@ class _DetailViewState extends State<DetailView> {
                                                   children: [
                                                     Row(
                                                       children: [
-                                                        Image.network(
-                                                          entry.value,
-                                                          height: 100,
-                                                          fit: BoxFit.contain,
-                                                        ),
+                                                        _bizImgData != null
+                                                            ? Image.memory(
+                                                                _bizImgData!,
+                                                                height: 100,
+                                                                fit: BoxFit
+                                                                    .contain,
+                                                              )
+                                                            : Image.network(
+                                                                entry.value,
+                                                                height: 100,
+                                                                fit: BoxFit
+                                                                    .contain,
+                                                              ),
                                                         if (isEditing)
                                                           Padding(
                                                             padding:
@@ -271,10 +291,8 @@ class _DetailViewState extends State<DetailView> {
                                                                         '파일선택',
                                                                     onPressed:
                                                                         () {
-                                                                      getAccountImage(
-                                                                          ImageSource
-                                                                              .gallery);
-                                                                      print('aaa');
+                                                                      getBizImage(
+                                                                            ImageSource.gallery);
                                                                     }),
                                                           ),
                                                       ],
@@ -345,7 +363,6 @@ class _DetailViewState extends State<DetailView> {
                               TableBar(titleText: '입금 계좌 정보'),
                               Container(
                                 width: double.infinity,
-                                height: isEditing ? 330 : 250,
                                 child: Table(
                                   border: const TableBorder(
                                     top: BorderSide(
@@ -386,11 +403,19 @@ class _DetailViewState extends State<DetailView> {
                                                   children: [
                                                     Row(
                                                       children: [
-                                                        Image.network(
-                                                          entry.value,
-                                                          height: 100,
-                                                          fit: BoxFit.contain,
-                                                        ),
+                                                        _accountImgData != null
+                                                            ? Image.memory(
+                                                                _accountImgData!,
+                                                                height: 100,
+                                                                fit: BoxFit
+                                                                    .contain,
+                                                              )
+                                                            : Image.network(
+                                                                entry.value,
+                                                                height: 100,
+                                                                fit: BoxFit
+                                                                    .contain,
+                                                              ),
                                                         if (isEditing)
                                                           Padding(
                                                             padding:
@@ -398,13 +423,19 @@ class _DetailViewState extends State<DetailView> {
                                                                     .symmetric(
                                                                     horizontal:
                                                                         10.0),
-                                                            child: CustomElevatedButton1(
-                                                                backgroundColor:
-                                                                    const Color(
-                                                                        0xFF5D75BF),
-                                                                text: '파일선택',
-                                                                onPressed:
-                                                                    () {}),
+                                                            child:
+                                                                CustomElevatedButton1(
+                                                                    backgroundColor:
+                                                                        const Color(
+                                                                            0xFF5D75BF),
+                                                                    text:
+                                                                        '파일선택',
+                                                                    onPressed:
+                                                                        () {
+                                                                      getAccountImage(
+                                                                          ImageSource
+                                                                              .gallery);
+                                                                    }),
                                                           ),
                                                       ],
                                                     ),
@@ -462,7 +493,6 @@ class _DetailViewState extends State<DetailView> {
                               TableBar(titleText: '담당자 정보'),
                               Container(
                                 width: double.infinity,
-                                height: isEditing ? 275 : 172,
                                 child: Table(
                                   border: const TableBorder(
                                     top: BorderSide(

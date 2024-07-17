@@ -275,7 +275,7 @@ class _MemberListState extends State<MemberList> {
                           custom_width: 220.0,
                         ),
                       ],
-                    ),
+                    ), 
                     const SizedBox(
                       height: 10,
                     ),

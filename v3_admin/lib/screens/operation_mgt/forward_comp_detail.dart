@@ -152,17 +152,17 @@ class _DetailViewState extends State<DetailView> {
           child: Container(
             width: 570,
             padding: EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(8)),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
-                Text(
+                const Text(
                   '공급처 등록',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
@@ -206,7 +206,7 @@ class _DetailViewState extends State<DetailView> {
               side: BorderSide(color: Color(0xFFD6D6D6)),
               backgroundColor: Colors.white,
             ),
-            child: Text(
+            child: const Text(
               '공급처 추가',
               style: TextStyle(
                 color: Color(0xFF323232),
@@ -244,7 +244,7 @@ class _DetailViewState extends State<DetailView> {
                             color: Colors.grey[200],
                             borderRadius: BorderRadius.circular(8.0),
                           ),
-                          child: Text(
+                          child: const Text(
                             '',
                             // supplier[index]['공급사명']!,
                             style: TextStyle(fontSize: 16.0),

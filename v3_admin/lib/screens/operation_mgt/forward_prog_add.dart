@@ -4,7 +4,10 @@ import 'package:v3_admin/common_widget/common_widgets.dart';
 import 'package:v3_admin/common_widget/layout.dart';
 import 'package:v3_admin/common_widget/naviagtion_helper.dart';
 import 'package:v3_admin/screens/operation_mgt/forward_inquiry_detail.dart';
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:intl/intl.dart';
+import 'dart:typed_data';
 
 final NumberFormat currencyFormat = NumberFormat('#,##0', 'en_US');
 
@@ -202,6 +205,21 @@ class _RegistOrderFormState extends State<RegistOrderForm> {
   late TextEditingController memoController; //메모
   Map<String, dynamic>? _selectedBiz;
 
+  Uint8List? _accountImgData;
+  Future<void> getAccountImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+
+    if (result != null) {
+      PlatformFile file = result.files.first;
+      setState(() {
+        _accountImgData = file.bytes;
+      });
+    }
+  }
+
+
   @override
   void initState() {
     super.initState();
@@ -250,7 +268,7 @@ class _RegistOrderFormState extends State<RegistOrderForm> {
               // 디테일 페이지 상단 영역
               Row(
                 children: [
-                  Text(
+                  const Text(
                     '선도거래 주문서 생성',
                     style: TextStyle(
                       fontSize: 18.0,
@@ -263,7 +281,7 @@ class _RegistOrderFormState extends State<RegistOrderForm> {
                     text: '등록',
                     onPressed: () {},
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   CustomElevatedButton2(
@@ -296,9 +314,8 @@ class _RegistOrderFormState extends State<RegistOrderForm> {
                               TableBar(titleText: '문의내용'),
                               Container(
                                 width: double.infinity,
-                                height: 300,
                                 child: Table(
-                                  border: TableBorder(
+                                  border: const TableBorder(
                                     top: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                     bottom: BorderSide(
@@ -308,7 +325,7 @@ class _RegistOrderFormState extends State<RegistOrderForm> {
                                     horizontalInside: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                   ),
-                                  columnWidths: {
+                                  columnWidths: const {
                                     0: FractionColumnWidth(0.3),
                                     1: FractionColumnWidth(0.7),
                                   },
@@ -323,7 +340,7 @@ class _RegistOrderFormState extends State<RegistOrderForm> {
                                             vertical: 12.0, horizontal: 20),
                                         child: SelectBoxExample(
                                           initialValue: '특',
-                                          options: [
+                                          options: const [
                                             '특',
                                             '상',
                                             '중',
@@ -352,15 +369,24 @@ class _RegistOrderFormState extends State<RegistOrderForm> {
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 12.0, horizontal: 20),
                                         child: Container(
-                                          // width: 350,
-                                          height: 45,
                                           child: Row(
                                             children: [
+                                              if (_accountImgData != null)
+                                                Image.memory(
+                                                  _accountImgData!,
+                                                  height: 100,
+                                                  fit: BoxFit.contain,
+                                                )
+                                              else
+                                                Text(''),
+                                              SizedBox(width: 15,),
                                               CustomElevatedButton1(
                                                 backgroundColor:
                                                     Color(0xFF5D75BF),
                                                 text: '파일선택',
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  getAccountImage();
+                                                },
                                               ),
                                             ],
                                           ),
@@ -416,12 +442,12 @@ class _RegistOrderFormState extends State<RegistOrderForm> {
                                   ),
                                   child: Text(
                                     '업체명: ${_selectedBiz!['companyName']} | 사업자번호: ${_selectedBiz!['bizRegiNum']}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ],
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               // 공급처 정보
@@ -436,7 +462,7 @@ class _RegistOrderFormState extends State<RegistOrderForm> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 40,
                               ),
                             ],
@@ -648,4 +674,3 @@ class _SuppliersButtonsState extends State<SuppliersButtons> {
     );
   }
 }
-

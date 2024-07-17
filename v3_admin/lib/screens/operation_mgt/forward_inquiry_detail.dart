@@ -5,9 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:v3_admin/common_widget/common_widgets.dart';
 import 'package:v3_admin/common_widget/layout.dart';
 import 'package:v3_admin/common_widget/naviagtion_helper.dart';
-import 'package:v3_admin/screens/client_mgt/supplier_detail.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:typed_data';
 import 'dart:io';
 
 final NumberFormat currencyFormat = NumberFormat('#,##0', 'en_US');
@@ -250,14 +250,15 @@ class _DetailViewState extends State<DetailView> {
   late TextEditingController endDateController;
   late TextEditingController memoController;
 
-  XFile? _accountImg;
+  Uint8List? _accountImgData;
   final ImagePicker picker = ImagePicker();
 
-  Future getAccountImage(ImageSource imageSource) async {
+  Future<void> getAccountImage(ImageSource imageSource) async {
     final XFile? pickedFile = await picker.pickImage(source: imageSource);
     if (pickedFile != null) {
+      final Uint8List fileBytes = await pickedFile.readAsBytes();
       setState(() {
-        _accountImg = XFile(pickedFile.path);
+        _accountImgData = fileBytes;
       });
     }
   }
@@ -546,11 +547,19 @@ class _DetailViewState extends State<DetailView> {
                                                   children: [
                                                     Row(
                                                       children: [
-                                                        Image.network(
-                                                          entry.value,
-                                                          height: 100,
-                                                          fit: BoxFit.contain,
-                                                        ),
+                                                        _accountImgData != null
+                                                            ? Image.memory(
+                                                                _accountImgData!,
+                                                                height: 100,
+                                                                fit: BoxFit
+                                                                    .contain,
+                                                              )
+                                                            : Image.network(
+                                                                entry.value,
+                                                                height: 100,
+                                                                fit: BoxFit
+                                                                    .contain,
+                                                              ),
                                                         if (isEditing)
                                                           Container(
                                                             child: Padding(
@@ -570,8 +579,6 @@ class _DetailViewState extends State<DetailView> {
                                                                           () {
                                                                         getAccountImage(
                                                                             ImageSource.gallery);
-                                                                        print(
-                                                                            'object');
                                                                       }),
                                                             ),
                                                           ),
