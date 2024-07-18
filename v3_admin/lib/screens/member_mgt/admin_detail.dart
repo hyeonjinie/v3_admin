@@ -70,7 +70,7 @@ class _AdminDetailState extends State<AdminDetail> {
                     ],
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -174,7 +174,7 @@ class _AdminDetailViewState extends State<AdminDetailView> {
                 children: [
                   Text(
                     '${staffInfo["name"]} 상세정보',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w700,
                     ),
@@ -189,7 +189,7 @@ class _AdminDetailViewState extends State<AdminDetailView> {
                       });
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   CustomElevatedButton2(
@@ -266,7 +266,7 @@ class _AdminDetailViewState extends State<AdminDetailView> {
                                                   child: TextFormField(
                                                     controller:
                                                         controllers[entry.key],
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                       fontSize: 14,
                                                     ),
                                                     decoration: InputDecoration(
@@ -290,7 +290,7 @@ class _AdminDetailViewState extends State<AdminDetailView> {
                                                 )
                                               : Text(
                                                   entry.value,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     color: Color(0xFF323232),
                                                     fontSize: 14,
                                                   ),
@@ -301,13 +301,13 @@ class _AdminDetailViewState extends State<AdminDetailView> {
                                   }).toList(),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 40,
                         ),
                         Expanded(
@@ -469,7 +469,7 @@ class _AdminDetailViewState extends State<AdminDetailView> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
             ],

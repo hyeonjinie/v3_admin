@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
 }
 
 class WithRouter extends StatelessWidget {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GoRouter _router = GoRouter(
     routes: <GoRoute>[
       GoRoute(

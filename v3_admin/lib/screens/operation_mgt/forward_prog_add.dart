@@ -399,7 +399,7 @@ class _RegistOrderFormState extends State<RegistOrderForm> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 40,
                         ),
                         Expanded(
@@ -473,7 +473,7 @@ class _RegistOrderFormState extends State<RegistOrderForm> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
             ],

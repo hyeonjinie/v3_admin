@@ -99,7 +99,7 @@ class CustomElevatedButton1 extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
           fontSize: 16,
           fontWeight: FontWeight.w700,
@@ -277,7 +277,7 @@ class TableBar extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 43,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Color(0xFFF1F1F1),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(5),
@@ -291,7 +291,7 @@ class TableBar extends StatelessWidget {
         padding: const EdgeInsets.only(left: 20, top: 12),
         child: Text(
           titleText,
-          style: TextStyle(
+          style: const TextStyle(
             color: Color(0xFF282828),
             fontSize: 15,
             fontWeight: FontWeight.w600,
@@ -402,7 +402,7 @@ void showImagePopup(BuildContext context, String imageUrl) {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text(
+                  child: const Text(
                     '닫기',
                     style: TextStyle(color: Colors.white),
                   ),
@@ -423,7 +423,7 @@ Widget textBox(String text) {
     width: 120,
     child: Text(
       text,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.bold,
         color: Colors.black,
@@ -470,7 +470,6 @@ Widget customCheckbox(
     ),
   );
 }
-
 
 // 테이블 내의 텍스트필드(항목 | 내용)
 Widget buildCell(String text,
@@ -550,7 +549,7 @@ Widget customTextField(
         width: width,
         child: Text(
           txt,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
             color: Colors.black,
@@ -564,12 +563,12 @@ Widget customTextField(
           controller: controller,
           decoration: InputDecoration(
             hintText: hint,
-            border: OutlineInputBorder(
+            border: const OutlineInputBorder(
               borderSide: BorderSide(
                 color: Color(0xFFD1D1D1),
               ),
             ),
-            enabledBorder: OutlineInputBorder(
+            enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(
                 color: Color(0xFFD1D1D1),
               ),
@@ -605,7 +604,7 @@ Widget textToText(TextEditingController? controller1,
         width: field_width,
         child: Text(
           _text,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
             color: Colors.black,
@@ -617,7 +616,7 @@ Widget textToText(TextEditingController? controller1,
         height: 45,
         child: TextFormField(
           controller: controller1,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             border: OutlineInputBorder(
               borderSide: BorderSide(
                 color: Color(0xFFD1D1D1),
@@ -631,7 +630,7 @@ Widget textToText(TextEditingController? controller1,
           ),
         ),
       ),
-      SizedBox(
+      const SizedBox(
         width: 30,
         child: Text(
           ' → ',
@@ -645,7 +644,7 @@ Widget textToText(TextEditingController? controller1,
         height: 45,
         child: TextFormField(
           controller: controller2,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             border: OutlineInputBorder(
               borderSide: BorderSide(
                 color: Color(0xFFD1D1D1),
