@@ -1,3 +1,7 @@
+/*
+- 거래처관리 > 공급사관리 > 공급사 상세 페이지 
+ */
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:v3_admin/common_widget/common_widgets.dart';
@@ -201,7 +205,9 @@ class _DetailViewState extends State<DetailView> {
                     backgroundColor: Colors.white,
                     textColor: Color(0xFF9A9A9A),
                     borderColor: Color(0xFFD6D6D6),
-                    onPressed: () {},
+                    onPressed: () {
+                      context.go('/client');
+                    },
                   ),
                 ],
               ),

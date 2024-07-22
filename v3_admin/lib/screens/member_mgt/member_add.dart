@@ -1,3 +1,7 @@
+/*
+- 회원관리 > 일반회원 > 회원등록 
+ */
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
@@ -114,28 +118,6 @@ class _RegistMemberState extends State<RegistMember> {
   final TextEditingController mgrContactController = TextEditingController();
   final TextEditingController mgrMailController = TextEditingController();
   final TextEditingController memoController = TextEditingController();
-
-  // XFile? _bizRegiImg;
-  // XFile? _accountImg;
-  // final ImagePicker picker = ImagePicker();
-
-  // Future getbizImage(ImageSource imageSource) async {
-  //   final XFile? pickedFile = await picker.pickImage(source: imageSource);
-  //   if (pickedFile != null) {
-  //     setState(() {
-  //       _bizRegiImg = XFile(pickedFile.path); 
-  //     });
-  //   }
-  // }
-
-  // Future getAccountImage(ImageSource imageSource) async {
-  //   final XFile? pickedFile = await picker.pickImage(source: imageSource);
-  //   if (pickedFile != null) {
-  //     setState(() {
-  //       _accountImg = XFile(pickedFile.path); 
-  //     });
-  //   }
-  // }
 
     Uint8List? _bizImgData;
     Uint8List? _accountImgData;

@@ -1,3 +1,7 @@
+/*
+- 거래처관리 > 공급사관리
+ */
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';

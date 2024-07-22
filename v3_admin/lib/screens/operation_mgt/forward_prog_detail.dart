@@ -1,3 +1,7 @@
+/*
+- 운영관리 > 선도거래 > 진행 or 완료 > 주문 상세 페이지 
+ */
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -527,7 +531,7 @@ class _DetailViewState extends State<DetailView> {
                                       },
                                       custom_width: 220.0,
                                     ),
-                                    SizedBox(width: 20),
+                                    const SizedBox(width: 20),
                                     CustomElevatedButton1(
                                       backgroundColor: Color(0xFF5D75BF),
                                       text: '저장',
@@ -538,7 +542,7 @@ class _DetailViewState extends State<DetailView> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           // 주문 내용
                           Btn_TableBar(
                             titleText: '주문',
@@ -764,7 +768,9 @@ class _DetailViewState extends State<DetailView> {
                           const SizedBox(
                             height: 20,
                           ),
-                          Btn_TableBar(
+                          orderInfo['main']['status'] == '완료' ? 
+                          TableBar(titleText: '회차별 주문')
+                          : Btn_TableBar(
                             titleText: '회차별 주문',
                             btnText: '주문서 생성',
                             onBtnPressed: () {
@@ -1368,24 +1374,24 @@ void _showOrderFormDialog(BuildContext context) {
         child: Container(
           width: 570,
           padding: EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(8)),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: 10),
-              Text(
+              const SizedBox(height: 10),
+              const Text(
                 '회차별 주문서',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               OrderForm(onSubmit: (newSubOrder) {
                 orderInfo['subOrders'].add(newSubOrder);
                 Navigator.of(context).pop();
               }),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -1398,7 +1404,7 @@ void _showOrderFormDialog(BuildContext context) {
                       Navigator.of(context).pop();
                     },
                   ),
-                  SizedBox(width: 15),
+                  const SizedBox(width: 15),
                   CustomElevatedButton1(
                     backgroundColor: Color(0xFF5D75BF),
                     text: '제출',
@@ -1544,13 +1550,13 @@ class OrderFormState extends State<OrderForm> {
             children: <Widget>[
               customTextField(
                   '거래량', '(kg) 단위로 숫자만 입력', quantityController, 120),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               customTextField('금액', '(원) 단위로 숫자만 입력', priceController, 120),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               customTextField('담당자연락처', '', contactController, 120),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               customTextField('배송지', '', addressController, 120),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   const SizedBox(
@@ -1574,11 +1580,11 @@ class OrderFormState extends State<OrderForm> {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
-              SizedBox(height: 20),
+              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               textToText(settleCompanyNameController,
                   settleTargetNameController, '정산', 120, 160),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   const SizedBox(
@@ -1602,10 +1608,10 @@ class OrderFormState extends State<OrderForm> {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               textToText(taxIssueCompanyNameController,
                   taxIssueTargetNameController, '세금계산서', 120, 160),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   const SizedBox(
@@ -1849,29 +1855,29 @@ class _SuppliersToggleButtonsState extends State<SuppliersToggleButtons> {
                     '${suppliers[_selectedSupplierIndex!]['totalAmount']}원',
                     120),
                 if (widget.isSub) ...[
-                  SizedBox(height: 12),
-                  Divider(),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
+                  const Divider(),
+                  const SizedBox(height: 12),
                   tabTextBox(
                       '정산 :',
                       '${suppliers[_selectedSupplierIndex!]['settlement']['settleCompanyName']}  →  ${suppliers[_selectedSupplierIndex!]['settlement']['settleTargetName']}',
                       120),
-                  SizedBox(height: 12.0),
+                  const SizedBox(height: 12.0),
                   tabTextBox(
                       ' - 정산일 :',
                       '${suppliers[_selectedSupplierIndex!]['settlement']['settleDate'] ?? '-'}',
                       120),
-                  SizedBox(height: 12.0),
+                  const SizedBox(height: 12.0),
                   tabTextBox(
                       '세금계산서 :',
                       '${suppliers[_selectedSupplierIndex!]['taxInvoice']['taxIssueCompanyName']} → ${suppliers[_selectedSupplierIndex!]['taxInvoice']['taxIssueTargetName']}',
                       120),
-                  SizedBox(height: 12.0),
+                  const SizedBox(height: 12.0),
                   tabTextBox(
                       ' - 발행일 :',
                       '${suppliers[_selectedSupplierIndex!]['taxInvoice']['taxIssueDate'] ?? '-'}',
                       120),
-                  SizedBox(height: 12.0),
+                  const SizedBox(height: 12.0),
                   tabTextBox(
                       ' - 승인번호 :',
                       '${suppliers[_selectedSupplierIndex!]['taxInvoice']['taxApprovalNum'] == '' ? '-' : suppliers[_selectedSupplierIndex!]['taxInvoice']['taxApprovalNum']}',
@@ -1930,7 +1936,7 @@ class _SuppliersEditState extends State<SuppliersEdit> {
       child: Container(
         width: 570,
         padding: EdgeInsets.all(20.0),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(8)),
         ),
@@ -1938,7 +1944,7 @@ class _SuppliersEditState extends State<SuppliersEdit> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               '공급처 정보 편집',
               style: TextStyle(
                 fontSize: 18,
@@ -1958,7 +1964,7 @@ class _SuppliersEditState extends State<SuppliersEdit> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           IconButton(
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.delete,
                               color: Color(0xFF5D75BF),
                             ),
@@ -1977,7 +1983,7 @@ class _SuppliersEditState extends State<SuppliersEdit> {
                             text: _tempSuppliers[index]['supplierName'],
                           ),
                           120),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       customTextField(
                           '사업자등록번호',
                           '사업자등록번호를 입력하세요',
@@ -1985,7 +1991,7 @@ class _SuppliersEditState extends State<SuppliersEdit> {
                             text: _tempSuppliers[index]['bizRegiNum'],
                           ),
                           120),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       customTextField(
                           '원물가격',
                           '원물가격을 입력하세요',
@@ -1993,7 +1999,7 @@ class _SuppliersEditState extends State<SuppliersEdit> {
                             text: _tempSuppliers[index]['cost'].toString(),
                           ),
                           120),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       customTextField(
                           '공급물량',
                           '공급물량을 입력하세요',
@@ -2001,7 +2007,7 @@ class _SuppliersEditState extends State<SuppliersEdit> {
                             text: _tempSuppliers[index]['volume'].toString(),
                           ),
                           120),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       customTextField(
                           '총 금액',
                           '총 금액을 입력하세요',
@@ -2010,8 +2016,7 @@ class _SuppliersEditState extends State<SuppliersEdit> {
                                 _tempSuppliers[index]['totalAmount'].toString(),
                           ),
                           120),
-                      SizedBox(height: 10),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 20),
                       customTextField(
                         '정산(업체)',
                         '정산 업체명을 입력하세요',
@@ -2021,7 +2026,7 @@ class _SuppliersEditState extends State<SuppliersEdit> {
                         ),
                         120,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       customTextField(
                         '정산(대상)',
                         '정산 대상명을 입력하세요',
@@ -2031,7 +2036,7 @@ class _SuppliersEditState extends State<SuppliersEdit> {
                         ),
                         120,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                         children: [
                           const SizedBox(
@@ -2055,7 +2060,7 @@ class _SuppliersEditState extends State<SuppliersEdit> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       customTextField(
                         '세금계산서(발행)',
                         '세금계산서 발행자명을 입력하세요',
@@ -2065,7 +2070,7 @@ class _SuppliersEditState extends State<SuppliersEdit> {
                         ),
                         120,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       customTextField(
                         '세금계산서(대상)',
                         '세금계산서 대상자명을 입력하세요',
@@ -2075,7 +2080,7 @@ class _SuppliersEditState extends State<SuppliersEdit> {
                         ),
                         120,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                         children: [
                           const SizedBox(
@@ -2099,7 +2104,7 @@ class _SuppliersEditState extends State<SuppliersEdit> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       customTextField(
                         ' - 승인번호',
                         '세금계산서 승인번호를 입력하세요',
@@ -2109,14 +2114,14 @@ class _SuppliersEditState extends State<SuppliersEdit> {
                         ),
                         120,
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       const Divider(),
                     ],
                   );
                 },
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -2129,7 +2134,7 @@ class _SuppliersEditState extends State<SuppliersEdit> {
                     Navigator.of(context).pop();
                   },
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 CustomElevatedButton1(
                   backgroundColor: Color(0xFF5D75BF),
                   text: '수정',
@@ -2352,29 +2357,29 @@ class _LogisticButtonsState extends State<LogisticButtons> {
                     '${logistics[_selectedLogisticIndex!]['totalAmount']}원',
                     120),
                 if (widget.isSub) ...[
-                  SizedBox(height: 12),
-                  Divider(),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
+                  const Divider(),
+                  const SizedBox(height: 12),
                   tabTextBox(
                       '정산 :',
                       '${logistics[_selectedLogisticIndex!]['settlement']['settleCompanyName']}  →  ${logistics[_selectedLogisticIndex!]['settlement']['settleTargetName']}',
                       120),
-                  SizedBox(height: 12.0),
+                  const SizedBox(height: 12.0),
                   tabTextBox(
                       ' - 정산일 :',
                       '${logistics[_selectedLogisticIndex!]['settlement']['settleDate'] ?? '-'}',
                       120),
-                  SizedBox(height: 12.0),
+                  const SizedBox(height: 12.0),
                   tabTextBox(
                       '세금계산서 :',
                       '${logistics[_selectedLogisticIndex!]['taxInvoice']['taxIssueCompanyName']} → ${logistics[_selectedLogisticIndex!]['taxInvoice']['taxIssueTargetName']}',
                       120),
-                  SizedBox(height: 12.0),
+                  const SizedBox(height: 12.0),
                   tabTextBox(
                       ' - 발행일 :',
                       '${logistics[_selectedLogisticIndex!]['taxInvoice']['taxIssueDate'] ?? '-'}',
                       120),
-                  SizedBox(height: 12.0),
+                  const SizedBox(height: 12.0),
                   tabTextBox(
                       ' - 승인번호 :',
                       '${logistics[_selectedLogisticIndex!]['taxInvoice']['taxApprovalNum'] == '' ? '-' : logistics[_selectedLogisticIndex!]['taxInvoice']['taxApprovalNum']}',
@@ -2432,7 +2437,7 @@ class _LogisticsEditState extends State<LogisticsEdit> {
       child: Container(
         width: 570,
         padding: EdgeInsets.all(20.0),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(8)),
         ),
@@ -2440,14 +2445,14 @@ class _LogisticsEditState extends State<LogisticsEdit> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               '물류 정보 편집',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
                 shrinkWrap: true,
@@ -2460,7 +2465,7 @@ class _LogisticsEditState extends State<LogisticsEdit> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           IconButton(
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.delete,
                               color: Color(0xFF5D75BF),
                             ),
@@ -2479,7 +2484,7 @@ class _LogisticsEditState extends State<LogisticsEdit> {
                             text: _tempLogistics[index]['logisticName'],
                           ),
                           120),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       customTextField(
                           '담당기사',
                           '담당기사 이름을 입력하세요',
@@ -2487,7 +2492,7 @@ class _LogisticsEditState extends State<LogisticsEdit> {
                             text: _tempLogistics[index]['driverName'],
                           ),
                           120),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       customTextField(
                           '연락처',
                           '담당기사 연락처를 입력하세요',
@@ -2495,7 +2500,7 @@ class _LogisticsEditState extends State<LogisticsEdit> {
                             text: _tempLogistics[index]['driverContact'],
                           ),
                           120),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       customTextField(
                           '물류비',
                           '물류비를 입력하세요',
@@ -2504,7 +2509,7 @@ class _LogisticsEditState extends State<LogisticsEdit> {
                                 _tempLogistics[index]['totalAmount'].toString(),
                           ),
                           120),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       customTextField(
                         '정산(업체)',
                         '정산 업체명을 입력하세요',
@@ -2514,7 +2519,7 @@ class _LogisticsEditState extends State<LogisticsEdit> {
                         ),
                         120,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       customTextField(
                         '정산(대상)',
                         '정산 대상명을 입력하세요',
@@ -2524,7 +2529,7 @@ class _LogisticsEditState extends State<LogisticsEdit> {
                         ),
                         120,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                         children: [
                           const SizedBox(
@@ -2548,7 +2553,7 @@ class _LogisticsEditState extends State<LogisticsEdit> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       customTextField(
                         '세금계산서(발행)',
                         '세금계산서 발행자명을 입력하세요',
@@ -2558,7 +2563,7 @@ class _LogisticsEditState extends State<LogisticsEdit> {
                         ),
                         120,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       customTextField(
                         '세금계산서(대상)',
                         '세금계산서 대상자명을 입력하세요',
@@ -2568,7 +2573,7 @@ class _LogisticsEditState extends State<LogisticsEdit> {
                         ),
                         120,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                         children: [
                           const SizedBox(
@@ -2592,7 +2597,7 @@ class _LogisticsEditState extends State<LogisticsEdit> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       customTextField(
                         ' - 승인번호',
                         '세금계산서 승인번호를 입력하세요',
@@ -2602,14 +2607,14 @@ class _LogisticsEditState extends State<LogisticsEdit> {
                         ),
                         120,
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       const Divider(),
                     ],
                   );
                 },
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -2622,7 +2627,7 @@ class _LogisticsEditState extends State<LogisticsEdit> {
                     Navigator.of(context).pop();
                   },
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 CustomElevatedButton1(
                   backgroundColor: Color(0xFF5D75BF),
                   text: '수정',
@@ -2679,7 +2684,7 @@ class _AddLogisticDialogState extends State<AddLogisticDialog> {
       child: Container(
         width: 570,
         padding: EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(8)),
         ),
@@ -2687,7 +2692,7 @@ class _AddLogisticDialogState extends State<AddLogisticDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(height: 10),
-            Text(
+            const Text(
               '물류 추가',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
@@ -2702,21 +2707,21 @@ class _AddLogisticDialogState extends State<AddLogisticDialog> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   customTextField('업체명', '', nameController, 120),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   customTextField('담당기사명', '', driverController, 120),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   customTextField(
                       '연락처', '담당기사 연락처 입력', dcontactController, 120),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   customTextField(
                       '물류비', '(원) 단위로 숫자만 입력', amountController, 120),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                 ],
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -2729,7 +2734,7 @@ class _AddLogisticDialogState extends State<AddLogisticDialog> {
                     Navigator.of(context).pop();
                   },
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 CustomElevatedButton1(
                   backgroundColor: Color(0xFF5D75BF),
                   text: '등록',
@@ -2950,35 +2955,35 @@ class _OtherButtonsState extends State<OtherButtons> {
                 ),
                 tabTextBox('총 금액 :',
                     '${others[_selectedOtherIndex!]['totalAmount']}원', 120),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 tabTextBox(
                     '내용 :', '${others[_selectedOtherIndex!]['contents']}', 120),
                 if (widget.isSub) ...[
-                  SizedBox(height: 12),
-                  Divider(),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
+                  const Divider(),
+                  const SizedBox(height: 12),
                   tabTextBox(
                       '정산 :',
                       '${others[_selectedOtherIndex!]['settlement']['settleCompanyName']}  →  ${others[_selectedOtherIndex!]['settlement']['settleTargetName']}',
                       120),
-                  SizedBox(height: 12.0),
+                  const SizedBox(height: 12.0),
                   tabTextBox(
                       ' - 정산일 :',
                       '${others[_selectedOtherIndex!]['settlement']['settleDate'] ?? '-'}',
                       120),
-                  SizedBox(height: 12.0),
+                  const SizedBox(height: 12.0),
                   tabTextBox(
                       '세금계산서 :',
                       '${others[_selectedOtherIndex!]['taxInvoice']['taxIssueCompanyName']} → ${others[_selectedOtherIndex!]['taxInvoice']['taxIssueTargetName']}',
                       120),
-                  SizedBox(height: 12.0),
+                  const SizedBox(height: 12.0),
                   tabTextBox(
                       ' - 발행일 :',
                       '${others[_selectedOtherIndex!]['taxInvoice']['taxIssueDate'] ?? '-'}',
                       120),
-                  SizedBox(height: 12.0),
+                  const SizedBox(height: 12.0),
                   tabTextBox(
                       ' - 승인번호 :',
                       '${others[_selectedOtherIndex!]['taxInvoice']['taxApprovalNum'] == '' ? '-' : others[_selectedOtherIndex!]['taxInvoice']['taxApprovalNum']}',
@@ -3037,7 +3042,7 @@ class _OthersEditState extends State<OthersEdit> {
       child: Container(
         width: 570,
         padding: EdgeInsets.all(20.0),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(8)),
         ),
@@ -3045,14 +3050,14 @@ class _OthersEditState extends State<OthersEdit> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               '기타 정보 편집',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
                 shrinkWrap: true,
@@ -3065,7 +3070,7 @@ class _OthersEditState extends State<OthersEdit> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           IconButton(
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.delete,
                               color: Color(0xFF5D75BF),
                             ),
@@ -3084,7 +3089,7 @@ class _OthersEditState extends State<OthersEdit> {
                             text: _tempOthers[index]['name'],
                           ),
                           120),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                         children: [
                           const SizedBox(
@@ -3100,7 +3105,7 @@ class _OthersEditState extends State<OthersEdit> {
                           ),
                           SelectBoxExample(
                             initialValue: _tempOthers[index]['type'],
-                            options: ['환불', '기타'],
+                            options: const ['환불', '기타'],
                             onChanged: (String? newValue) {
                               setState(() {
                                 _tempOthers[index]['type'] = newValue!;
@@ -3110,7 +3115,7 @@ class _OthersEditState extends State<OthersEdit> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       customTextField(
                           '총 금액',
                           '총 금액을 입력하세요',
@@ -3118,7 +3123,7 @@ class _OthersEditState extends State<OthersEdit> {
                             text: _tempOthers[index]['totalAmount'].toString(),
                           ),
                           120),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       customTextField(
                           '내용',
                           '내용을 입력하세요',
@@ -3126,7 +3131,7 @@ class _OthersEditState extends State<OthersEdit> {
                             text: _tempOthers[index]['contents'],
                           ),
                           120),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       customTextField(
                         '정산(업체)',
                         '정산 업체명을 입력하세요',
@@ -3136,7 +3141,7 @@ class _OthersEditState extends State<OthersEdit> {
                         ),
                         120,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       customTextField(
                         '정산(대상)',
                         '정산 대상명을 입력하세요',
@@ -3146,7 +3151,7 @@ class _OthersEditState extends State<OthersEdit> {
                         ),
                         120,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                         children: [
                           const SizedBox(
@@ -3170,7 +3175,7 @@ class _OthersEditState extends State<OthersEdit> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       customTextField(
                         '세금계산서(발행)',
                         '세금계산서 발행자명을 입력하세요',
@@ -3180,7 +3185,7 @@ class _OthersEditState extends State<OthersEdit> {
                         ),
                         120,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       customTextField(
                         '세금계산서(대상)',
                         '세금계산서 대상자명을 입력하세요',
@@ -3190,7 +3195,7 @@ class _OthersEditState extends State<OthersEdit> {
                         ),
                         120,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                         children: [
                           const SizedBox(
@@ -3214,7 +3219,7 @@ class _OthersEditState extends State<OthersEdit> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       customTextField(
                         ' - 승인번호',
                         '세금계산서 승인번호를 입력하세요',
@@ -3224,14 +3229,14 @@ class _OthersEditState extends State<OthersEdit> {
                         ),
                         120,
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       const Divider(),
                     ],
                   );
                 },
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -3244,7 +3249,7 @@ class _OthersEditState extends State<OthersEdit> {
                     Navigator.of(context).pop();
                   },
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 CustomElevatedButton1(
                   backgroundColor: Color(0xFF5D75BF),
                   text: '수정',
@@ -3299,19 +3304,19 @@ class _AddOtherDialogState extends State<AddOtherDialog> {
       child: Container(
         width: 570,
         padding: EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(8)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(height: 10),
-            Text(
+            const SizedBox(height: 10),
+            const Text(
               '물류 추가',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Container(
               width: 540,
               padding: EdgeInsets.all(12.0),
@@ -3322,9 +3327,9 @@ class _AddOtherDialogState extends State<AddOtherDialog> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   customTextField('업체명', '', nameController, 120),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     children: [
                       const SizedBox(
@@ -3340,7 +3345,7 @@ class _AddOtherDialogState extends State<AddOtherDialog> {
                       ),
                       SelectBoxExample(
                         initialValue: selectedType,
-                        options: ['환불', '기타'],
+                        options: const ['환불', '기타'],
                         onChanged: (String? newValue) {
                           setState(() {
                             selectedType = newValue!;
@@ -3350,16 +3355,16 @@ class _AddOtherDialogState extends State<AddOtherDialog> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   customTextField(
                       '총 금액', '(원) 단위로 숫자만 입력', amountController, 120),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   customTextField('내용', '', contentsController, 120),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                 ],
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -3372,7 +3377,7 @@ class _AddOtherDialogState extends State<AddOtherDialog> {
                     Navigator.of(context).pop();
                   },
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 CustomElevatedButton1(
                   backgroundColor: Color(0xFF5D75BF),
                   text: '등록',

@@ -1,3 +1,7 @@
+/*
+- 회원관리 > 운영자
+ */
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:v3_admin/common_widget/common_widgets.dart';
@@ -69,7 +73,7 @@ class _AdminPageState extends State<AdminPage> {
                     ],
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -99,9 +103,7 @@ class _AdminListState extends State<AdminList> {
   int _rowsPerPage = 10;
   int _pageIndex = 0;
   late List<Map<String, String>> _filteredData;
-  late TextEditingController StartDateController;
-  late TextEditingController EndDateController;
-  late TextEditingController SearchController;
+  late TextEditingController searchController;
   late List<bool> isSelected;
 
   late DateTime selectedDate;
@@ -110,27 +112,11 @@ class _AdminListState extends State<AdminList> {
   void initState() {
     super.initState();
     _filteredData = _data;
-    StartDateController = TextEditingController();
-    EndDateController = TextEditingController();
-    SearchController = TextEditingController();
+    searchController = TextEditingController();
     selectedDate = DateTime.now();
     isSelected = [true, false, false, false];
   }
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-        StartDateController.text = DateFormat('yyyy-MM-dd').format(picked);
-      });
-    }
-  }
 
   final List<Map<String, String>> _data = [
     {
@@ -269,7 +255,7 @@ class _AdminListState extends State<AdminList> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -283,15 +269,15 @@ class _AdminListState extends State<AdminList> {
                           },
                           custom_width: 220.0,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Container(
                           width: 350,
                           height: 45,
                           child: TextFormField(
-                            controller: SearchController,
-                            decoration: InputDecoration(
+                            controller: searchController,
+                            decoration: const InputDecoration(
                               hintText: '검색어를 입력하세요',
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -308,7 +294,7 @@ class _AdminListState extends State<AdminList> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Row(
@@ -319,7 +305,7 @@ class _AdminListState extends State<AdminList> {
                           text: '검색',
                           onPressed: () {},
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         CustomElevatedButton2(
@@ -336,14 +322,14 @@ class _AdminListState extends State<AdminList> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
 
           // 표 상단 영역
           Row(
             children: [
-              Text(
+              const Text(
                 ' 총 n개',
                 style: TextStyle(
                   fontSize: 16.0,
@@ -357,12 +343,12 @@ class _AdminListState extends State<AdminList> {
                   context.go('/admin-reg');
                 },
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               SelectBoxExample(
                 initialValue: '10개 보기',
-                options: ['10개 보기', '20개 보기', '50개 보기'],
+                options: const ['10개 보기', '20개 보기', '50개 보기'],
                 onChanged: (String? newValue) {
                   setState(() {
                     _rowsPerPage = int.parse(newValue!.split('개')[0]);
@@ -372,7 +358,7 @@ class _AdminListState extends State<AdminList> {
               ),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
 
           // 테이블
           Container(
@@ -393,7 +379,7 @@ class _AdminListState extends State<AdminList> {
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.75,
                         child: DataTable(
-                          columns: [
+                          columns: const [
                             DataColumn(
                               label: Text(
                                 '이름',
@@ -437,7 +423,7 @@ class _AdminListState extends State<AdminList> {
                                   },
                                   child: Text(
                                     item['이름']! + ' >',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Color(0xFF4470F6),
                                       fontWeight: FontWeight.bold,
                                     ),

@@ -1,3 +1,7 @@
+/*
+- 운영관리 > 선도거래 > 문의/계약 > 문의 상세 페이지 
+ */
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

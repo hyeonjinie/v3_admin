@@ -1,3 +1,7 @@
+/* 
+- 운영관리 > 선도거래 > 문의/계약
+*/
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:v3_admin/common_widget/common_widgets.dart';
@@ -134,22 +138,21 @@ class _InquiryListState extends State<InquiryList> {
   int _rowsPerPage = 10;
   int _pageIndex = 0;
   late List<Map<String, String>> _filteredData;
-  late TextEditingController StartDateController;
-  late TextEditingController EndDateController;
-  late TextEditingController SearchController;
-  late List<bool> isSelected;
-
+  late TextEditingController startDateController;
+  late TextEditingController endDateController;
+  late TextEditingController searchController;
+  late List<bool> isSelected;   // 검색영역 - 날짜 선택 토글 
   late DateTime selectedDate;
 
   @override
   void initState() {
     super.initState();
     _filteredData = _data;
-    StartDateController = TextEditingController();
-    EndDateController = TextEditingController();
-    SearchController = TextEditingController();
+    startDateController = TextEditingController();
+    endDateController = TextEditingController();
+    searchController = TextEditingController();
     selectedDate = DateTime.now();
-    isSelected = [false, false, false, false, true];
+    isSelected = [false, false, false, false, true];    // '전체'선택으로 디폴트 
   }
 
   Future<void> _selectDate(
@@ -166,6 +169,41 @@ class _InquiryListState extends State<InquiryList> {
         controller.text = DateFormat('yyyy-MM-dd').format(picked);
       });
     }
+  }
+
+  //날짜 토글 옵션 
+  void _setDateRange(int index) {
+    DateTime now = DateTime.now();
+    DateTime startDate = now;
+    DateTime endDate = now;
+
+    switch (index) {
+      case 0:
+        startDate = now;
+        endDate = now;
+        break;
+      case 1:
+        startDate = now.subtract(Duration(days: 7));
+        endDate = now;
+        break;
+      case 2:
+        startDate = DateTime(now.year, now.month - 1, now.day);
+        endDate = now;
+        break;
+      case 3:
+        startDate = DateTime(now.year, now.month - 3, now.day);
+        endDate = now;
+        break;
+      case 4:
+        startDate = DateTime(2000, 1, 1);
+        endDate = now;
+        break;
+    }
+
+    setState(() {
+      startDateController.text = DateFormat('yyyy-MM-dd').format(startDate);
+      endDateController.text = DateFormat('yyyy-MM-dd').format(endDate);
+    });
   }
 
   final List<Map<String, String>> _data = [
@@ -333,7 +371,7 @@ class _InquiryListState extends State<InquiryList> {
                           width: 10,
                         ),
                         CustomDatePickerField(
-                          controller: StartDateController,
+                          controller: startDateController,
                           onDateTap: _selectDate,
                         ),
                         const Text(
@@ -343,10 +381,10 @@ class _InquiryListState extends State<InquiryList> {
                           ),
                         ),
                         CustomDatePickerField(
-                          controller: EndDateController,
+                          controller: endDateController,
                           onDateTap: _selectDate,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         ConstrainedBox(
@@ -370,6 +408,7 @@ class _InquiryListState extends State<InquiryList> {
                                 for (int i = 0; i < isSelected.length; i++) {
                                   isSelected[i] = i == index;
                                 }
+                                _setDateRange(index);
                               });
                             },
                           ),
@@ -397,7 +436,7 @@ class _InquiryListState extends State<InquiryList> {
                           width: 350,
                           height: 45,
                           child: TextFormField(
-                            controller: SearchController,
+                            controller: searchController,
                             decoration: const InputDecoration(
                               hintText: '검색어를 입력하세요',
                               border: OutlineInputBorder(
@@ -415,7 +454,7 @@ class _InquiryListState extends State<InquiryList> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Row(
@@ -426,7 +465,7 @@ class _InquiryListState extends State<InquiryList> {
                           text: '검색',
                           onPressed: () {},
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         CustomElevatedButton2(
@@ -558,7 +597,7 @@ class _InquiryListState extends State<InquiryList> {
                                         ? item['거래명']!.substring(0, 12) +
                                             '... >'
                                         : item['거래명']! + '>',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Color(0xFF4470F6),
                                       fontWeight: FontWeight.bold,
                                     ),

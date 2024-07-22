@@ -12,11 +12,9 @@ import 'package:v3_admin/screens/member_mgt/admin_page.dart';
 import 'package:v3_admin/screens/member_mgt/member_add.dart';
 import 'package:v3_admin/screens/member_mgt/member_detail.dart';
 import 'package:v3_admin/screens/member_mgt/member_page.dart';
-import 'package:v3_admin/screens/operation_mgt/forward_comp_detail.dart';
 import 'package:v3_admin/screens/operation_mgt/forward_completed.dart';
 import 'package:v3_admin/screens/operation_mgt/forward_inquiry.dart';
 import 'package:v3_admin/screens/operation_mgt/forward_inquiry_detail.dart';
-import 'package:v3_admin/screens/operation_mgt/forward_inquiry_edit.dart';
 import 'package:v3_admin/screens/operation_mgt/forward_prog_add.dart';
 import 'package:v3_admin/screens/operation_mgt/forward_prog_detail.dart';
 import 'package:v3_admin/screens/operation_mgt/forward_progress.dart';
@@ -150,12 +148,6 @@ class WithRouter extends StatelessWidget {
         path: '/completed',
         builder: (BuildContext context, GoRouterState state) {
           return Completed();
-        },
-      ),
-      GoRoute( // 운영관리 > 선도거래 > 완료 > 상세 
-        path: '/completed-detail',
-        builder: (BuildContext context, GoRouterState state) {
-          return CompletedDetail();
         },
       ),
       GoRoute( // 운영관리 > 비굿마켓 > 주문

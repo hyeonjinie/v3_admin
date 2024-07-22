@@ -1,3 +1,7 @@
+/*
+- 거래처관리 > 공급사관리 > 공급사 등록 
+ */
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:v3_admin/common_widget/common_widgets.dart';
@@ -57,7 +61,7 @@ class _RegistSupplierState extends State<RegistSupplier> {
                     ],
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -165,7 +169,7 @@ class _RegistViewState extends State<RegistView> {
               // 디테일 페이지 상단 영역
               Row(
                 children: [
-                  Text(
+                  const Text(
                     '공급사 등록',
                     style: TextStyle(
                       fontSize: 18.0,
@@ -180,7 +184,7 @@ class _RegistViewState extends State<RegistView> {
                       context.go('/admin-detail'); // 현재 직원 detail로 이동 필요
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   CustomElevatedButton2(
@@ -200,7 +204,6 @@ class _RegistViewState extends State<RegistView> {
                 padding: const EdgeInsets.only(top: 10.0),
                 child: Container(
                   width: double.infinity,
-                  height: 1050,
                   decoration: commonBoxDecoration,
                   child: Padding(
                     padding: const EdgeInsets.all(40.0),
@@ -213,9 +216,8 @@ class _RegistViewState extends State<RegistView> {
                               TableBar(titleText: '공급사 정보'),
                               Container(
                                 width: double.infinity,
-                                height: 300,
                                 child: Table(
-                                  border: TableBorder(
+                                  border: const TableBorder(
                                     top: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                     bottom: BorderSide(
@@ -225,7 +227,7 @@ class _RegistViewState extends State<RegistView> {
                                     horizontalInside: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                   ),
-                                  columnWidths: {
+                                  columnWidths: const {
                                     0: FractionColumnWidth(0.3),
                                     1: FractionColumnWidth(0.7),
                                   },
@@ -247,7 +249,7 @@ class _RegistViewState extends State<RegistView> {
                                               child: TextFormField(
                                                 controller:
                                                     supRegiNumController,
-                                                decoration: InputDecoration(
+                                                decoration: const InputDecoration(
                                                   border: OutlineInputBorder(
                                                     borderSide: BorderSide(
                                                       color: Color(0xFFD1D1D1),
@@ -262,12 +264,12 @@ class _RegistViewState extends State<RegistView> {
                                                 ),
                                               ),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 10,
                                             ),
                                             SelectBoxExample(
                                               initialValue: '법인',
-                                              options: [
+                                              options: const [
                                                 '법인',
                                                 '개인',
                                               ],
@@ -316,13 +318,13 @@ class _RegistViewState extends State<RegistView> {
                                   ],
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 40,
                         ),
                         Expanded(
@@ -333,9 +335,8 @@ class _RegistViewState extends State<RegistView> {
                               TableBar(titleText: '입금계좌 정보'),
                               Container(
                                 width: double.infinity,
-                                height: 350,
                                 child: Table(
-                                  border: TableBorder(
+                                  border: const TableBorder(
                                     top: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                     bottom: BorderSide(
@@ -345,7 +346,7 @@ class _RegistViewState extends State<RegistView> {
                                     horizontalInside: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                   ),
-                                  columnWidths: {
+                                  columnWidths: const {
                                     0: FractionColumnWidth(0.3),
                                     1: FractionColumnWidth(0.7),
                                   },
@@ -380,16 +381,15 @@ class _RegistViewState extends State<RegistView> {
                                   ],
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               // 담당자 정보
                               TableBar(titleText: '담당자 정보'),
                               Container(
                                 width: double.infinity,
-                                height: 280,
                                 child: Table(
-                                  border: TableBorder(
+                                  border: const TableBorder(
                                     top: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                     bottom: BorderSide(
@@ -399,7 +399,7 @@ class _RegistViewState extends State<RegistView> {
                                     horizontalInside: BorderSide(
                                         color: Color(0xFFD0D0D0), width: 1),
                                   ),
-                                  columnWidths: {
+                                  columnWidths: const {
                                     0: FractionColumnWidth(0.3),
                                     1: FractionColumnWidth(0.7),
                                   },
@@ -415,7 +415,7 @@ class _RegistViewState extends State<RegistView> {
                                   ],
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               TableBar(titleText: '메모'),
@@ -433,7 +433,7 @@ class _RegistViewState extends State<RegistView> {
                                   maxLines: null,
                                   expands:
                                       true, 
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     contentPadding: EdgeInsets.all(8.0),
                                     border: InputBorder.none, 
                                     hintText: '내용을 입력하세요',
@@ -448,7 +448,7 @@ class _RegistViewState extends State<RegistView> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
             ],

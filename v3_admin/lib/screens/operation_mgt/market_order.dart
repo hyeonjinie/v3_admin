@@ -1,3 +1,7 @@
+/*
+- 운영관리 > 비굿마켓 > 주문
+ */
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -104,7 +108,7 @@ class _MarketOrderState extends State<MarketOrder> {
                     ],
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -134,9 +138,9 @@ class _OrderListState extends State<OrderList> {
   int _rowsPerPage = 10;
   int _pageIndex = 0;
   late List<Map<String, dynamic>> _filteredData;
-  late TextEditingController StartDateController;
-  late TextEditingController EndDateController;
-  late TextEditingController SearchController;
+  late TextEditingController startDateController;
+  late TextEditingController endDateController;
+  late TextEditingController searchController;
   late List<bool> isSelected;
   bool _allChecked = false; // 체크박스 전체 선택
 
@@ -146,9 +150,9 @@ class _OrderListState extends State<OrderList> {
   void initState() {
     super.initState();
     _filteredData = _data;
-    StartDateController = TextEditingController();
-    EndDateController = TextEditingController();
-    SearchController = TextEditingController();
+    startDateController = TextEditingController();
+    endDateController = TextEditingController();
+    searchController = TextEditingController();
     selectedDate = DateTime.now();
     isSelected = [false, false, false, false, true];
   }
@@ -166,6 +170,41 @@ class _OrderListState extends State<OrderList> {
         controller.text = DateFormat('yyyy-MM-dd').format(picked);
       });
     }
+  }
+
+  //날짜 토글 옵션 
+  void _setDateRange(int index) {
+    DateTime now = DateTime.now();
+    DateTime startDate = now;
+    DateTime endDate = now;
+
+    switch (index) {
+      case 0:
+        startDate = now;
+        endDate = now;
+        break;
+      case 1:
+        startDate = now.subtract(Duration(days: 7));
+        endDate = now;
+        break;
+      case 2:
+        startDate = DateTime(now.year, now.month - 1, now.day);
+        endDate = now;
+        break;
+      case 3:
+        startDate = DateTime(now.year, now.month - 3, now.day);
+        endDate = now;
+        break;
+      case 4:
+        startDate = DateTime(2000, 1, 1);
+        endDate = now;
+        break;
+    }
+
+    setState(() {
+      startDateController.text = DateFormat('yyyy-MM-dd').format(startDate);
+      endDateController.text = DateFormat('yyyy-MM-dd').format(endDate);
+    });
   }
 
   final List<Map<String, dynamic>> _data = [
@@ -325,7 +364,7 @@ class _OrderListState extends State<OrderList> {
                   children: [
                     Row(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 120,
                           child: Text(
                             '• 주문일',
@@ -337,20 +376,20 @@ class _OrderListState extends State<OrderList> {
                           ),
                         ),
                         CustomDatePickerField(
-                          controller: StartDateController,
+                          controller: startDateController,
                           onDateTap: _selectDate,
                         ),
-                        Text(
+                        const Text(
                           '  -  ',
                           style: TextStyle(
                             fontSize: 16,
                           ),
                         ),
                         CustomDatePickerField(
-                          controller: EndDateController,
+                          controller: endDateController,
                           onDateTap: _selectDate,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         ConstrainedBox(
@@ -374,18 +413,19 @@ class _OrderListState extends State<OrderList> {
                                 for (int i = 0; i < isSelected.length; i++) {
                                   isSelected[i] = i == index;
                                 }
+                                _setDateRange(index);
                               });
                             },
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 120,
                           child: Text(
                             '• 결제수단',
@@ -398,7 +438,7 @@ class _OrderListState extends State<OrderList> {
                         ),
                         SelectBoxExample(
                           initialValue: '전체',
-                          options: [
+                          options: const [
                             '전체',
                             '카드결제',
                             '무통장입금',
@@ -409,7 +449,7 @@ class _OrderListState extends State<OrderList> {
                           custom_width: 220.0,
                         ),
                         SizedBox(width: 220),
-                        SizedBox(
+                        const SizedBox(
                           width: 120,
                           child: Text(
                             '• 결제상태',
@@ -422,7 +462,7 @@ class _OrderListState extends State<OrderList> {
                         ),
                         SelectBoxExample(
                           initialValue: '전체',
-                          options: [
+                          options: const [
                             '전체',
                             '확인중',
                             '입금완료',
@@ -437,12 +477,12 @@ class _OrderListState extends State<OrderList> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 120,
                           child: Text(
                             '• 검색',
@@ -461,15 +501,15 @@ class _OrderListState extends State<OrderList> {
                           },
                           custom_width: 220.0,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Container(
                           width: 350,
                           height: 45,
                           child: TextFormField(
-                            controller: SearchController,
-                            decoration: InputDecoration(
+                            controller: searchController,
+                            decoration: const InputDecoration(
                               hintText: '검색어를 입력하세요',
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -486,7 +526,7 @@ class _OrderListState extends State<OrderList> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Row(
@@ -497,7 +537,7 @@ class _OrderListState extends State<OrderList> {
                           text: '검색',
                           onPressed: () {},
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         CustomElevatedButton2(
@@ -514,14 +554,14 @@ class _OrderListState extends State<OrderList> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
 
           // 표 상단 영역
           Row(
             children: [
-              Text(
+              const Text(
                 ' 총 n개',
                 style: TextStyle(
                   fontSize: 16.0,
@@ -533,12 +573,12 @@ class _OrderListState extends State<OrderList> {
                 text: '일괄 변경',
                 onPressed: () {},
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               SelectBoxExample(
                 initialValue: '10개 보기',
-                options: ['10개 보기', '20개 보기', '50개 보기'],
+                options: const ['10개 보기', '20개 보기', '50개 보기'],
                 onChanged: (String? newValue) {
                   setState(() {
                     _rowsPerPage = int.parse(newValue!.split('개')[0]);
@@ -548,7 +588,7 @@ class _OrderListState extends State<OrderList> {
               ),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
 
           // 테이블
           Container(
@@ -569,7 +609,7 @@ class _OrderListState extends State<OrderList> {
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.75,
                         child: DataTable(
-                          columns: [
+                          columns: const [
                             DataColumn(
                               label: Text(
                                 '주문번호',
@@ -623,7 +663,7 @@ class _OrderListState extends State<OrderList> {
                                         ? item['주문번호']!.substring(0, 12) +
                                             '... >'
                                         : item['주문번호']! + ' >',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Color(0xFF4470F6),
                                       fontWeight: FontWeight.bold,
                                     ),

@@ -22,12 +22,12 @@ class TitleSection extends StatelessWidget {
       children: [
         Text(
           mainTitle,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18.0,
             fontWeight: FontWeight.w700,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 30,
         ),
         Row(
@@ -42,14 +42,14 @@ class TitleSection extends StatelessWidget {
               },
               child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.home,
                     size: 20.0,
                     color: Color(0xFF9A9A9A),
                   ),
                   Text(
                     breadcrumb1,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xFF9A9A9A),
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
@@ -57,7 +57,7 @@ class TitleSection extends StatelessWidget {
                   ),
                   Text(
                     breadcrumb2,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xFF282828),
                       fontSize: 14,
                       fontWeight: FontWeight.w600,

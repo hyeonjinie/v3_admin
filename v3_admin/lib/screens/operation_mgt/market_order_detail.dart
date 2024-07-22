@@ -1,3 +1,7 @@
+/*
+- 운영관리 > 비굿마켓 > 주문 > 주문 상세
+ */
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:v3_admin/common_widget/common_widgets.dart';

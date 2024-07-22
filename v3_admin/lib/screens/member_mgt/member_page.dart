@@ -1,3 +1,7 @@
+/*
+- 회원관리 > 일반회원
+ */
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -103,9 +107,9 @@ class _MemberListState extends State<MemberList> {
   int _rowsPerPage = 10;
   int _pageIndex = 0;
   late List<Map<String, String>> _filteredData;
-  late TextEditingController StartDateController;
-  late TextEditingController EndDateController;
-  late TextEditingController SearchController;
+  late TextEditingController startDateController;
+  late TextEditingController endDateController;
+  late TextEditingController searchController;
   late List<bool> isSelected;
 
   late DateTime selectedDate;
@@ -114,9 +118,9 @@ class _MemberListState extends State<MemberList> {
   void initState() {
     super.initState();
     _filteredData = _data;
-    StartDateController = TextEditingController();
-    EndDateController = TextEditingController();
-    SearchController = TextEditingController();
+    startDateController = TextEditingController();
+    endDateController = TextEditingController();
+    searchController = TextEditingController();
     selectedDate = DateTime.now();
     isSelected = [false, false, false, false, true];
   }
@@ -134,6 +138,41 @@ class _MemberListState extends State<MemberList> {
         controller.text = DateFormat('yyyy-MM-dd').format(picked);
       });
     }
+  }
+
+  //날짜 토글 옵션 
+  void _setDateRange(int index) {
+    DateTime now = DateTime.now();
+    DateTime startDate = now;
+    DateTime endDate = now;
+
+    switch (index) {
+      case 0:
+        startDate = now;
+        endDate = now;
+        break;
+      case 1:
+        startDate = now.subtract(Duration(days: 7));
+        endDate = now;
+        break;
+      case 2:
+        startDate = DateTime(now.year, now.month - 1, now.day);
+        endDate = now;
+        break;
+      case 3:
+        startDate = DateTime(now.year, now.month - 3, now.day);
+        endDate = now;
+        break;
+      case 4:
+        startDate = DateTime(2000, 1, 1);
+        endDate = now;
+        break;
+    }
+
+    setState(() {
+      startDateController.text = DateFormat('yyyy-MM-dd').format(startDate);
+      endDateController.text = DateFormat('yyyy-MM-dd').format(endDate);
+    });
   }
 
   final List<Map<String, String>> _data = [
@@ -268,7 +307,7 @@ class _MemberListState extends State<MemberList> {
                         textBox('• 회원유형'),
                         SelectBoxExample(
                           initialValue: '전체',
-                          options: ['전체', '농민', '소상공인', '식품제조가공업체', '기타'],
+                          options: const ['전체', '농민', '소상공인', '식품제조가공업체', '기타'],
                           onChanged: (String? newValue) {
                             setState(() {});
                           },
@@ -283,7 +322,7 @@ class _MemberListState extends State<MemberList> {
                       children: [
                         textBox('• 가입일'),
                         CustomDatePickerField(
-                          controller: StartDateController,
+                          controller: startDateController,
                           onDateTap: _selectDate,
                         ),
                         const Text(
@@ -293,7 +332,7 @@ class _MemberListState extends State<MemberList> {
                           ),
                         ),
                         CustomDatePickerField(
-                          controller: EndDateController,
+                          controller: endDateController,
                           onDateTap: _selectDate,
                         ),
                         const SizedBox(
@@ -320,6 +359,7 @@ class _MemberListState extends State<MemberList> {
                                 for (int i = 0; i < isSelected.length; i++) {
                                   isSelected[i] = i == index;
                                 }
+                                _setDateRange(index);
                               });
                             },
                           ),
@@ -334,7 +374,7 @@ class _MemberListState extends State<MemberList> {
                         textBox('• 검색'),
                         SelectBoxExample(
                           initialValue: '전체',
-                          options: ['전체', '업체명', '담당자명', '담당자 연락처', '담당자 메일'],
+                          options: const ['전체', '업체명', '담당자명', '담당자 연락처', '담당자 메일'],
                           onChanged: (String? newValue) {
                             setState(() {});
                           },
@@ -347,7 +387,7 @@ class _MemberListState extends State<MemberList> {
                           width: 350,
                           height: 45,
                           child: TextFormField(
-                            controller: SearchController,
+                            controller: searchController,
                             decoration: const InputDecoration(
                               hintText: '검색어를 입력하세요',
                               border: OutlineInputBorder(
@@ -400,7 +440,7 @@ class _MemberListState extends State<MemberList> {
           // 표 상단 영역
           Row(
             children: [
-              Text(
+              const Text(
                 ' 총 n개',
                 style: TextStyle(
                   fontSize: 16.0,
@@ -419,7 +459,7 @@ class _MemberListState extends State<MemberList> {
               ),
               SelectBoxExample(
                 initialValue: '10개 보기',
-                options: ['10개 보기', '20개 보기', '50개 보기'],
+                options: const ['10개 보기', '20개 보기', '50개 보기'],
                 onChanged: (String? newValue) {
                   setState(() {
                     _rowsPerPage = int.parse(newValue!.split('개')[0]);
@@ -500,7 +540,7 @@ class _MemberListState extends State<MemberList> {
                                   },
                                   child: Text(
                                     item['업체명']! + ' >',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Color(0xFF4470F6),
                                       fontWeight: FontWeight.bold,
                                     ),

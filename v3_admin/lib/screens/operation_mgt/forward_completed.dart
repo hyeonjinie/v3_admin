@@ -1,3 +1,7 @@
+/*
+- 운영관리 > 선도거래 > 완료 
+ */
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -44,7 +48,7 @@ class _CompletedState extends State<Completed> {
                   child: Column(
                     children: [
                       ProfileWidget(),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       SubMenuWidget(
                         label: '선도거래',
                         selectedMenu: selectedMenu,
@@ -104,7 +108,7 @@ class _CompletedState extends State<Completed> {
                     ],
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -134,9 +138,7 @@ class _CompletedListState extends State<CompletedList> {
   int _rowsPerPage = 10;
   int _pageIndex = 0;
   late List<Map<String, String>> _filteredData;
-  late TextEditingController StartDateController;
-  late TextEditingController EndDateController;
-  late TextEditingController SearchController;
+  late TextEditingController searchController;
   late List<bool> isSelected;
 
   late DateTime selectedDate;
@@ -145,26 +147,9 @@ class _CompletedListState extends State<CompletedList> {
   void initState() {
     super.initState();
     _filteredData = _data;
-    StartDateController = TextEditingController();
-    EndDateController = TextEditingController();
-    SearchController = TextEditingController();
+    searchController = TextEditingController();
     selectedDate = DateTime.now();
     isSelected = [false, false, false, false, true];
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-        StartDateController.text = DateFormat('yyyy-MM-dd').format(picked);
-      });
-    }
   }
 
   final List<Map<String, String>> _data = [
@@ -318,21 +303,27 @@ class _CompletedListState extends State<CompletedList> {
                         textBox('• 검색'),
                         SelectBoxExample(
                           initialValue: '전체',
-                          options: ['전체', '업체명', '담당자명', '담당자 연락처', '담당자 메일'],
+                          options: const [
+                            '전체',
+                            '업체명',
+                            '담당자명',
+                            '담당자 연락처',
+                            '담당자 메일'
+                          ],
                           onChanged: (String? newValue) {
                             setState(() {});
                           },
                           custom_width: 220.0,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Container(
                           width: 350,
                           height: 45,
                           child: TextFormField(
-                            controller: SearchController,
-                            decoration: InputDecoration(
+                            controller: searchController,
+                            decoration: const InputDecoration(
                               hintText: '검색어를 입력하세요',
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -347,7 +338,7 @@ class _CompletedListState extends State<CompletedList> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         CustomElevatedButton1(
@@ -355,7 +346,7 @@ class _CompletedListState extends State<CompletedList> {
                           text: '검색',
                           onPressed: () {},
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         CustomElevatedButton2(
@@ -367,7 +358,7 @@ class _CompletedListState extends State<CompletedList> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                   ],
@@ -375,23 +366,23 @@ class _CompletedListState extends State<CompletedList> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
 
           // 표 상단 영역
           Row(
             children: [
-              Text(
+              const Text(
                 ' 총 n개',
                 style: TextStyle(
                   fontSize: 16.0,
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               SelectBoxExample(
                 initialValue: '10개 보기',
-                options: ['10개 보기', '20개 보기', '50개 보기'],
+                options: const ['10개 보기', '20개 보기', '50개 보기'],
                 onChanged: (String? newValue) {
                   setState(() {
                     _rowsPerPage = int.parse(newValue!.split('개')[0]);
@@ -401,7 +392,7 @@ class _CompletedListState extends State<CompletedList> {
               ),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
 
           // 테이블
           Container(
@@ -422,7 +413,7 @@ class _CompletedListState extends State<CompletedList> {
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.75,
                         child: DataTable(
-                          columns: [
+                          columns: const [
                             DataColumn(
                               label: Text(
                                 '거래명',
@@ -487,7 +478,7 @@ class _CompletedListState extends State<CompletedList> {
                                         ? item['거래명']!.substring(0, 12) +
                                             '... >'
                                         : item['거래명']! + '>',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Color(0xFF4470F6),
                                       fontWeight: FontWeight.bold,
                                     ),
