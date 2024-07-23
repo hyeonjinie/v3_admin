@@ -538,7 +538,7 @@ class _SettleMarketListState extends State<SettleMarketList> {
                   children: [
                     Row(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 120,
                           child: Text(
                             '• 기간',
@@ -549,26 +549,11 @@ class _SettleMarketListState extends State<SettleMarketList> {
                             ),
                           ),
                         ),
-                        SelectBoxExample(
-                          initialValue: '전체',
-                          options: [
-                            '전체',
-                            '카드결제',
-                            '무통장입금',
-                          ],
-                          onChanged: (String? newValue) {
-                            setState(() {});
-                          },
-                          custom_width: 220.0,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
                         CustomDatePickerField(
                           controller: startDateController,
                           onDateTap: _selectDate,
                         ),
-                        Text(
+                        const Text(
                           '  -  ',
                           style: TextStyle(
                             fontSize: 16,
@@ -578,7 +563,7 @@ class _SettleMarketListState extends State<SettleMarketList> {
                           controller: endDateController,
                           onDateTap: _selectDate,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         ConstrainedBox(
@@ -609,12 +594,12 @@ class _SettleMarketListState extends State<SettleMarketList> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 120,
                           child: Text(
                             '• 상태',
@@ -627,7 +612,7 @@ class _SettleMarketListState extends State<SettleMarketList> {
                         ),
                         SelectBoxExample(
                           initialValue: '전체',
-                          options: [
+                          options: const [
                             '전체',
                             '카드결제',
                             '무통장입금',
@@ -637,8 +622,8 @@ class _SettleMarketListState extends State<SettleMarketList> {
                           },
                           custom_width: 220.0,
                         ),
-                        SizedBox(width: 135),
-                        SizedBox(
+                        const SizedBox(width: 135),
+                        const SizedBox(
                           width: 120,
                           child: Text(
                             '• 검색',
@@ -651,7 +636,7 @@ class _SettleMarketListState extends State<SettleMarketList> {
                         ),
                         SelectBoxExample(
                           initialValue: '전체',
-                          options: [
+                          options: const [
                             '전체',
                             '확인중',
                             '입금완료',
@@ -664,7 +649,7 @@ class _SettleMarketListState extends State<SettleMarketList> {
                           },
                           custom_width: 220.0,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Container(
@@ -672,7 +657,7 @@ class _SettleMarketListState extends State<SettleMarketList> {
                           height: 45,
                           child: TextFormField(
                             controller: searchController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: '검색어를 입력하세요',
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -689,7 +674,7 @@ class _SettleMarketListState extends State<SettleMarketList> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Row(
@@ -700,7 +685,7 @@ class _SettleMarketListState extends State<SettleMarketList> {
                           text: '검색',
                           onPressed: () {},
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         CustomElevatedButton2(
@@ -717,14 +702,14 @@ class _SettleMarketListState extends State<SettleMarketList> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
 
           // 표 상단 영역
           Row(
             children: [
-              Text(
+              const Text(
                 ' 총 n개',
                 style: TextStyle(
                   fontSize: 16.0,
@@ -745,7 +730,7 @@ class _SettleMarketListState extends State<SettleMarketList> {
               ),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
 
           // 테이블
           Container(
@@ -838,7 +823,7 @@ class _SettleMarketListState extends State<SettleMarketList> {
                                         ? item['order_id']!.substring(0, 12) +
                                             '... >'
                                         : item['order_id']! + ' >',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Color(0xFF4470F6),
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -933,16 +918,16 @@ class _SettleMarketListState extends State<SettleMarketList> {
       child: Container(
         width: 350,
         padding: EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(8)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('상태 변경',
+            const Text('상태 변경',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             SelectBoxExample(
               initialValue: '예정',
               options: const [
@@ -955,7 +940,7 @@ class _SettleMarketListState extends State<SettleMarketList> {
               },
               custom_width: 220.0,
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Row(

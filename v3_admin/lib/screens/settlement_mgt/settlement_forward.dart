@@ -432,8 +432,8 @@ class _SettleForwardListState extends State<SettleForwardList> {
                           initialValue: '전체',
                           options: const [
                             '전체',
-                            '카드결제',
-                            '무통장입금',
+                            '예정',
+                            '완료',
                           ],
                           onChanged: (String? newValue) {
                             setState(() {});
@@ -456,11 +456,8 @@ class _SettleForwardListState extends State<SettleForwardList> {
                           initialValue: '전체',
                           options: const [
                             '전체',
-                            '확인중',
-                            '입금완료',
-                            '결제완료',
-                            '배송예정',
-                            '완료',
+                            '거래명',
+                            '업체명',
                           ],
                           onChanged: (String? newValue) {
                             setState(() {});

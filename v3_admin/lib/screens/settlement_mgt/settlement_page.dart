@@ -6,7 +6,6 @@ import 'package:v3_admin/common_widget/common_widgets.dart';
 import 'package:v3_admin/common_widget/layout.dart';
 import 'package:v3_admin/common_widget/naviagtion_helper.dart';
 import 'package:intl/intl.dart';
-import 'package:v3_admin/screens/operation_mgt/forward_inquiry_detail.dart';
 
 final NumberFormat currencyFormat = NumberFormat('#,##0', 'en_US');
 
@@ -119,21 +118,68 @@ class SettlementList extends StatefulWidget {
 class _SettlementListState extends State<SettlementList> {
   int _rowsPerPage = 10;
   int _pageIndex = 0;
-  late TextEditingController SearchController;
+  late TextEditingController startDateController;
+  late TextEditingController endDateController;
+  late TextEditingController searchController;
   late List<Map<String, dynamic>> _filteredData;
-
-  int selectedYear = DateTime.now().year;
-  int selectedMonth = DateTime.now().month;
-
-  final List<int> years =
-      List.generate(10, (index) => DateTime.now().year - index);
-  final List<int> months = List.generate(12, (index) => index + 1);
+  late List<bool> isSelected;
+  late DateTime selectedDate;
 
   @override
   void initState() {
     super.initState();
     _filteredData = _data;
-    SearchController = TextEditingController();
+    startDateController = TextEditingController();
+    endDateController = TextEditingController();
+    searchController = TextEditingController();
+    selectedDate = DateTime.now();
+    isSelected = [false, false, true];
+  }
+
+  Future<void> _selectDate(
+      BuildContext context, TextEditingController controller) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        controller.text = DateFormat('yyyy-MM-dd').format(picked);
+      });
+    }
+  }
+
+  //날짜 토글 옵션
+    void _setDateRange(int index) {
+    DateTime now = DateTime.now();
+    DateTime startDate;
+    DateTime endDate = now;
+
+    switch (index) {
+      case 0: // 지난달
+        startDate = DateTime(now.year, now.month - 1, 1);
+        endDate = DateTime(now.year, now.month, 0);
+        break;
+      case 1: // 이번달
+        startDate = DateTime(now.year, now.month, 1);
+        endDate = now;
+        break;
+      case 2: // 올해
+        startDate = DateTime(now.year, 1, 1);
+        endDate = now;
+        break;
+      default:
+        startDate = now;
+        endDate = now;
+    }
+
+    setState(() {
+      startDateController.text = DateFormat('yyyy-MM-dd').format(startDate);
+      endDateController.text = DateFormat('yyyy-MM-dd').format(endDate);
+    });
   }
 
   final List<Map<String, dynamic>> _data = [
@@ -269,7 +315,7 @@ class _SettlementListState extends State<SettlementList> {
                     decoration: commonBoxDecoration,
                     child: Padding(
                       padding: const EdgeInsets.only(
-                        top: 30.0,
+                        top: 50.0,
                         left: 30,
                         right: 30,
                         bottom: 20,
@@ -277,72 +323,60 @@ class _SettlementListState extends State<SettlementList> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                            child: Row(
-                              children: [
-                                DropdownButton<int>(
-                                  value: selectedYear,
-                                  onChanged: (int? newValue) {
+                          Row(
+                            children: [
+                              textBox('• 거래일'),
+                              CustomDatePickerField(
+                                controller: startDateController,
+                                onDateTap: _selectDate,
+                              ),
+                              const Text(
+                                '  -  ',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                              CustomDatePickerField(
+                                controller: endDateController,
+                                onDateTap: _selectDate,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              ConstrainedBox(
+                                constraints: BoxConstraints(maxHeight: 40),
+                                child: ToggleButtons(
+                                  isSelected: isSelected,
+                                  selectedColor: Colors.white,
+                                  fillColor: Colors.transparent,
+                                  borderColor: Colors.grey,
+                                  selectedBorderColor: Color(0xFF4470F6),
+                                  borderRadius: BorderRadius.circular(5),
+                                  children: <Widget>[
+                                    buildToggleButton('지난달', isSelected[0]),
+                                    buildToggleButton('이번달', isSelected[1]),
+                                    buildToggleButton('올해', isSelected[2]),
+                                  ],
+                                  onPressed: (int index) {
                                     setState(() {
-                                      selectedYear = newValue!;
+                                      for (int i = 0;
+                                          i < isSelected.length;
+                                          i++) {
+                                        isSelected[i] = i == index;
+                                      }
+                                      _setDateRange(index);
                                     });
                                   },
-                                  dropdownColor: Colors.white, 
-                                  items: years.map<DropdownMenuItem<int>>((int value) {
-                                    return DropdownMenuItem<int>(
-                                      value: value,
-                                      child: Text(
-                                        '$value년',
-                                        style: TextStyle(
-                                          fontSize: value == selectedYear
-                                              ? 20
-                                              : 14,
-                                          fontWeight: value == selectedYear
-                                              ? FontWeight.bold
-                                              : FontWeight.normal,
-                                          decoration: TextDecoration.none, 
-                                        ),
-                                      ),
-                                    );
-                                  }).toList(),
                                 ),
-                                SizedBox(width: 16), 
-                                DropdownButton<int>(
-                                  value: selectedMonth,
-                                  onChanged: (int? newValue) {
-                                    setState(() {
-                                      selectedMonth = newValue!;
-                                    });
-                                  },
-                                  dropdownColor: Colors.white, 
-                                  items: months.map<DropdownMenuItem<int>>((int value) {
-                                    return DropdownMenuItem<int>(
-                                      value: value,
-                                      child: Text(
-                                        '$value월',
-                                        style: TextStyle(
-                                          fontSize: value == selectedMonth
-                                              ? 20
-                                              : 14, 
-                                          fontWeight: value == selectedMonth
-                                              ? FontWeight.bold
-                                              : FontWeight.normal, 
-                                          decoration: TextDecoration.none,
-                                        ),
-                                      ),
-                                    );
-                                  }).toList(),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          SizedBox(
-                            height: 40,
+                          const SizedBox(
+                            height: 20,
                           ),
                           Row(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 width: 120,
                                 child: Text(
                                   '• 검색',
@@ -355,28 +389,26 @@ class _SettlementListState extends State<SettlementList> {
                               ),
                               SelectBoxExample(
                                 initialValue: '전체',
-                                options: [
+                                options: const [
                                   '전체',
-                                  '확인중',
-                                  '입금완료',
-                                  '결제완료',
-                                  '배송예정',
-                                  '완료',
+                                  '거래명',
+                                  '업체명',
+                                  '거래유형',
                                 ],
                                 onChanged: (String? newValue) {
                                   setState(() {});
                                 },
                                 custom_width: 220.0,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                               Container(
                                 width: 350,
                                 height: 45,
                                 child: TextFormField(
-                                  controller: SearchController,
-                                  decoration: InputDecoration(
+                                  controller: searchController,
+                                  decoration: const InputDecoration(
                                     hintText: '검색어를 입력하세요',
                                     border: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -393,8 +425,8 @@ class _SettlementListState extends State<SettlementList> {
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: 20,
+                          const SizedBox(
+                            height: 30,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -404,7 +436,7 @@ class _SettlementListState extends State<SettlementList> {
                                 text: '검색',
                                 onPressed: () {},
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                               CustomElevatedButton2(
@@ -421,7 +453,9 @@ class _SettlementListState extends State<SettlementList> {
                     ),
                   ),
                 ),
-                SizedBox(width: 15,),
+                const SizedBox(
+                  width: 15,
+                ),
                 Expanded(
                   flex: 2,
                   child: Container(
@@ -439,8 +473,10 @@ class _SettlementListState extends State<SettlementList> {
                         children: [
                           Row(
                             children: [
-                              SizedBox(width: 15,),
-                              SizedBox(
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              const SizedBox(
                                 width: 150,
                                 child: Text(
                                   '매출합계',
@@ -458,13 +494,15 @@ class _SettlementListState extends State<SettlementList> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
                             children: [
-                              SizedBox(width: 15,),
-                              SizedBox(
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              const SizedBox(
                                 width: 150,
                                 child: Text(
                                   '매입합계',
@@ -482,13 +520,15 @@ class _SettlementListState extends State<SettlementList> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
                             children: [
-                              SizedBox(width: 15,),
-                              SizedBox(
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              const SizedBox(
                                 width: 150,
                                 child: Text(
                                   '기타비용 합계',
@@ -506,13 +546,15 @@ class _SettlementListState extends State<SettlementList> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
                             children: [
-                              SizedBox(width: 15,),
-                              SizedBox(
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              const SizedBox(
                                 width: 150,
                                 child: Text(
                                   '매출이익',
@@ -538,14 +580,14 @@ class _SettlementListState extends State<SettlementList> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
 
           // 표 상단 영역
           Row(
             children: [
-              Text(
+              const Text(
                 ' 총 n개',
                 style: TextStyle(
                   fontSize: 16.0,
@@ -555,11 +597,13 @@ class _SettlementListState extends State<SettlementList> {
               CustomElevatedButton1(
                 backgroundColor: Color(0xFF5D75BF),
                 text: '등록',
-                onPressed: () {},
+                onPressed: () {
+                  _showSettlementDialog(context);
+                },
               ),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
 
           // 테이블
           Container(
@@ -580,7 +624,7 @@ class _SettlementListState extends State<SettlementList> {
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.75,
                         child: DataTable(
-                          columns: [
+                          columns: const [
                             DataColumn(
                               label: Text(
                                 '거래명',
@@ -634,7 +678,7 @@ class _SettlementListState extends State<SettlementList> {
                                         ? item['거래명']!.substring(0, 12) +
                                             '... >'
                                         : item['거래명']! + ' >',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Color(0xFF4470F6),
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -644,7 +688,8 @@ class _SettlementListState extends State<SettlementList> {
                               DataCell(Text(item['거래유형']!)),
                               DataCell(Text(item['업체명']!)),
                               DataCell(Text(item['구분']!)),
-                              DataCell(Text(currencyFormat.format(item['금액']) + '원')),
+                              DataCell(Text(
+                                  currencyFormat.format(item['금액']) + '원')),
                               DataCell(Text(item['정산일자']!)),
                             ]);
                           }).toList(),
@@ -685,6 +730,147 @@ class _SettlementListState extends State<SettlementList> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// 수동 정산입력창 생성
+void _showSettlementDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        child: Container(
+          width: 570,
+          padding: EdgeInsets.all(16.0),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 10),
+              const Text(
+                '기타 정산 등록',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16),
+              SettlementForm(onSubmit: (newSettlement) {
+                Navigator.of(context).pop();
+              }),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomElevatedButton2(
+                    text: '취소',
+                    backgroundColor: Colors.white,
+                    textColor: Color(0xFF9A9A9A),
+                    borderColor: Color(0xFFD6D6D6),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  const SizedBox(width: 15),
+                  CustomElevatedButton1(
+                    backgroundColor: Color(0xFF5D75BF),
+                    text: '제출',
+                    onPressed: () {
+                      // OrderForm.of(context).submitForm();
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+// 정산 입력 폼 
+class SettlementForm extends StatefulWidget {
+  final Function(Map<String, dynamic>) onSubmit;
+
+  SettlementForm({required this.onSubmit});
+
+  static SettlementFormState of(BuildContext context) =>
+      context.findAncestorStateOfType<SettlementFormState>()!;
+
+  @override
+  SettlementFormState createState() => SettlementFormState();
+}
+
+class SettlementFormState extends State<SettlementForm> {
+  final _formKey = GlobalKey<FormState>();
+  late TextEditingController orderNmController;
+  late TextEditingController orderTypeController;
+  late TextEditingController companyNmController;
+  late TextEditingController typeController;
+  late TextEditingController amountController;
+  // String settlementDate = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    orderNmController = TextEditingController();
+    orderTypeController = TextEditingController();
+    companyNmController = TextEditingController();
+    typeController = TextEditingController();
+    amountController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    orderNmController.dispose();
+    orderTypeController.dispose();
+    companyNmController.dispose();
+    typeController.dispose();
+    amountController.dispose();
+    super.dispose();
+  }
+
+  
+  void submitForm() {
+    if (_formKey.currentState!.validate()) {
+      final newSettlement = {
+        '거래명': int.parse(orderNmController.text),
+        '거래유형': int.parse(orderTypeController.text),
+        '업체명': companyNmController.text,
+        '구분': typeController.text,
+        '금액': amountController.text,
+        '정산일자': DateTime.now().toIso8601String().split('T')[0],
+      };
+      widget.onSubmit(newSettlement);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              customTextField('거래명', '', orderNmController, 120),
+              const SizedBox(height: 10),
+              customTextField('거래유형', 'B2B 또는 B2V 등 입력', orderTypeController, 120),
+              const SizedBox(height: 10),
+              customTextField('업체명', '', companyNmController, 120),
+              const SizedBox(height: 10),
+              customTextField('구분', '매출 또는 매입 등 입력', typeController, 120),
+              const SizedBox(height: 10),
+              customTextField('금액', '(원) 단위로 숫자만 입력', amountController, 120),
+              const SizedBox(height: 10),
+            ],
+          ),
+        ),
       ),
     );
   }

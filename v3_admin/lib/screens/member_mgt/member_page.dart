@@ -111,7 +111,6 @@ class _MemberListState extends State<MemberList> {
   late TextEditingController endDateController;
   late TextEditingController searchController;
   late List<bool> isSelected;
-
   late DateTime selectedDate;
 
   @override
