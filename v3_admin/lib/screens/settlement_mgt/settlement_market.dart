@@ -1,3 +1,7 @@
+/*
+- 정산관리 > 비굿마켓
+ */
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:v3_admin/common_widget/common_widgets.dart';
@@ -709,9 +713,9 @@ class _SettleMarketListState extends State<SettleMarketList> {
           // 표 상단 영역
           Row(
             children: [
-              const Text(
-                ' 총 n개',
-                style: TextStyle(
+              Text(
+                ' 총 ${_data.length}개',
+                style: const TextStyle(
                   fontSize: 16.0,
                 ),
               ),

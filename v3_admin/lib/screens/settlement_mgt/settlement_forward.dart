@@ -1,3 +1,7 @@
+/*
+- 정산관리 > 선도주문
+ */
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:v3_admin/common_widget/common_widgets.dart';
@@ -286,7 +290,7 @@ class _SettleForwardListState extends State<SettleForwardList> {
     }
   }
 
-  //날짜 토글 옵션 
+  //날짜 토글 옵션
   void _setDateRange(int index) {
     DateTime now = DateTime.now();
     DateTime startDate = now;
@@ -524,9 +528,9 @@ class _SettleForwardListState extends State<SettleForwardList> {
           // 표 상단 영역
           Row(
             children: [
-              const Text(
-                ' 총 n개',
-                style: TextStyle(
+              Text(
+                ' 총 ${_data.length}개',
+                style: const TextStyle(
                   fontSize: 16.0,
                 ),
               ),
@@ -628,8 +632,9 @@ class _SettleForwardListState extends State<SettleForwardList> {
                               .map((item) {
                             int itemIndex = _data.indexOf(item);
                             return DataRow(cells: [
-                              DataCell(Text(
-                                  item['settleDate'] == null ? '' : item['settleDate'])),
+                              DataCell(Text(item['settleDate'] == null
+                                  ? ''
+                                  : item['settleDate'])),
                               DataCell(
                                 GestureDetector(
                                   onTap: () {
@@ -649,13 +654,18 @@ class _SettleForwardListState extends State<SettleForwardList> {
                               ),
                               DataCell(Text(getTypeDisplayName(item['type']))),
                               DataCell(Text(item['companyName']!)),
-                              DataCell(Text(currencyFormat.format(item['amount']) + '원')),
+                              DataCell(Text(
+                                  currencyFormat.format(item['amount']) + '원')),
                               DataCell(Row(
                                 children: [
-                                  Text(item['status'], style: TextStyle(
-                                    color: item['status'] == '예정'? Color(0xFFFF5F5F) : Color(0xFF4470F6),
-                                    fontWeight: FontWeight.bold 
-                                  ),),
+                                  Text(
+                                    item['status'],
+                                    style: TextStyle(
+                                        color: item['status'] == '예정'
+                                            ? Color(0xFFFF5F5F)
+                                            : Color(0xFF4470F6),
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                   const SizedBox(
                                     width: 10,
                                   ),
@@ -745,7 +755,9 @@ class _SettleForwardListState extends State<SettleForwardList> {
               },
               custom_width: 220.0,
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -771,8 +783,6 @@ class _SettleForwardListState extends State<SettleForwardList> {
           ],
         ),
       ),
-      
     );
   }
-
 }

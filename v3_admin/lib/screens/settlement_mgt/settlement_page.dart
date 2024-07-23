@@ -1,3 +1,7 @@
+/*
+- 정산관리 > 정산
+ */
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -153,7 +157,7 @@ class _SettlementListState extends State<SettlementList> {
   }
 
   //날짜 토글 옵션
-    void _setDateRange(int index) {
+  void _setDateRange(int index) {
     DateTime now = DateTime.now();
     DateTime startDate;
     DateTime endDate = now;
@@ -587,19 +591,11 @@ class _SettlementListState extends State<SettlementList> {
           // 표 상단 영역
           Row(
             children: [
-              const Text(
-                ' 총 n개',
-                style: TextStyle(
+              Text(
+                ' 총 ${_data.length}개',
+                style: const TextStyle(
                   fontSize: 16.0,
                 ),
-              ),
-              Spacer(),
-              CustomElevatedButton1(
-                backgroundColor: Color(0xFF5D75BF),
-                text: '등록',
-                onPressed: () {
-                  _showSettlementDialog(context);
-                },
               ),
             ],
           ),
@@ -674,14 +670,10 @@ class _SettlementListState extends State<SettlementList> {
                                     // context.go('/order-detail');
                                   },
                                   child: Text(
-                                    item['거래명']!.length > 12
-                                        ? item['거래명']!.substring(0, 12) +
-                                            '... >'
-                                        : item['거래명']! + ' >',
-                                    style: const TextStyle(
-                                      color: Color(0xFF4470F6),
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    item['거래명']!.length > 20
+                                        ? item['거래명']!.substring(0, 20) +
+                                            '...'
+                                        : item['거래명']!,
                                   ),
                                 ),
                               ),
@@ -736,142 +728,142 @@ class _SettlementListState extends State<SettlementList> {
 }
 
 // 수동 정산입력창 생성
-void _showSettlementDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return Dialog(
-        child: Container(
-          width: 570,
-          padding: EdgeInsets.all(16.0),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(height: 10),
-              const Text(
-                '기타 정산 등록',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 16),
-              SettlementForm(onSubmit: (newSettlement) {
-                Navigator.of(context).pop();
-              }),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomElevatedButton2(
-                    text: '취소',
-                    backgroundColor: Colors.white,
-                    textColor: Color(0xFF9A9A9A),
-                    borderColor: Color(0xFFD6D6D6),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  const SizedBox(width: 15),
-                  CustomElevatedButton1(
-                    backgroundColor: Color(0xFF5D75BF),
-                    text: '제출',
-                    onPressed: () {
-                      // OrderForm.of(context).submitForm();
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      );
-    },
-  );
-}
+// void _showSettlementDialog(BuildContext context) {
+//   showDialog(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return Dialog(
+//         child: Container(
+//           width: 570,
+//           padding: EdgeInsets.all(16.0),
+//           decoration: const BoxDecoration(
+//             color: Colors.white,
+//             borderRadius: BorderRadius.all(Radius.circular(8)),
+//           ),
+//           child: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             children: [
+//               const SizedBox(height: 10),
+//               const Text(
+//                 '기타 정산 등록',
+//                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+//               ),
+//               const SizedBox(height: 16),
+//               SettlementForm(onSubmit: (newSettlement) {
+//                 Navigator.of(context).pop();
+//               }),
+//               const SizedBox(height: 16),
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   CustomElevatedButton2(
+//                     text: '취소',
+//                     backgroundColor: Colors.white,
+//                     textColor: Color(0xFF9A9A9A),
+//                     borderColor: Color(0xFFD6D6D6),
+//                     onPressed: () {
+//                       Navigator.of(context).pop();
+//                     },
+//                   ),
+//                   const SizedBox(width: 15),
+//                   CustomElevatedButton1(
+//                     backgroundColor: Color(0xFF5D75BF),
+//                     text: '제출',
+//                     onPressed: () {
+//                       // OrderForm.of(context).submitForm();
+//                     },
+//                   ),
+//                 ],
+//               ),
+//             ],
+//           ),
+//         ),
+//       );
+//     },
+//   );
+// }
 
-// 정산 입력 폼 
-class SettlementForm extends StatefulWidget {
-  final Function(Map<String, dynamic>) onSubmit;
+// 정산 입력 폼
+// class SettlementForm extends StatefulWidget {
+//   final Function(Map<String, dynamic>) onSubmit;
 
-  SettlementForm({required this.onSubmit});
+//   SettlementForm({required this.onSubmit});
 
-  static SettlementFormState of(BuildContext context) =>
-      context.findAncestorStateOfType<SettlementFormState>()!;
+//   static SettlementFormState of(BuildContext context) =>
+//       context.findAncestorStateOfType<SettlementFormState>()!;
 
-  @override
-  SettlementFormState createState() => SettlementFormState();
-}
+//   @override
+//   SettlementFormState createState() => SettlementFormState();
+// }
 
-class SettlementFormState extends State<SettlementForm> {
-  final _formKey = GlobalKey<FormState>();
-  late TextEditingController orderNmController;
-  late TextEditingController orderTypeController;
-  late TextEditingController companyNmController;
-  late TextEditingController typeController;
-  late TextEditingController amountController;
-  // String settlementDate = DateTime.now();
+// class SettlementFormState extends State<SettlementForm> {
+//   final _formKey = GlobalKey<FormState>();
+//   late TextEditingController orderNmController;
+//   late TextEditingController orderTypeController;
+//   late TextEditingController companyNmController;
+//   late TextEditingController typeController;
+//   late TextEditingController amountController;
+//   // String settlementDate = DateTime.now();
 
-  @override
-  void initState() {
-    super.initState();
-    orderNmController = TextEditingController();
-    orderTypeController = TextEditingController();
-    companyNmController = TextEditingController();
-    typeController = TextEditingController();
-    amountController = TextEditingController();
-  }
+//   @override
+//   void initState() {
+//     super.initState();
+//     orderNmController = TextEditingController();
+//     orderTypeController = TextEditingController();
+//     companyNmController = TextEditingController();
+//     typeController = TextEditingController();
+//     amountController = TextEditingController();
+//   }
 
-  @override
-  void dispose() {
-    orderNmController.dispose();
-    orderTypeController.dispose();
-    companyNmController.dispose();
-    typeController.dispose();
-    amountController.dispose();
-    super.dispose();
-  }
+//   @override
+//   void dispose() {
+//     orderNmController.dispose();
+//     orderTypeController.dispose();
+//     companyNmController.dispose();
+//     typeController.dispose();
+//     amountController.dispose();
+//     super.dispose();
+//   }
 
-  
-  void submitForm() {
-    if (_formKey.currentState!.validate()) {
-      final newSettlement = {
-        '거래명': int.parse(orderNmController.text),
-        '거래유형': int.parse(orderTypeController.text),
-        '업체명': companyNmController.text,
-        '구분': typeController.text,
-        '금액': amountController.text,
-        '정산일자': DateTime.now().toIso8601String().split('T')[0],
-      };
-      widget.onSubmit(newSettlement);
-    }
-  }
+//   void submitForm() {
+//     if (_formKey.currentState!.validate()) {
+//       final newSettlement = {
+//         '거래명': int.parse(orderNmController.text),
+//         '거래유형': int.parse(orderTypeController.text),
+//         '업체명': companyNmController.text,
+//         '구분': typeController.text,
+//         '금액': amountController.text,
+//         '정산일자': DateTime.now().toIso8601String().split('T')[0],
+//       };
+//       widget.onSubmit(newSettlement);
+//     }
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              customTextField('거래명', '', orderNmController, 120),
-              const SizedBox(height: 10),
-              customTextField('거래유형', 'B2B 또는 B2V 등 입력', orderTypeController, 120),
-              const SizedBox(height: 10),
-              customTextField('업체명', '', companyNmController, 120),
-              const SizedBox(height: 10),
-              customTextField('구분', '매출 또는 매입 등 입력', typeController, 120),
-              const SizedBox(height: 10),
-              customTextField('금액', '(원) 단위로 숫자만 입력', amountController, 120),
-              const SizedBox(height: 10),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Form(
+//       key: _formKey,
+//       child: SingleChildScrollView(
+//         child: Padding(
+//           padding: const EdgeInsets.all(15.0),
+//           child: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             children: <Widget>[
+//               customTextField('거래명', '', orderNmController, 120),
+//               const SizedBox(height: 10),
+//               customTextField(
+//                   '거래유형', 'B2B 또는 B2V 등 입력', orderTypeController, 120),
+//               const SizedBox(height: 10),
+//               customTextField('업체명', '', companyNmController, 120),
+//               const SizedBox(height: 10),
+//               customTextField('구분', '매출 또는 매입 등 입력', typeController, 120),
+//               const SizedBox(height: 10),
+//               customTextField('금액', '(원) 단위로 숫자만 입력', amountController, 120),
+//               const SizedBox(height: 10),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
